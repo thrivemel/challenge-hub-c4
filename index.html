@@ -302,6 +302,10 @@ p{margin:0 0 16px;max-width:var(--measure)}
 .video.playing{background:#111}
 .video.playing .play{display:none}
 .vnote{font-size:var(--t-small);margin:-8px 0 20px}
+.player{width:100%;margin:0 0 20px;background:#000;border:1px solid var(--line)}
+.schedule{max-width:440px;margin:26px 0 8px;border:1px solid var(--line)}
+.schedule img{width:100%;height:auto;display:block}
+.player video{width:100%;height:auto;display:block;aspect-ratio:16/9;background:#000}
 
 /* desktop 2 column split on day pages */
 .cols{display:grid;grid-template-columns:1fr;gap:0}
@@ -440,10 +444,21 @@ var CHALLENGE = {
      post:"https://giftfromthrive.com/day4", playbook:"https://giftfromthrive.com/invitation"},
     {n:5, date:"Friday September 11",   short:"Fri Sept 11", title:"Success Story",
      asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
-     post:"https://giftfromthrive.com/day5", playbook:"https://giftfromthrive.com/success"}
+     post:"https://giftfromthrive.com/day5", playbook:"https://giftfromthrive.com/success"},
+    /* Grand Finale. No Quest and no Playbook, so it renders as a session plus
+       the Summit invitation rather than a Quest day.
+       TODO Ella: confirm the date. "Day 8" from Mon Sept 7 lands on Mon Sept 14,
+       which is after the Sunday replay cut-off, so it needs checking. */
+    {n:8, date:"DATE TO CONFIRM",       short:"Day 8",       title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:""}
   ],
 
-  /* Replays come down at 9:00pm PT on the Sunday after the challenge.
+  /* Open every day at once. Set false to gate day by day against the review
+     control / the real calendar. */
+  unlockAll: true,
+
+  /* Replays come down 9:00pm PT / midnight ET on the Sunday after the challenge.
+     Verified against "CHALLENGE WEEK SCHEDULE Sept 7-11.png" in the assets folder.
      ISO with the -07:00 offset so it is unambiguous across time zones. */
   replaysCloseAt: "2026-09-13T21:00:00-07:00",
 
@@ -482,9 +497,12 @@ function save(){try{localStorage.setItem("thriveHub_"+CHALLENGE.id,JSON.stringif
 function esc(s){return String(s).replace(/&(?!\w+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
 function cap(e){var n=e.split("@")[0].replace(/[._-]+/g," ").trim();return n.charAt(0).toUpperCase()+n.slice(1);}
 function prog(n){return S.progress[n]||(S.progress[n]={steps:[],quest:false});}
-function open_(n){return S.day>=n;}
-function done_(n){var p=prog(n);return DAYS[n-1].quest==="day1"?p.quest===true:p.steps.length===4;}
-function tickets(){return DAYS.filter(function(d){return done_(d.n);}).length;}
+function day_(n){for(var i=0;i<DAYS.length;i++){if(DAYS[i].n===n)return DAYS[i];}return null;}
+function open_(n){return CHALLENGE.unlockAll || S.day>=n;}
+function isQuestDay(d){return d && d.quest && d.quest!=="none";}
+function done_(n){var d=day_(n); if(!isQuestDay(d)) return false;
+  var p=prog(n); return d.quest==="day1" ? p.quest===true : p.steps.length===4;}
+function tickets(){return DAYS.filter(function(d){return isQuestDay(d)&&done_(d.n);}).length;}
 function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("on");},2300);}
 
@@ -507,7 +525,7 @@ function sidebar(){
       '<span class="n">Day '+d.n+'</span>'+
       (live?'<span class="s">Live now</span>':(done_(d.n)?'<span class="ok">&#10003;</span>':'<span class="s">'+esc(d.short)+'</span>'))+'</a>';
   }).join('');
-  var t=tickets(), tot=DAYS.filter(function(d){return open_(d.n);}).length;
+  var t=tickets(), tot=DAYS.filter(function(d){return isQuestDay(d)&&open_(d.n);}).length;
   return '<div class="stick"><h2>Your Challenge</h2><nav class="navlist">'+items+'</nav>'+
     '<h2>Golden Tickets</h2><div class="progress"><span class="lab">'+t+' of '+tot+'</span>'+
     '<span class="track"><span class="fill" style="width:'+(tot?Math.round(t/tot*100):0)+'%"></span></span></div>'+
@@ -545,11 +563,14 @@ function vLogin(err){
 function vPre(){
   return '<div class="measure"><p class="eyebrow">You&rsquo;re registered</p>'+
    '<h1>You&rsquo;re in, '+esc(S.first)+'!</h1>'+
-   '<button class="video" id="welcomeVid" aria-label="Play the welcome video from Sharla"><span class="play"></span><span class="tag">Welcome from Sharla</span></button>'+
+   '<div class="player"><video controls preload="none" playsinline poster="welcome-poster.jpg" '+
+     'aria-label="Welcome video from Sharla"><source src="welcome.mp4" type="video/mp4">'+
+     'Your browser cannot play this video. <a href="welcome.mp4">Download it instead.</a></video></div>'+
    '<p class="lede">The Challenge starts Monday September 7. Take these 2 steps now so you&rsquo;re ready on Day 1.</p>'+
    '<h3>Step 1 &middot; Put it in your calendar</h3>'+
    '<p>We go live at 10:00am PT / 1:00pm ET every day, September 7 to 11.</p>'+
    '<a class="btn btn-outline" href="'+ADDCAL+'" target="_blank" rel="noopener" style="max-width:420px">Add the Challenge to my calendar</a>'+
+   '<div class="schedule"><img src="week-schedule.jpg" alt="Challenge week schedule: September 7 Compelling Consult Name, September 8 Create Intrigue, September 9 Trust and Transformation Story, September 10 Inspiring Invitation, September 11 Success Story, September 13 at 9pm Pacific the Challenge videos come down. All live Zoom calls are 10 to 11am Pacific, 1 to 2pm Eastern." width="1000" height="1000"></div>'+
    '<h3>Step 2 &middot; Join the Facebook Group</h3>'+
    '<p>This is where you&rsquo;ll meet the other Champions, post your Quests, and earn your Golden Tickets.</p>'+
    '<p class="caption" style="margin-bottom:2px">The Group will ask for the email you registered with. Here it is:</p>'+
@@ -572,7 +593,7 @@ function vHub(){
     var right=live?'<span class="d">Live now</span>':(dn?'<span class="pill">Complete</span>':'<span class="d">'+esc(d.short)+'</span>');
     return '<a class="dayrow'+(live?' live':'')+(dn?' done':'')+'" href="#/day/'+d.n+'"><span class="n">Day '+d.n+'</span>'+right+'</a>';
   }).join('');
-  var t=tickets(), tot=DAYS.filter(function(d){return open_(d.n);}).length;
+  var t=tickets(), tot=DAYS.filter(function(d){return isQuestDay(d)&&open_(d.n);}).length;
   return '<div class="measure"><p class="eyebrow">Book 5 Consults in 5 Days</p>'+
    '<h1>Your Challenge Hub</h1>'+
    '<p class="lede">Everything you need is here. Pick the day you&rsquo;re on.</p>'+
@@ -615,7 +636,7 @@ function questBlock(d){
 }
 
 function vDay(n){
-  var d=DAYS[n-1]; if(!d) return vHub();
+  var d=day_(n); if(!d) return vHub();
   if(!open_(n)){
     return '<div class="measure"><a class="back" href="#/hub">&larr; All days</a>'+
      '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p><h1>Not open yet</h1>'+
@@ -643,22 +664,25 @@ function vDay(n){
    : '<button class="video" id="vid" aria-label="Play the Day '+n+' session"><span class="play"></span><span class="tag">Day '+n+' session</span></button>'+
      '<p class="vnote">Watch this video first, then complete your Quest below.</p>';
 
-  var quest = before
+  var quest = !isQuestDay(d)
+   ? '<h3>The Grand Finale</h3>'+
+     '<p class="lede">No Quest today. This is where it all comes together.</p>'
+   : before
    ? '<h3>Today&rsquo;s Quest</h3><p>Your Quest unlocks when we go live. Stay with me on the call and you&rsquo;ll have it written before we finish.</p>'
    : questBlock(d);
 
-  var ticket = before ? '' :
+  var ticket = (before || !isQuestDay(d)) ? '' :
    '<div class="ticket'+(dn?' earned':'')+'"><div class="ticket-in">'+
    (dn?'<b>Golden Ticket earned.</b> That&rsquo;s Day '+n+' done. You&rsquo;re in the draw for the Grand Prize: The Client Attraction Summit and 2 Months in Platinum.'
       :'Complete all the steps to earn <b>1 Golden Ticket</b> toward the Grand Prize: The Client Attraction Summit and 2 Months in Platinum.')+
    '</div></div>'+
-   '<p class="caption" style="margin-top:14px">Not on Facebook? <a href="#/submit/'+n+'">Submit your post here instead.</a></p>';
+   (isQuestDay(d) ? '<p class="caption" style="margin-top:14px">Not on Facebook? <a href="#/submit/'+n+'">Submit your post here instead.</a></p>' : '');
 
   var aside =
    '<div class="aside">'+
-     '<div class="card"><h3>Today&rsquo;s Playbook</h3>'+
+     (d.playbook ? '<div class="card"><h3>Today&rsquo;s Playbook</h3>'+
        '<p class="caption">Follow along on the call and write your '+d.asset+' as we go.</p>'+
-       '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div>'+
+       '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div>' : '')+
      '<div class="card gold"><h3>Go further than 5 days</h3>'+
        '<p class="caption">The Client Attraction Summit is September 18 to 20. Three days with Sharla, live.</p>'+
        '<a class="btn btn-primary" href="'+SUMMIT+'" target="_blank" rel="noopener">Save my seat</a></div>'+
@@ -672,7 +696,7 @@ function vDay(n){
 }
 
 function vSubmit(n,sent){
-  var d=DAYS[n-1];
+  var d=day_(n);
   if(sent) return '<div class="narrow"><a class="back" href="#/day/'+n+'">&larr; Back to Day '+n+'</a>'+
     '<h1>Got it</h1><div class="okbox">Your Day '+n+' Quest is counted. See you tomorrow at 10:00am PT.</div>'+
     '<a class="btn btn-primary" href="#/hub">Back to the Hub</a>'+concierge()+'</div>';
@@ -704,8 +728,8 @@ function render(keep){
   if(h==="#/login") html=vLogin(false);
   else if(h==="#/prechallenge") html=vPre();
   else if(h==="#/hub") html=vHub();
-  else if((m=h.match(/^#\/day\/([1-5])$/))) html=vDay(+m[1]);
-  else if((m=h.match(/^#\/submit\/([1-5])$/))) html=vSubmit(+m[1],false);
+  else if((m=h.match(/^#\/day\/(\d+)$/))) html=vDay(+m[1]);
+  else if((m=h.match(/^#\/submit\/(\d+)$/))) html=vSubmit(+m[1],false);
   else {location.hash = S.day>=1 ? "#/hub" : "#/prechallenge"; return;}
   document.getElementById("main").innerHTML=html;
   document.getElementById("side").innerHTML=sidebar();
@@ -743,10 +767,10 @@ function wire(){
     a.onclick=function(e){ if(a.getAttribute("href")==="#/hub"){e.preventDefault();toast("Facebook Group link still to be supplied");} };
   });
 
-  [q("vid"),q("welcomeVid")].forEach(function(v){ if(v) v.onclick=function(){
+  [q("vid")].forEach(function(v){ if(v) v.onclick=function(){
     v.classList.toggle("playing"); toast(v.classList.contains("playing")?"Playing":"Paused"); };});
 
-  var m=location.hash.match(/^#\/day\/([1-5])$/);
+  var m=location.hash.match(/^#\/day\/(\d+)$/);
   if(m){
     var n=+m[1], p=prog(n), q1=q("q1");
     if(q1) q1.onchange=function(){p.quest=q1.checked;save();render(true);if(p.quest)toast("Golden Ticket earned");};
@@ -773,13 +797,13 @@ function wire(){
   var sf=q("subForm");
   if(sf) sf.onsubmit=function(e){
     e.preventDefault();
-    var n=+location.hash.match(/^#\/submit\/([1-5])$/)[1], p=prog(n);
+    var n=+location.hash.match(/^#\/submit\/(\d+)$/)[1], p=prog(n);
     var btn=sf.querySelector("button[type=submit]");
     var payload={challenge:CHALLENGE.id, day:n,
                  email:(q("se").value||"").trim().toLowerCase(),
                  postUrl:(q("su").value||"").trim()};
     function counted(){
-      if(DAYS[n-1].quest==="day1")p.quest=true; else p.steps=[0,1,2,3];
+      if(day_(n).quest==="day1")p.quest=true; else p.steps=[0,1,2,3];
       save(); document.getElementById("main").innerHTML=vSubmit(n,true);
       document.getElementById("side").innerHTML=sidebar(); wire();
     }
@@ -807,20 +831,23 @@ function syncDemo(){
   Array.prototype.forEach.call(document.querySelectorAll("#rev [data-day]"),function(b){
     b.setAttribute("aria-pressed",(+b.getAttribute("data-day"))===S.day?"true":"false");});
   var t=document.getElementById("tgLive");
+  if(!t) return;                       /* panel removed off production */
   t.setAttribute("aria-pressed",S.live?"true":"false");
   t.textContent=S.live?"After the live":"Before the live";
 }
 Array.prototype.forEach.call(document.querySelectorAll("#rev [data-day]"),function(b){
   b.onclick=function(){
     S.day=+b.getAttribute("data-day"); save();
-    var m=location.hash.match(/^#\/day\/([1-5])$/);
+    var m=location.hash.match(/^#\/day\/(\d+)$/);
     if(S.day===0) location.hash="#/prechallenge";
     else if(m && +m[1]>S.day) location.hash="#/hub";
     render();
   };
 });
-document.getElementById("tgLive").onclick=function(){S.live=!S.live;save();render();};
-document.getElementById("tgReset").onclick=function(){
+var tgL=document.getElementById("tgLive");
+if(tgL) tgL.onclick=function(){S.live=!S.live;save();render();};
+var tgR=document.getElementById("tgReset");
+if(tgR) tgR.onclick=function(){
   S={day:2,live:false,email:null,first:null,progress:{}};save();location.hash="#/login";render();toast("Reset");};
 
 /* Nudge the b-roll into playing. Muted autoplay is allowed everywhere modern,
@@ -834,8 +861,22 @@ if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").ma
     if(t && t.tagName==="VIDEO" && t.closest && t.closest(".bed")) t.pause();
   },true);
 }
+/* ---------------------------------------------------------------------------
+   Review tools only exist off production. They shipped to the live domain once
+   because removing them was a manual step, so the page now decides for itself.
+   Force them on anywhere with ?review=1.
+   --------------------------------------------------------------------------- */
+var REVIEW_HOSTS=["localhost","127.0.0.1","thriveacademy2026.github.io"];
+var showReview = /[?&]review=1/.test(location.search) ||
+                 REVIEW_HOSTS.indexOf(location.hostname)>-1 ||
+                 location.protocol==="file:";
+if(!showReview){
+  var revEl=document.getElementById("rev");
+  if(revEl && revEl.parentNode) revEl.parentNode.removeChild(revEl);
+}
+
 var rt=document.getElementById("revToggle"), rp=document.getElementById("revPanel");
-rt.onclick=function(){var open=rp.hasAttribute("hidden");
+if(rt && rp) rt.onclick=function(){var open=rp.hasAttribute("hidden");
   if(open){rp.removeAttribute("hidden");}else{rp.setAttribute("hidden","");}
   rt.setAttribute("aria-expanded",open?"true":"false");
   rt.textContent=open?"Hide review tools":"Review tools";};

@@ -85,8 +85,39 @@ Playbooks (all 5 verified live), Quest posts (`giftfromthrive.com/day1` to `day5
 
 **The Zoom join link is deliberately not in this repo.** It carries an embedded `?pwd=` password, so committing it to a public repo would let anyone read it from source and join the live session. The `ZOOM` constant is a placeholder and the Join button says so. Inject the real link server-side behind the magic-link gate, or paste it only into a private production build.
 
-## Rolling to the next challenge
+## Days, and the Grand Finale
 
+Days are looked up by their `n`, not by array position, so the numbering does not have to be contiguous. Day 8 (Grand Finale) sits after Day 5 without any 6 or 7 existing.
+
+The Finale is configured with `quest:"none"` and no playbook, so it renders as a session plus the Summit invitation: no Quest steps, no Golden Ticket block, no "submit your post" link. It is also excluded from the ticket denominator, which is why the counter reads "of 5" and not "of 6".
+
+**Its date still needs confirming.** `date` is `DATE TO CONFIRM`. Counting eight days from Mon Sept 7 lands on Mon Sept 14, which falls after the Sunday replay cut-off, so it needs a real answer rather than an assumption.
+
+`unlockAll: true` opens every day at once. Set it to `false` to gate day by day again.
+
+## Verified against the challenge assets folder
+
+Checked against `CHALLENGE WEEK SCHEDULE Sept 7-11.png` in the assets folder:
+
+- Day titles and dates match exactly (Sept 7 Consult Name, 8 Intrigue, 9 Trust, 10 Invitation, 11 Success).
+- Sessions are **10 to 11am Pacific / 1 to 2pm Eastern**. The Hub says 10:00am PT / 1:00pm ET, which is right.
+- **Replays come down Sept 13 at 9pm Pacific / midnight Eastern.** That is exactly what `replaysCloseAt` was already set to, now confirmed rather than assumed.
+
+**The published schedule has no Grand Finale on it.** It runs Sept 7 to 11 plus the Sunday takedown. The Day 8 tab is in the Hub as requested but its date is still unconfirmed and it does not appear on the schedule the team is circulating.
+
+The week schedule graphic itself now sits on the Pre-Challenge page under Step 1, since "when are the calls" is the question it answers.
+
+The five `DAY N QUEST.png` graphics are square 1500x1500 social assets. They are the right artwork but the wrong shape for a 16:9 video poster, and cropping them would mean cropping Sharla, so they are not used here.
+
+## Welcome video
+
+`welcome.mp4` on the Pre-Challenge page. Real player with controls and sound, not the muted decorative pattern used for the hero b-roll, and `preload="none"` so it costs nothing until someone presses play.
+
+Source was 796MB at 1080p and 20Mbps; encoded to 1280x720 at CRF 28 with 96k audio, which is **20.8MB** for 5:10. Comfortably inside GitHub's limits.
+
+For production, consider moving it to a proper video host. GitHub Pages is not built for serving video at volume, and a gated Hub should not have a public video URL sitting in the page source anyway.
+
+## Rolling to the next challenge
 Everything per-round lives in the `CHALLENGE` object at the top of the script in `index.html`. Nothing else needs touching. Full runbook in **WORDPRESS.md**.
 
 `id` (bump it, which also resets saved progress) · `name` and `tag` · the five `days` · `replaysCloseAt` · the b-roll files.
