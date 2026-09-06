@@ -8,7 +8,8 @@ Put this **before** the Hub's own script, in the page template or a Code Block:
 
 ```html
 <script>
-  window.THRIVE_ZOOM           = "https://us06web.zoom.us/j/…?pwd=…";   // passcode 010751
+  window.THRIVE_ZOOM           = "";   // the real join link. NEVER commit it.
+  window.THRIVE_ZOOM_PASSCODE  = "";   // the passcode. NEVER commit it either.
   window.THRIVE_QUEST_ENDPOINT = "https://script.google.com/…/exec";     // see apps-script/
 </script>
 ```

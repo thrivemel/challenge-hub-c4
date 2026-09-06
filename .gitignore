@@ -1,0 +1,15 @@
+# Runtime config. Holds the Zoom join link, which carries an embedded ?pwd=
+# passcode, and the Quest tracker endpoint. This repo is PUBLIC, so neither
+# may ever be committed. Production supplies its own copy of this file on the
+# server; this local one exists only so the mockup can be reviewed.
+config.js
+prod-*.html
+rollback/
+test-*.html
+hero-alt-calmer.mp4
+hero-alt-calmer.mp4
+hero-*.bak
+index.main-branch.bak
+*.bak
+test-tix-*.html
+test-zoom.html
