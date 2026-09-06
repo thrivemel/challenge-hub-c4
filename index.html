@@ -876,10 +876,12 @@ var CHALLENGE = {
     addCal:  "https://www.addevent.com/calendar/1db44pf3wbc5",
     summit:  "https://secure.clientattractionsummit.com/order-form-challenge-step-1",
     optin:   "https://apply.clientattractionsummit.com/challenge-optin-organic-socials",
-    /* Zoom carries an embedded passcode, so it is NOT committed to this public
-       repo. It comes from config.js, which is gitignored here and supplied by
-       the server in production. See "Zoom link" in the README. */
-    zoom:     window.THRIVE_ZOOM || "",
+    /* The Zoom room. The meeting has no passcode and uses a waiting room
+       instead - Ella confirmed and tested it on 6 Sept - so the bare join link
+       carries no secret and can live here. config.js can still override it.
+       Do NOT add a ?pwd= form of the link to this file: that variant embeds a
+       passcode and this repo is public. */
+    zoom:     window.THRIVE_ZOOM || "https://us06web.zoom.us/j/83129068571",
     passcode: window.THRIVE_ZOOM_PASSCODE || "",
     /* Apps Script web app that writes into the Raffle Tickets Tracker.
        Also from config.js so the sheet is never named in this repo. */

@@ -8,13 +8,13 @@ Put this **before** the Hub's own script, in the page template or a Code Block:
 
 ```html
 <script>
-  window.THRIVE_ZOOM           = "";   // the real join link. NEVER commit it.
-  window.THRIVE_ZOOM_PASSCODE  = "";   // the passcode. NEVER commit it either.
+  window.THRIVE_ZOOM           = "";   // optional override. The bare no-passcode link already lives in index.html.
+  window.THRIVE_ZOOM_PASSCODE  = "";   // leave empty: the meeting uses a waiting room, not a passcode.
   window.THRIVE_QUEST_ENDPOINT = "https://script.google.com/…/exec";     // see apps-script/
 </script>
 ```
 
-**The Zoom link is not in this repo on purpose.** It carries an embedded passcode, and this repo is public, so committing it would let anyone read it from source and drop into a live session with Sharla. It lives in WordPress only.
+**The Zoom link IS in this repo**, because the meeting has no passcode (it uses a waiting room). Only the `?pwd=` form of a Zoom link embeds a passcode, and that form must never be committed here.
 
 Same reasoning for the Quest endpoint: the tracker holds registrant names and emails, so the sheet is never named here.
 

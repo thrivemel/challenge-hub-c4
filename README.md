@@ -83,7 +83,7 @@ Tracking is one value per role, not per element: `--ls-eyebrow` .62em, `--ls-lab
 
 Playbooks (all 5 verified live), Quest posts (`giftfromthrive.com/day1` to `day5`), and the September Summit order page.
 
-**The Zoom join link is deliberately not in this repo.** It carries an embedded `?pwd=` password, so committing it to a public repo would let anyone read it from source and join the live session. The `ZOOM` constant is a placeholder and the Join button says so. Inject the real link server-side behind the magic-link gate, or paste it only into a private production build.
+**The Zoom join link is in this repo, and that is deliberate.** The meeting has no passcode and relies on a waiting room instead (Ella confirmed and tested this on 6 Sept 2026), so the bare `zoom.us/j/...` link carries no secret. What must NEVER be committed is the `?pwd=` form of the link, which embeds a passcode. If the meeting ever gains a passcode, move the link back into `config.js` on the server and blank it here.
 
 ## Days, and the Grand Finale
 
