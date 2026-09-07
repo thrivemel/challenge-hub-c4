@@ -71,7 +71,11 @@ Tracking is one value per role, not per element: `--ls-eyebrow` .62em, `--ls-lab
 
 ## What works
 
-- Magic-link login, plus manual email entry with a real error state
+- Email sign-in against the auth service, with a distinct message for each
+  failure state. There is NO magic-link login. The Hub reads nothing from a
+  link's query string and calls only /session, /login and /logout, so a token
+  in an email has nothing to consume it. WORDPRESS.md describes it as an
+  unbuilt option; it was never built. Checked 6 Sept 2026.
 - Day locking, with locked days visible but not clickable
 - Two states per day: before the live (countdown, Join Zoom) and after (video, Quest)
 - Quest step tracking with Golden Tickets, persisted in `localStorage`
