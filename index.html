@@ -508,8 +508,21 @@ p{margin:0 0 16px;max-width:var(--measure)}
   .playbook-inline{display:block;margin:0 0 18px}
   .cols .aside .card:not(.gold){display:none}
 }
+/* Sharla, 7 Sept Slack, with a photo of the Day 1 tab on her phone: this
+   panel and the Quest's own "Complete all the steps to earn 1 Golden Ticket"
+   line both say Golden Tickets, and she asked for one of them gone or for this
+   one moved to the bottom on mobile. "I don't think we need it on the page
+   twice."
+   Moved rather than deleted. The count itself lives in the sidebar, which is
+   hidden on a phone, so deleting this would leave phone users with no way to
+   see their total at all - and most of the Challenge is read on a phone.
+   Ordering it last inside .mainCol keeps it, below the Quest, out of the way
+   of the video and the Playbook. */
 .day-tickets{display:none}
-@media (max-width:899px){ .day-tickets{display:block} }
+@media (max-width:899px){
+  .day-tickets{display:block;order:99;margin-top:26px}
+  .cols .mainCol{display:flex;flex-direction:column}
+}
 .joinzoom{margin:0 0 18px}
 .joinzoom .btn{margin-bottom:8px}
 .joinzoom .caption{margin:0 0 4px}
@@ -674,6 +687,37 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
 .pre-top .speeds .sp-l{display:none}
 .pre-top .speeds button{font-size:10px;letter-spacing:.06em;padding:4px 7px}
 
+/* Mobile and tablet navigation. The sidebar only exists at 1024px and up, so
+   every narrower screen had no way to move between days once the All days link
+   was removed. This turns the same sidebar into a full-screen panel behind a
+   Menu button, so there is one nav to maintain rather than two.
+   render() resets body.className on every view change, which closes the panel
+   on navigation without any extra handling. */
+.navtoggle{display:none}
+.navclose{display:none}
+@media (max-width:1023px){
+  .navtoggle{display:inline-flex;align-items:center;gap:9px;margin-right:16px;
+    font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;
+    letter-spacing:var(--ls-btn);text-transform:uppercase;color:var(--ink);
+    background:none;border:1px solid var(--line);padding:9px 14px;cursor:pointer;
+    border-radius:0;line-height:1}
+  .navtoggle-bars{width:15px;height:2px;background:var(--ink);position:relative;display:inline-block}
+  .navtoggle-bars::before,.navtoggle-bars::after{content:"";position:absolute;left:0;
+    width:15px;height:2px;background:var(--ink)}
+  .navtoggle-bars::before{top:-5px}
+  .navtoggle-bars::after{top:5px}
+  body.is-login .navtoggle{display:none}
+  body.nav-open{overflow:hidden}
+  body.nav-open .side{display:block;position:fixed;inset:0;z-index:90;
+    background:var(--ground-soft);overflow-y:auto;padding:18px 20px 44px;
+    border-right:0}
+  body.nav-open .side .stick{position:static}
+  body.nav-open .navclose{display:block;width:100%;text-align:right;
+    font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;
+    letter-spacing:var(--ls-btn);text-transform:uppercase;color:var(--ink);
+    background:none;border:0;padding:6px 0 14px;cursor:pointer}
+}
+
 /* The scholarship hook. Ella asked for an aqua bold headline and an orange
    button with larger white text.
    The aqua is #019ACD, the brand's own header aqua, not the brighter #00AEEF.
@@ -730,6 +774,12 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
 
 <header class="masthead">
   <div class="in">
+    <!-- Below 1024px there is no sidebar, so without this there is no way to
+         reach another day from a day page at all. Ella reported it missing on
+         the live site, 7 Sept. -->
+    <button type="button" id="navToggle" class="navtoggle" aria-expanded="false" aria-controls="side">
+      <span class="navtoggle-bars" aria-hidden="true"></span>Menu
+    </button>
     <a href="#/prechallenge"><img class="logo" src="logo-navy.png" alt="Thrive Academy" width="102"></a>
     <div class="acct" id="acct"></div>
   </div>
@@ -1272,7 +1322,9 @@ function sidebar(){
       (live?'<span class="s">Live now</span>':(done_(d.n)?'<span class="ok">&#10003;</span>':'<span class="s">'+esc(d.short)+'</span>'))+'</a>';
   }).join('');
   var t=tickets(), tot=DAYS.filter(function(d){return isQuestDay(d)&&open_(d.n);}).length;
-  return '<div class="stick"><h2>Your Challenge</h2><nav class="navlist">'+items+'</nav>'+
+  return '<div class="stick">'+
+    '<button type="button" id="navClose" class="navclose">Close</button>'+
+    '<h2>Your Challenge</h2><nav class="navlist">'+items+'</nav>'+
     ticketPanel()+
     '<div style="margin-top:28px">'+concierge()+'</div></div>';
 }
@@ -1646,6 +1698,24 @@ function render(keep){
 
 function wire(){
   var q=function(i){return document.getElementById(i);};
+
+  /* The mobile menu. Opens the sidebar as a full-screen panel. Navigating
+     re-renders, which clears body.className, so it closes itself. */
+  var nt=q("navToggle");
+  /* render() clears body.className, which closes the panel, but the button
+     kept saying aria-expanded="true" afterwards. A screen reader would then
+     announce a menu that is not open. Re-sync it on every render. */
+  if(nt) nt.setAttribute("aria-expanded", document.body.classList.contains("nav-open")?"true":"false");
+  if(nt) nt.onclick=function(){
+    var open=document.body.classList.toggle("nav-open");
+    nt.setAttribute("aria-expanded", open?"true":"false");
+    if(open){ var s=q("side"); if(s) s.scrollTop=0; }
+  };
+  var nc=q("navClose");
+  if(nc) nc.onclick=function(){
+    document.body.classList.remove("nav-open");
+    if(nt) nt.setAttribute("aria-expanded","false");
+  };
 
   /* The Zoom button in the top strip. Ella gave the label, Sharla gave the
      treatment: orange with white text. It only appears once someone is signed
