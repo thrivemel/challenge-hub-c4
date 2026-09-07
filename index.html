@@ -1608,18 +1608,16 @@ function vDay(n){
          replays are posted, so nobody has to hunt the main feed for it. The
          label says Facebook Group rather than Guides because that is what a
          lead recognises. */
-      : (d.replay
-         /* Recording is up: link straight to it. */
-         ? '<div class="soon"><span class="lbl">Day '+n+' replay</span>'+
-           '<p>Watch the Day '+n+' replay in the Facebook Group.</p>'+
-           '<a class="btn btn-outline" href="'+d.replay+'" target="_blank" rel="noopener">'+
-             'Watch the Day '+n+' replay</a></div>'
-         /* Not up yet. Sharla's own wording from her 6 Sept Loom. */
-         : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
-           '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
-           'or wait here and it will be ready soon.</p>'+
-           (FBGUIDES ? '<a class="btn btn-outline" href="'+FBGUIDES+'" target="_blank" rel="noopener">'+
-             'Watch it in the Facebook Group</a>' : '')+'</div>'))+
+      /* Sharla's own wording from her 6 Sept Loom, unchanged, whether or not
+         the recording is up yet. Ella confirmed on 7 Sept that this copy is
+         right as it stands. Only the button's destination changes: straight
+         to that day's recording once d.replay is set, the Group's Guides tab
+         until then. No copy on this page is unapproved. */
+      : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
+        '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
+        'or wait here and it will be ready soon.</p>'+
+        ((d.replay||FBGUIDES) ? '<a class="btn btn-outline" href="'+(d.replay||FBGUIDES)+'" '+
+          'target="_blank" rel="noopener">Watch it in the Facebook Group</a>' : '')+'</div>')+
        /* the Join button rides along in the replay state too: it is the same
           Zoom room all week, so somebody catching up on Wednesday still needs
           it for Thursday */
