@@ -1636,7 +1636,12 @@ function vDay(n){
         this. Only download the playbook." */
      (d.playbook ? '<div class="card"><h3>Today&rsquo;s Playbook</h3>'+
        '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div>' : '')+
-     summitBlock(true, n>1)+
+     /* Sharla, 7 Sept 11:03am, on the call: "The Client Attraction Summit is
+        missing from the Day 1 Quest page. How quickly can we get that up."
+        It used to wait for Day 1 to finish so nothing was sold before
+        anything was delivered. She has now introduced it live, so it shows
+        from Day 1 onward. */
+     summitBlock(true, true)+
    '</div>';
 
   /* The All days link went on Sharla's 6 Sept Loom: "I don't think we need
@@ -1648,7 +1653,7 @@ function vDay(n){
      rendered the word "undefined". */
   return '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p>'+
    '<h1>'+d.title+'</h1>'+
-   '<div class="cols"><div class="mainCol">'+'<div class="day-tickets">'+ticketPanel()+'</div>'+media+(d.playbook?'<div class="playbook-inline"><div class="card"><h3>Today&rsquo;s Playbook</h3>'+'<a class="btn btn-action" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div></div>':'')+art+quest+ticket+(n>1?'<div class="summit-inline">'+summitBlock(true,true)+'</div>':'')+winnerBlock(n)+'</div>'+aside+'</div>'+
+   '<div class="cols"><div class="mainCol">'+'<div class="day-tickets">'+ticketPanel()+'</div>'+media+(d.playbook?'<div class="playbook-inline"><div class="card"><h3>Today&rsquo;s Playbook</h3>'+'<a class="btn btn-action" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div></div>':'')+art+quest+ticket+'<div class="summit-inline">'+summitBlock(true,true)+'</div>'+winnerBlock(n)+'</div>'+aside+'</div>'+
    concierge();
 }
 
