@@ -1240,9 +1240,9 @@ function summitBlock(compact, force){
     'It&rsquo;s our Gift to You.</h3>'+
     '<a class="btn btn-primary btn-scholarship" href="'+SUMMIT+'" target="_blank" rel="noopener">'+
     'Claim Your Scholarship Now</a>'+
-    '<p class="caption">September 18 to 20, three days live with Sharla and Jesse. '+
-    'It is where the posts you are writing this week turn into a whole system for booking clients and keeping them. '+
-    'Sharla will walk you through it during the Challenge, including how the scholarships work.</p></div>';
+      /* Sharla, 7 Sept: remove the 'September 18 to 20' paragraph. The hook
+         and the button are the whole block now. */
+      '</div>';
 }
 
 /* Winner boxes.
@@ -1636,16 +1636,13 @@ function vDay(n){
 
   var aside =
    '<div class="aside">'+
-     /* Sharla: "Delete this extra copy, it's unnecessary. Just remove all of
-        this. Only download the playbook." */
+     /* Sharla, 7 Sept: "Pls put the Summit headline and button above the
+        Playbook." It sat underneath until now. */
+     summitBlock(true, true)+
+     /* Sharla, 6 Sept: "Delete this extra copy, it's unnecessary. Just
+        remove all of this. Only download the playbook." */
      (d.playbook ? '<div class="card"><h3>Today&rsquo;s Playbook</h3>'+
        '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div>' : '')+
-     /* Sharla, 7 Sept 11:03am, on the call: "The Client Attraction Summit is
-        missing from the Day 1 Quest page. How quickly can we get that up."
-        It used to wait for Day 1 to finish so nothing was sold before
-        anything was delivered. She has now introduced it live, so it shows
-        from Day 1 onward. */
-     summitBlock(true, true)+
    '</div>';
 
   /* The All days link went on Sharla's 6 Sept Loom: "I don't think we need
@@ -1657,7 +1654,7 @@ function vDay(n){
      rendered the word "undefined". */
   return '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p>'+
    '<h1>'+d.title+'</h1>'+
-   '<div class="cols"><div class="mainCol">'+'<div class="day-tickets">'+ticketPanel()+'</div>'+media+(d.playbook?'<div class="playbook-inline"><div class="card"><h3>Today&rsquo;s Playbook</h3>'+'<a class="btn btn-action" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div></div>':'')+art+quest+ticket+'<div class="summit-inline">'+summitBlock(true,true)+'</div>'+winnerBlock(n)+'</div>'+aside+'</div>'+
+   '<div class="cols"><div class="mainCol">'+'<div class="day-tickets">'+ticketPanel()+'</div>'+media+'<div class="summit-inline">'+summitBlock(true,true)+'</div>'+(d.playbook?'<div class="playbook-inline"><div class="card"><h3>Today&rsquo;s Playbook</h3>'+'<a class="btn btn-action" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div></div>':'')+art+quest+ticket+winnerBlock(n)+'</div>'+aside+'</div>'+
    concierge();
 }
 
