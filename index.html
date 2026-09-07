@@ -892,6 +892,14 @@ var CHALLENGE = {
         minutes after the post went live. Always take this from Instagram's own
         share button rather than building it from an id. */
      igPost:"https://www.instagram.com/p/Dc_hG07CrS-/",
+     /* The Facebook replay for this day. Ella sent this one at 11:30 on 7 Sept.
+
+        Set it and the replay block links straight to the recording; leave it
+
+        empty and the block keeps saying the replay is coming and points at the
+
+        Group's Guides tab. */
+     replay:"https://www.facebook.com/sharla.jacobs/videos/1080949841573549?idorvanity=1386366133366597",
      playbook:"https://giftfromthrive.com/name"},
     {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
      asset:"Create Intrigue",           quest:"std",
@@ -1600,11 +1608,18 @@ function vDay(n){
          replays are posted, so nobody has to hunt the main feed for it. The
          label says Facebook Group rather than Guides because that is what a
          lead recognises. */
-      : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
-        '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
-        'or wait here and it will be ready soon.</p>'+
-        (FBGUIDES ? '<a class="btn btn-outline" href="'+FBGUIDES+'" target="_blank" rel="noopener">'+
-          'Watch it in the Facebook Group</a>' : '')+'</div>')+
+      : (d.replay
+         /* Recording is up: link straight to it. */
+         ? '<div class="soon"><span class="lbl">Day '+n+' replay</span>'+
+           '<p>Watch the Day '+n+' replay in the Facebook Group.</p>'+
+           '<a class="btn btn-outline" href="'+d.replay+'" target="_blank" rel="noopener">'+
+             'Watch the Day '+n+' replay</a></div>'
+         /* Not up yet. Sharla's own wording from her 6 Sept Loom. */
+         : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
+           '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
+           'or wait here and it will be ready soon.</p>'+
+           (FBGUIDES ? '<a class="btn btn-outline" href="'+FBGUIDES+'" target="_blank" rel="noopener">'+
+             'Watch it in the Facebook Group</a>' : '')+'</div>'))+
        /* the Join button rides along in the replay state too: it is the same
           Zoom room all week, so somebody catching up on Wednesday still needs
           it for Thursday */
