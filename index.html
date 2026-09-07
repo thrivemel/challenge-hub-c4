@@ -1701,6 +1701,28 @@ function wire(){
 
   /* The mobile menu. Opens the sidebar as a full-screen panel. Navigating
      re-renders, which clears body.className, so it closes itself. */
+  /* A locked day page carries no countdown, so nothing re-rendered it when the
+     clock crossed 9am. Someone sitting on Day 1 at 8:59 kept reading "Not open
+     yet" until they refreshed, which on a launch morning is exactly when people
+     are camped on the page waiting. This schedules one render at the next
+     moment that changes what any view shows: a day unlocking, a session
+     starting, or a replay landing. Re-armed on every render, cleared first so
+     they cannot stack up, and capped so the timer is never absurdly long. */
+  clearTimeout(window._boundaryT);
+  (function(){
+    var now=now_(), soonest=null;
+    DAYS.forEach(function(d){
+      [d.unlockAt, d.startsAt, d.replayAt].forEach(function(v){
+        var t=Date.parse(v||"");
+        if(!isNaN(t) && t>now && (soonest===null || t<soonest)) soonest=t;
+      });
+    });
+    if(soonest===null) return;
+    /* +1s so the clock is unambiguously past the boundary when it fires. */
+    var wait=Math.min(soonest-now+1000, 6*60*60*1000);
+    window._boundaryT=setTimeout(function(){ render(); }, wait);
+  })();
+
   var nt=q("navToggle");
   /* render() clears body.className, which closes the panel, but the button
      kept saying aria-expanded="true" afterwards. A screen reader would then
