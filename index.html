@@ -526,6 +526,11 @@ p{margin:0 0 16px;max-width:var(--measure)}
 .joinzoom{margin:0 0 18px}
 .joinzoom .btn{margin-bottom:8px}
 .joinzoom .caption{margin:0 0 4px}
+/* Sharla, 6 Sept: "Replay Window should be the exact size of the video
+   player." A 16:9 box that scales with the column, so there is no letterbox
+   and no cropping at any width. */
+.vwrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;margin:0 0 18px}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
 .summit-inline{display:none}
 @media (max-width:899px){
   /* Ella, 7 Sept: "the scholarship button should be the first thing they see
@@ -900,6 +905,14 @@ var CHALLENGE = {
 
         Group's Guides tab. */
      replay:"https://www.facebook.com/sharla.jacobs/videos/1080949841573549?idorvanity=1386366133366597",
+     /* Vimeo id for this day's recording. Set it and the page embeds the real
+
+        player, which carries Vimeo's own speed controls, the thing Sharla asked
+
+        for on 6 Sept. Leave it empty and the replay block above is used instead.
+
+        Just the number, not the whole URL. */
+     vimeo:"1224694484",
      playbook:"https://giftfromthrive.com/name"},
     {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
      asset:"Create Intrigue",           quest:"std",
@@ -1597,11 +1610,14 @@ function vDay(n){
    /* The replay only appears once someone has uploaded that day's recording.
       Until then we say so plainly, rather than showing a player with nothing
       behind it. The Quest below is NOT held back by this. */
-   : (d.video
-      ? '<button class="video" id="vid" aria-label="Play the Day '+n+' session"><span class="play"></span><span class="tag">Day '+n+' session</span></button>'+
-        '<p class="vnote">'+(isQuestDay(d)
-           ? 'Watch this video first, then complete your Quest below.'
-           : 'Watch the Grand Finale. This is where it all comes together.')+'</p>'
+   /* A real player, not a placeholder. The old branch rendered a button that
+      only toggled a class and showed a toast, so it looked playable and did
+      nothing. No caption is added here: the player speaks for itself and
+      any wording would be unapproved copy. */
+   : (d.vimeo
+      ? '<div class="vwrap"><iframe src="https://player.vimeo.com/video/'+esc(d.vimeo)+'" '+
+        'title="Day '+n+' session" frameborder="0" '+
+        'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>'
       /* Sharla, 6 Sept Loom, her own copy: "Go to the Facebook group to guide
          one to watch the day one replay, or wait, and it will be ready soon."
          The button lands on the Group's Guides tab, which is where the day
