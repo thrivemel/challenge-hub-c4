@@ -858,8 +858,13 @@ var CHALLENGE = {
   /* Local dates, and the three moments that matter for each day.
 
        unlockAt  9:00am PT  the tab opens. Before this the day is locked.
-       startsAt 10:00am PT  we go live on Zoom.
-       replayAt 12:00pm PT  the Quest appears, and the replay slot opens.
+       startsAt 10:00am PT  we go live on Zoom, and the Quest appears.
+       replayAt 11:00am PT  the session ends and the replay slot opens.
+
+     replayAt was noon until 7 Sept, an hour after the sessions actually
+     end, so the page kept saying "We're live now, come on in" from 11
+     to 12 with nobody on the call. The Quest no longer depends on this
+     value; it appears at startsAt.
 
      video is the recording URL for that day. Leave it empty and the page
      says the replay is coming shortly instead of showing an empty player.
@@ -871,7 +876,7 @@ var CHALLENGE = {
   days: [
     {n:1, date:"Monday September 7",    short:"Mon Sept 7",  title:"Compelling Consult Name",
      asset:"Compelling Consult Name",   quest:"day1",
-     unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T10:00:00-07:00", replayAt:"2026-09-07T12:00:00-07:00", video:"", art:"quest-day1.jpg",
+     unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T10:00:00-07:00", replayAt:"2026-09-07T11:00:00-07:00", video:"", art:"quest-day1.jpg",
      post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0vFqo6yb367pwWZwX28pSHd2cybQKjpUK58aBAKRbrmZGCoiMwAtLgAHCNGxHYahhl",
      /* The Instagram version of the Day 1 Quest post, for people who are not
         on Facebook. The first value here was built from a numeric post id and
@@ -883,22 +888,22 @@ var CHALLENGE = {
      playbook:"https://giftfromthrive.com/name"},
     {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
      asset:"Create Intrigue",           quest:"std",
-     unlockAt:"2026-09-08T09:00:00-07:00", startsAt:"2026-09-08T10:00:00-07:00", replayAt:"2026-09-08T12:00:00-07:00", video:"", art:"quest-day2.jpg",
+     unlockAt:"2026-09-08T09:00:00-07:00", startsAt:"2026-09-08T10:00:00-07:00", replayAt:"2026-09-08T11:00:00-07:00", video:"", art:"quest-day2.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408023717867505/",
      playbook:"https://giftfromthrive.com/intrigue"},
     {n:3, date:"Wednesday September 9", short:"Wed Sept 9",  title:"Trust and Transformation Story",
      asset:"Trust and Transformation Story", quest:"std",
-     unlockAt:"2026-09-09T09:00:00-07:00", startsAt:"2026-09-09T10:00:00-07:00", replayAt:"2026-09-09T12:00:00-07:00", video:"", art:"quest-day3.jpg",
+     unlockAt:"2026-09-09T09:00:00-07:00", startsAt:"2026-09-09T10:00:00-07:00", replayAt:"2026-09-09T11:00:00-07:00", video:"", art:"quest-day3.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408024351200775/",
      playbook:"https://giftfromthrive.com/trust"},
     {n:4, date:"Thursday September 10", short:"Thu Sept 10", title:"Inspiring Invitation",
      asset:"Inspiring Invitation",      quest:"std",
-     unlockAt:"2026-09-10T09:00:00-07:00", startsAt:"2026-09-10T10:00:00-07:00", replayAt:"2026-09-10T12:00:00-07:00", video:"", art:"quest-day4.jpg",
+     unlockAt:"2026-09-10T09:00:00-07:00", startsAt:"2026-09-10T10:00:00-07:00", replayAt:"2026-09-10T11:00:00-07:00", video:"", art:"quest-day4.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408025304534013/",
      playbook:"https://giftfromthrive.com/invitation"},
     {n:5, date:"Friday September 11",   short:"Fri Sept 11", title:"Success Story",
      asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
-     unlockAt:"2026-09-11T09:00:00-07:00", startsAt:"2026-09-11T10:00:00-07:00", replayAt:"2026-09-11T12:00:00-07:00", video:"", art:"quest-day5.jpg",
+     unlockAt:"2026-09-11T09:00:00-07:00", startsAt:"2026-09-11T10:00:00-07:00", replayAt:"2026-09-11T11:00:00-07:00", video:"", art:"quest-day5.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408026337867243/",
      playbook:"https://giftfromthrive.com/success"},
     /* Grand Finale. Monday 14 September, CONFIRMED BY ELLA 3 Sept 2026.
@@ -916,7 +921,7 @@ var CHALLENGE = {
        pattern - still worth Ella confirming separately. */
     {n:8, date:"Monday September 14",   short:"Mon Sept 14", title:"Grand Finale",
      asset:"", quest:"none", post:"", playbook:"",
-     unlockAt:"2026-09-14T09:00:00-07:00", startsAt:"2026-09-14T10:00:00-07:00", replayAt:"2026-09-14T12:00:00-07:00", video:"",
+     unlockAt:"2026-09-14T09:00:00-07:00", startsAt:"2026-09-14T10:00:00-07:00", replayAt:"2026-09-14T11:00:00-07:00", video:"",
      replaysCloseAt:"2026-09-20T21:00:00-07:00"}
   ],
 
