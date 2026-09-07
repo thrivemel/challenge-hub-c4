@@ -1524,6 +1524,17 @@ function vDay(n){
      concierge()+'</div>';
   }
   var before=(phaseOf(n)==="before"), dn=done_(n);
+  /* The Quest is gated on the SESSION STARTING, not on the replay landing.
+     phaseOf's "before" runs from the 9am unlock right through to replayAt at
+     noon, so gating the Quest on it left the page reading "Your Quest unlocks
+     when we go live" at 10:05 and at 11:00, while Sharla was live and telling
+     people to go and do it. Measured on the live site on 7 Sept. Falls back to
+     the old behaviour when a day has no startsAt, so a malformed config can
+     never hide a Quest for longer than it does today. */
+  var started=(function(){
+    var t=Date.parse(d.startsAt||"");
+    return isNaN(t) ? !before : now_()>=t;
+  })();
   /* Replays come down on the Sunday, except the Finale which carries its own
      window. This view returns the same shape as every other day view; the
      surrounding chrome is static markup, not a function. */
@@ -1591,11 +1602,11 @@ function vDay(n){
 
   var quest = !isQuestDay(d)
    ? ''
-   : before
+   : !started
    ? '<h3>Today&rsquo;s Quest</h3><p>Your Quest unlocks when we go live. Stay with me on the call and you&rsquo;ll have it written before we finish.</p>'
    : questBlock(d);
 
-  var ticket = (before || !isQuestDay(d)) ? '' :
+  var ticket = (!started || !isQuestDay(d)) ? '' :
    '<div class="ticket'+(dn?' earned':'')+'"><div class="ticket-in">'+
    (dn?'<b>Golden Ticket earned.</b> That&rsquo;s Day '+n+' done. You&rsquo;re in the draw for the Grand Prize.'
       :'Complete all the steps to earn <b>1 Golden Ticket</b> toward the Grand Prize.')+
