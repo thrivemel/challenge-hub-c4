@@ -528,7 +528,14 @@ p{margin:0 0 16px;max-width:var(--measure)}
 .joinzoom .caption{margin:0 0 4px}
 .summit-inline{display:none}
 @media (max-width:899px){
-  .summit-inline{display:block;margin-top:26px}
+  /* Ella, 7 Sept: "the scholarship button should be the first thing they see
+     in mobile." Sharla on her recording: "right now this is optimizing for
+     the challenge experience and not for conversion... we just need people to
+     click that button and right now they're not going to see it."
+     order:-1 puts it first inside the content column, directly under the day
+     title, ahead of the video and the Playbook. Phone only; the desktop
+     column is untouched. */
+  .summit-inline{display:block;order:-1;margin:0 0 22px}
   .cols .aside .card.gold{display:none}
 }
 .tickets{border:1px solid var(--line);border-left:3px solid #D6B146;background:#FFFDF6;
