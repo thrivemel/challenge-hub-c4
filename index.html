@@ -874,9 +874,12 @@ var CHALLENGE = {
      unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T10:00:00-07:00", replayAt:"2026-09-07T12:00:00-07:00", video:"", art:"quest-day1.jpg",
      post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0vFqo6yb367pwWZwX28pSHd2cybQKjpUK58aBAKRbrmZGCoiMwAtLgAHCNGxHYahhl",
      /* The Instagram version of the Day 1 Quest post, for people who are not
-        on Facebook. Ella asked for this on 4 Sept; paste the IG post URL here
-        and the link appears. Until then it hands them to the Concierge. */
-     igPost:"https://www.instagram.com/p/1629695532119568/",
+        on Facebook. The first value here was built from a numeric post id and
+        would never have resolved: Instagram /p/ links take a short alphanumeric
+        code, not a number. Ella sent the real share URL at 9:15 on 7 Sept,
+        minutes after the post went live. Always take this from Instagram's own
+        share button rather than building it from an id. */
+     igPost:"https://www.instagram.com/p/Dc_hG07CrS-/",
      playbook:"https://giftfromthrive.com/name"},
     {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
      asset:"Create Intrigue",           quest:"std",
