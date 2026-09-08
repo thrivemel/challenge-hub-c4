@@ -1632,6 +1632,12 @@ function vDay(n){
          replays are posted, so nobody has to hunt the main feed for it. The
          label says Facebook Group rather than Guides because that is what a
          lead recognises. */
+      /* The button lands on the Group's MAIN PAGE, not the Guides tab. Ella,
+         8 Sept, P2: 'the link to watch the FB live in the Challenge Hub is taking
+         them to the Guides in the FB group instead of the main page.' The live
+         video sits in the main feed while it is fresh; Guides is where it lands
+         later, so Guides was the wrong destination on the day itself.
+         A day with its own replay URL still goes straight to that video. */
       /* Sharla's own wording from her 6 Sept Loom, unchanged, whether or not
          the recording is up yet. Ella confirmed on 7 Sept that this copy is
          right as it stands. Only the button's destination changes: straight
@@ -1640,7 +1646,7 @@ function vDay(n){
       : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
         '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
         'or wait here and it will be ready soon.</p>'+
-        ((d.replay||FBGUIDES) ? '<a class="btn btn-outline" href="'+(d.replay||FBGUIDES)+'" '+
+        ((d.replay||FBGROUP) ? '<a class="btn btn-outline" href="'+(d.replay||FBGROUP)+'" '+
           'target="_blank" rel="noopener">Watch it in the Facebook Group</a>' : '')+'</div>')+
        /* the Join button rides along in the replay state too: it is the same
           Zoom room all week, so somebody catching up on Wednesday still needs
