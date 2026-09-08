@@ -870,7 +870,11 @@ var CHALLENGE = {
   /* Local dates, and the three moments that matter for each day.
 
        unlockAt  9:00am PT  the tab opens. Before this the day is locked.
-       startsAt 10:00am PT  we go live on Zoom, and the Quest appears.
+       startsAt  9:50am PT  doors open. The room, the live state and that day's
+                            Quest all appear here, ten minutes before the session
+                            itself. Ella, 8 Sept. The page still tells people the
+                            session is at 10:00; this is the early door, not a
+                            change to the advertised time.
        replayAt 11:00am PT  the session ends and the replay slot opens.
 
      replayAt was noon until 7 Sept, an hour after the sessions actually
@@ -888,7 +892,7 @@ var CHALLENGE = {
   days: [
     {n:1, date:"Monday September 7",    short:"Mon Sept 7",  title:"Compelling Consult Name",
      asset:"Compelling Consult Name",   quest:"day1",
-     unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T10:00:00-07:00", replayAt:"2026-09-07T11:00:00-07:00", video:"", art:"quest-day1.jpg",
+     unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T09:50:00-07:00", replayAt:"2026-09-07T11:00:00-07:00", video:"", art:"quest-day1.jpg",
      post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0vFqo6yb367pwWZwX28pSHd2cybQKjpUK58aBAKRbrmZGCoiMwAtLgAHCNGxHYahhl",
      /* The Instagram version of the Day 1 Quest post, for people who are not
         on Facebook. The first value here was built from a numeric post id and
@@ -916,22 +920,22 @@ var CHALLENGE = {
      playbook:"https://giftfromthrive.com/name"},
     {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
      asset:"Create Intrigue",           quest:"std",
-     unlockAt:"2026-09-08T09:00:00-07:00", startsAt:"2026-09-08T10:00:00-07:00", replayAt:"2026-09-08T11:00:00-07:00", video:"", art:"quest-day2.jpg",
+     unlockAt:"2026-09-08T09:00:00-07:00", startsAt:"2026-09-08T09:50:00-07:00", replayAt:"2026-09-08T11:00:00-07:00", video:"", art:"quest-day2.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408023717867505/",
      playbook:"https://giftfromthrive.com/intrigue"},
     {n:3, date:"Wednesday September 9", short:"Wed Sept 9",  title:"Trust and Transformation Story",
      asset:"Trust and Transformation Story", quest:"std",
-     unlockAt:"2026-09-09T09:00:00-07:00", startsAt:"2026-09-09T10:00:00-07:00", replayAt:"2026-09-09T11:00:00-07:00", video:"", art:"quest-day3.jpg",
+     unlockAt:"2026-09-09T09:00:00-07:00", startsAt:"2026-09-09T09:50:00-07:00", replayAt:"2026-09-09T11:00:00-07:00", video:"", art:"quest-day3.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408024351200775/",
      playbook:"https://giftfromthrive.com/trust"},
     {n:4, date:"Thursday September 10", short:"Thu Sept 10", title:"Inspiring Invitation",
      asset:"Inspiring Invitation",      quest:"std",
-     unlockAt:"2026-09-10T09:00:00-07:00", startsAt:"2026-09-10T10:00:00-07:00", replayAt:"2026-09-10T11:00:00-07:00", video:"", art:"quest-day4.jpg",
+     unlockAt:"2026-09-10T09:00:00-07:00", startsAt:"2026-09-10T09:50:00-07:00", replayAt:"2026-09-10T11:00:00-07:00", video:"", art:"quest-day4.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408025304534013/",
      playbook:"https://giftfromthrive.com/invitation"},
     {n:5, date:"Friday September 11",   short:"Fri Sept 11", title:"Success Story",
      asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
-     unlockAt:"2026-09-11T09:00:00-07:00", startsAt:"2026-09-11T10:00:00-07:00", replayAt:"2026-09-11T11:00:00-07:00", video:"", art:"quest-day5.jpg",
+     unlockAt:"2026-09-11T09:00:00-07:00", startsAt:"2026-09-11T09:50:00-07:00", replayAt:"2026-09-11T11:00:00-07:00", video:"", art:"quest-day5.jpg",
      post:"https://www.facebook.com/groups/1386366133366597/posts/1408026337867243/",
      playbook:"https://giftfromthrive.com/success"},
     /* Grand Finale. Monday 14 September, CONFIRMED BY ELLA 3 Sept 2026.
@@ -949,7 +953,7 @@ var CHALLENGE = {
        pattern - still worth Ella confirming separately. */
     {n:8, date:"Monday September 14",   short:"Mon Sept 14", title:"Grand Finale",
      asset:"", quest:"none", post:"", playbook:"",
-     unlockAt:"2026-09-14T09:00:00-07:00", startsAt:"2026-09-14T10:00:00-07:00", replayAt:"2026-09-14T11:00:00-07:00", video:"",
+     unlockAt:"2026-09-14T09:00:00-07:00", startsAt:"2026-09-14T09:50:00-07:00", replayAt:"2026-09-14T11:00:00-07:00", video:"",
      replaysCloseAt:"2026-09-20T21:00:00-07:00"}
   ],
 
@@ -2002,12 +2006,20 @@ function wire(){
    what you are reviewing is the real thing and not an approximation.
    NOW_SHIFT is in memory only, so a reload always returns to real time and
    nobody can get stranded in a simulated week. */
-var previewBefore=false;
+/* Three states, not two. The old toggle could only land 30 minutes before the
+   session or a minute after it ended, so the LIVE hour could not be previewed
+   at all - which is exactly where the 7 Sept Quest bug hid: the page said "your
+   Quest unlocks when we go live" at 10:05 while the session was running.
+   0 = before, 1 = live, 2 = replay. */
+var previewPhase=0;
+var previewBefore=false;   /* kept: tgReset and syncDemo still read it */
 function previewDay(n){
   var d=day_(n); if(!d) return;
   /* "before" lands 30 minutes ahead of the session, mid-countdown.
      otherwise land just after the replay opens. */
-  var t = previewBefore ? Date.parse(d.startsAt)-30*60000 : Date.parse(d.replayAt)+60000;
+  var t = previewPhase===0 ? Date.parse(d.startsAt)-30*60000
+        : previewPhase===1 ? Date.parse(d.startsAt)+5*60000      /* five minutes into the session */
+        :                    Date.parse(d.replayAt)+60000;
   if(!isNaN(t)){ NOW_SHIFT = t - Date.now(); previewClockSet = true; }
 }
 function syncDemo(){
@@ -2038,7 +2050,7 @@ if(tgR) tgR.onclick=function(){
   /* This wipes Golden Tickets. It is a review tool and it should still ask. */
   if(!window.confirm("Reset this browser?\n\nThis clears the signed-in email AND every Golden Ticket saved here. It cannot be undone."))return;
   S={day:1,live:false,email:null,first:null,progress:{}};
-  NOW_SHIFT=0; previewBefore=false; previewClockSet=false;
+  NOW_SHIFT=0; previewBefore=false; previewPhase=0; previewClockSet=false;
   save();location.hash="#/login";render();toast("Reset");};
 
 
