@@ -1540,7 +1540,11 @@ function questBlock(d){
       '<label class="txt" for="q1"><span class="k">Day 1 Quest</span>I posted my Compelling Consult Name on the Quest post.</label></div></div>';
   }
   var L=[
-   'Encourage <b>5+ Champions</b> by liking and commenting on their posts.',
+   /* Sharla, 8 Sept, her wording. The Quest post is a link here, not just a
+      name, so nobody has to scroll back to the button to find it. */
+   'After writing your <b>'+d.asset+'</b> post, go to the '+
+     '<a href="'+d.post+'" target="_blank" rel="noopener">Day '+d.n+' Quest post</a> '+
+     'and click on 5+ Champions links. Engage with their posts by reacting and commenting.',
    'Post your <b>'+d.asset+'</b> on Facebook, Instagram, or LinkedIn.',
    'Share your post link (permalink) in the <b><a href="'+d.post+'" target="_blank" rel="noopener">Day '+d.n+' Quest</a></b> comments.',
    'Comment on <b>5+ more Champions</b> to help boost each other&rsquo;s visibility.'];
@@ -1657,7 +1661,17 @@ function vDay(n){
 
   var ticket = (!started || !isQuestDay(d)) ? '' :
    '<div class="ticket'+(dn?' earned':'')+'"><div class="ticket-in">'+
-   (dn?'<b>Golden Ticket earned.</b> That&rsquo;s Day '+n+' done. You&rsquo;re in the draw for the Grand Prize.'
+   /* Sharla, 8 Sept, both messages her wording. Day 1 lands on the scholarship,
+      because that is the first thing a Champion becomes eligible for. Every
+      other day points at the daily prize and the Grand Prize. She flagged the
+      old line as "weird syntax and not the way a person from the US would
+      speak". */
+   (dn?(n===1
+        ? 'Great job completing your Day 1 Quest!<br>'+
+          'You&rsquo;re now eligible for a Full Scholarship to the Client Attraction Summit.<br>'+
+          '<a href="'+SUMMIT+'" target="_blank" rel="noopener">Learn more here.</a>'
+        : '<b>Golden Ticket Earned.</b> Day '+n+' is done! You&rsquo;re in the drawing for '+
+          'today&rsquo;s prize and one step closer to the Grand Prize.')
       :'Complete all the steps to earn <b>1 Golden Ticket</b> toward the Grand Prize.')+
    '</div></div>'+
    /* The old "Submit your post here instead" link went to a form that saved
