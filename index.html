@@ -792,7 +792,7 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
     <button type="button" id="navToggle" class="navtoggle" aria-expanded="false" aria-controls="side">
       <span class="navtoggle-bars" aria-hidden="true"></span>Menu
     </button>
-    <a href="#/prechallenge"><img class="logo" src="logo-navy.png" alt="Thrive Academy" width="102"></a>
+    <a href="#/prechallenge"><img class="logo" src="logo-navy.png?v=e76a58c1" alt="Thrive Academy" width="102"></a>
     <div class="acct" id="acct"></div>
   </div>
 </header>
@@ -1074,7 +1074,7 @@ var CHALLENGE = {
    exactly what happened on 4 September. Each file carries a short hash of its
    own contents, so replacing the file changes the URL and the new one loads.
    Regenerate these whenever a media file is replaced. */
-var MEDIA = {"hero.mp4":"85685da3", "hero-poster.jpg":"22612919", "welcome.mp4":"cf61e919", "welcome-poster.jpg":"6ec137a9"};
+var MEDIA = {"logo-navy.png":"e76a58c1", "summit-banner.jpg":"232a6c81", "hero.mp4":"85685da3", "hero-poster.jpg":"22612919", "welcome.mp4":"cf61e919", "welcome-poster.jpg":"6ec137a9"};
 function m_(f){ return MEDIA[f] ? f+"?v="+MEDIA[f] : f; }
 
 var ZOOM=CHALLENGE.links.zoom, PASSCODE=CHALLENGE.links.passcode, SUMMIT=CHALLENGE.links.summit,
@@ -1285,7 +1285,7 @@ function summitBlock(compact, force){
   if(!force && !summitOpen()) return "";
   return '<div class="card gold"'+(compact?'':' style="margin-top:30px"')+'>'+
     (compact?'':'<a class="summit-art" href="'+SUMMIT+'" target="_blank" rel="noopener">'+
-      '<img src="summit-banner.jpg" alt="Client Attraction Summit, September 18 to 20, online" width="1800" height="790"></a>')+
+      '<img src="'+m_('summit-banner.jpg')+'" alt="Client Attraction Summit, September 18 to 20, online" width="1800" height="790"></a>')+
     /* Ella, 6 Sept, carrying Sharla's note from 2:24 of her second Loom about
        prioritising the scholarship. Her exact headline and button label. The
        hook and the button lead now; the explanation follows in small type
