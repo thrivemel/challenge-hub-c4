@@ -978,7 +978,7 @@ var CHALLENGE = {
      it appears on that day's tab. Leave blank and the block simply does not
      render, so an unfilled day never shows an empty placeholder. */
   winners: {
-    1:"", 2:"Barbara Kehr", 3:"", 4:"", 5:"", grand:""
+    1:"", 2:"Barbara Kehr", 3:"Kimberly Jenks", 4:"", 5:"", grand:""
   },
 
   /* The four Pre-Challenge Quests on the Prepare page.
@@ -1353,6 +1353,17 @@ function winnerBlock(n){
   var nd=nextQuestDay(n), ndd=day_(nd);
   var announceOn = ndd ? (nd===8 ? "the Grand Finale" : "Day "+nd) : "the next session";
 
+  /* A name here means Ella has published it, so it shows straight away. The
+     date gate below exists to stop an EMPTY box appearing before the draw has
+     happened; it was never meant to hold back a result she has announced.
+     Ella, 10 Sept: 'Congratulations, Kimberly Jenks for Day 3 winner. publish
+     now'. Day 4 had not concluded, so the old order would have hidden it
+     until 11am. */
+  if(w) return '<div class="winner">'+
+    '<span class="lbl">Day '+n+' Quest winner</span>'+
+    '<b>'+esc(w)+'</b>'+
+    '<span class="sub">Congratulations. Every completed Quest is another entry in the draw for the Grand Prize.</span>'+
+  '</div>';
   if(!dayConcluded(nd)){
     return '<div class="winner pending">'+
       '<span class="lbl">Day '+n+' Quest winner</span>'+
