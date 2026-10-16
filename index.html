@@ -764,6 +764,69 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
 }
 
 
+
+/* =========================================================================
+   HOLIDAY THEME  -  Quad 3, Nov 2026 to Jan 2027
+   Direction 1 "Winter light" with a touch of 3 "Gold accent", per Ella.
+
+   The rules it keeps to, deliberately:
+   - No red, no green, no snowflake glyphs, no Christmas iconography.
+   - Raleway and Oswald untouched. Square corners untouched.
+   - Orange CTAs untouched, so nothing here can move conversion.
+   - Navy stays a BAND and a type colour, never a background field, per the
+     2024 brand guidelines.
+   Everything below is additive. Delete this block and the Hub is exactly as
+   it shipped for C4.
+   ========================================================================= */
+
+/* A cool frost wash behind the whole shell. The warm neutral ground goes a
+   few degrees colder rather than turning blue. */
+body{
+  background:
+    radial-gradient(1200px 520px at 50% -140px, #F2F7FB 0%, rgba(242,247,251,0) 70%),
+    var(--shell);
+}
+
+/* The faintest snow-dot texture, two offset dot grids at low opacity. It
+   reads as paper grain at arm's length and as snow close up. Fixed so it
+   does not travel with the scroll and turn into a pattern people notice. */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(circle at 20% 30%, rgba(255,255,255,.85) 1px, transparent 1.4px),
+    radial-gradient(circle at 70% 60%, rgba(26,50,92,.055) 1px, transparent 1.4px);
+  background-size:120px 120px, 170px 170px;
+}
+.shell{position:relative;z-index:1}
+
+/* The navy band deepens a touch and gains a cold edge, so it reads as a
+   winter night rather than flat corporate navy. */
+.strip{
+  background:linear-gradient(180deg,#16294B 0%, var(--ink) 100%);
+  box-shadow:inset 0 -1px 0 rgba(255,255,255,.07);
+}
+
+/* Gold accent, borrowed from the Golden Ticket rather than introduced.
+   A hairline under each day heading. */
+.prep .pre-do::after,
+#main > h1::after{
+  content:"";display:block;width:68px;height:2px;margin-top:14px;
+  background:var(--grad-gold);
+}
+
+/* The scholarship card picks up a gold hairline on its left edge to match
+   its gold top rule, so the Summit block feels like the gift it is. */
+.card.gold{
+  border-left:1px solid rgba(214,177,70,.55);
+  box-shadow:0 1px 2px rgba(26,50,92,.04);
+}
+
+/* Day cards and panels lift very slightly off the colder ground so they do
+   not look flat against it. */
+.card,.steps,.soon,.winner{background:#fff}
+
+@media (prefers-reduced-motion: reduce){ body::before{background-image:none} }
+
 </style>
 </head>
 <body>
@@ -798,7 +861,7 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
 </header>
 <div class="strip"><div class="in">
   <span>Book 5 Consults in 5 Days</span><span class="sep">|</span>
-  <span>September 7 to 11</span><span class="sep">|</span>
+  <span data-round-name>November 2 to 6</span><span class="sep">|</span>
   <span class="hi">Live daily 10:00am PT</span>
   <!-- Zoom lives here from Sharla's second Loom, 6 Sept: "let's put the Zoom
        link up here as a button. Join Zoom live. Now, as an orange button with
@@ -816,7 +879,7 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
     <div class="f-col">
       <span class="f-brand"><a href="https://www.thrive-academy.com" target="_blank" rel="noopener">Thrive Academy</a></span>
       <span>Book 5 Consults in 5 Days Challenge</span>
-      <span>September 7 to 11, 2026</span>
+      <span><span data-round-name>November 2 to 6</span>, 2026</span>
     </div>
     <div class="f-col">
       <span class="f-h">Need a hand</span>
@@ -864,8 +927,8 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
    ============================================================================ */
 var CHALLENGE = {
   id:        "c4",                  /* storage key + access tag. Bump every round. */
-  name:      "September 7 to 11",
-  tag:       "challenge-sept-2026", /* the GHL tag that grants access */
+  name:      "November 2 to 6",
+  tag:       "",   /* TODO Ella: the GHL tag that grants access for C1 */ /* the GHL tag that grants access */
 
   /* Local dates, and the three moments that matter for each day.
 
@@ -889,112 +952,244 @@ var CHALLENGE = {
      Written as absolute instants with an explicit -07:00 offset, because
      September 2026 is inside US daylight time (DST ends Nov 1). That makes
      them correct for a viewer in any time zone with no guessing. */
-  days: [
-    {n:1, date:"Monday September 7",    short:"Mon Sept 7",  title:"Compelling Consult Name",
-     asset:"Compelling Consult Name",   quest:"day1",
-     unlockAt:"2026-09-07T09:00:00-07:00", startsAt:"2026-09-07T09:50:00-07:00", replayAt:"2026-09-07T11:00:00-07:00", video:"", art:"quest-day1.jpg",
-     post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0vFqo6yb367pwWZwX28pSHd2cybQKjpUK58aBAKRbrmZGCoiMwAtLgAHCNGxHYahhl",
-     /* The Instagram version of the Day 1 Quest post, for people who are not
-        on Facebook. The first value here was built from a numeric post id and
-        would never have resolved: Instagram /p/ links take a short alphanumeric
-        code, not a number. Ella sent the real share URL at 9:15 on 7 Sept,
-        minutes after the post went live. Always take this from Instagram's own
-        share button rather than building it from an id. */
-     igPost:"https://www.instagram.com/p/Dc_hG07CrS-/",
-     /* The Facebook replay for this day. Ella sent this one at 11:30 on 7 Sept.
+  rounds: {
+    /* ---------------------------------------------------------------------
+       ONE HUB, THREE ROUNDS.
 
-        Set it and the replay block links straight to the recording; leave it
+       Ads move to the next round while the current one is still running, and
+       the Hub doubles as the thank-you page, so a C2 lead who registers on
+       3 November lands here while C1 is mid-flight. They must see THEIR
+       dates and must not reach C1's sessions. So the day dates live per
+       round, keyed by the GHL tag that let the person in.
 
-        empty and the block keeps saying the replay is coming and points at the
+       The key is the tag string exactly as it appears in GHL:
+         (5-day challenge) mmm dd-dd yyyy
 
-        Group's Guides tab. */
-     replay:"https://www.facebook.com/sharla.jacobs/videos/1080949841573549?idorvanity=1386366133366597",
-     /* Vimeo id for this day's recording. Set it and the page embeds the real
+       Which round a viewer gets is decided by the tag the auth service
+       returns on login. Until that service returns it, selectRound() falls
+       back to the round that is running now, or the next one to open.
+       --------------------------------------------------------------------- */
+    "(5-day challenge) nov 02-06 2026": { name:"November 2 to 6",   days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
 
-        player, which carries Vimeo's own speed controls, the thing Sharla asked
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
 
-        for on 6 Sept. Leave it empty and the replay block above is used instead.
-
-        Just the number, not the whole URL. */
-     vimeo:"1224694484",
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 2",    short:"Mon Nov 2",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-02T09:00:00-08:00", startsAt:"2026-11-02T09:50:00-08:00", replayAt:"2026-11-02T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0LeG2hB543HQygiCerppLPkN8QTgChpCzJLwWrWYQqriAnyQTRfZBVAdsKjVXcMGgl", igPost:"", replay:"", vimeo:"",
      playbook:"https://giftfromthrive.com/name"},
-    {n:2, date:"Tuesday September 8",   short:"Tue Sept 8",  title:"Create Intrigue",
-     asset:"Create Intrigue",           quest:"std",
-     unlockAt:"2026-09-08T09:00:00-07:00", startsAt:"2026-09-08T09:50:00-07:00", replayAt:"2026-09-08T11:00:00-07:00", video:"", art:"quest-day2.jpg",
-     post:"https://www.facebook.com/groups/1386366133366597/posts/1408023717867505/",
-     /* Day 2 replay. Ella sent a first Vimeo id, 1225020157, which Vimeo's own
-        player answered "This video does not exist" for, in a browser as well as
-        by API. She sent this one instead and it plays: 1:08:31, titled "DAY 2 of
-        Book 5 Consults in 5 Days Challenge". Checking before wiring is the whole
-        point - the bad id would have shown that error to every Champion.
-        The Facebook permalink stays as the fallback if the embed ever fails. */
-     replay:"https://www.facebook.com/groups/1386366133366597/permalink/1431750728828137",
-     vimeo:"1225024556",
+
+    {n:2, date:"Tuesday November 3",   short:"Tue Nov 3",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-03T09:00:00-08:00", startsAt:"2026-11-03T09:50:00-08:00", replayAt:"2026-11-03T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111070127978492", replay:"", vimeo:"",
      playbook:"https://giftfromthrive.com/intrigue"},
-    {n:3, date:"Wednesday September 9", short:"Wed Sept 9",  title:"Trust and Transformation Story",
+
+    {n:3, date:"Wednesday November 4", short:"Wed Nov 4",  title:"Trust and Transformation Story",
      asset:"Trust and Transformation Story", quest:"std",
-     unlockAt:"2026-09-09T09:00:00-07:00", startsAt:"2026-09-09T09:50:00-07:00", replayAt:"2026-09-09T11:00:00-07:00", video:"", art:"quest-day3.jpg",
-     post:"https://www.facebook.com/groups/1386366133366597/posts/1408024351200775/",
-     /* Day 3 replay. Ella sent the id while it was still uploading; it was
-        404ing then and resolved about 12 minutes later. Verified before wiring:
-        58:33, titled "DAY 3 of Book 5 Consults in 5 Days Challenge", and it
-        plays in a browser. No Facebook permalink for this day yet, so the
-        fallback would be the Group's main page if the embed ever fails. */
-     vimeo:"1225368608",
-     /* Day 3 Facebook permalink, Ella 9 Sept. Fallback only: the Vimeo embed
-        above is what people actually see. */
-     replay:"https://www.facebook.com/groups/1386366133366597/permalink/1421454929857717",
+     unlockAt:"2026-11-04T09:00:00-08:00", startsAt:"2026-11-04T09:50:00-08:00", replayAt:"2026-11-04T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111068627978642", replay:"", vimeo:"",
      playbook:"https://giftfromthrive.com/trust"},
-    {n:4, date:"Thursday September 10", short:"Thu Sept 10", title:"Inspiring Invitation",
-     asset:"Inspiring Invitation",      quest:"std",
-     unlockAt:"2026-09-10T09:00:00-07:00", startsAt:"2026-09-10T09:50:00-07:00", replayAt:"2026-09-10T11:00:00-07:00", video:"", art:"quest-day4.jpg",
-     post:"https://www.facebook.com/groups/1386366133366597/posts/1408025304534013/",
-     /* Day 4 replay. oEmbed still answered 404 when Ella sent this, but the
-        player answered 401 - the bot-block, not the not-found the bad Day 2 id
-        gave on both. Loaded it in a browser to settle it: it plays, 1:06:22,
-        titled "DAY 4 of Book 5 Consults in 5 Days Challenge". */
-     vimeo:"1225706670",
+
+    {n:4, date:"Thursday November 5",  short:"Thu Nov 5",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-05T09:00:00-08:00", startsAt:"2026-11-05T09:50:00-08:00", replayAt:"2026-11-05T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111066751312163", replay:"", vimeo:"",
      playbook:"https://giftfromthrive.com/invitation"},
-    {n:5, date:"Friday September 11",   short:"Fri Sept 11", title:"Success Story",
+
+    {n:5, date:"Friday November 6",    short:"Fri Nov 6",  title:"Success Story",
      asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
-     unlockAt:"2026-09-11T09:00:00-07:00", startsAt:"2026-09-11T09:50:00-07:00", replayAt:"2026-09-11T11:00:00-07:00", video:"", art:"quest-day5.jpg",
-     post:"https://www.facebook.com/groups/1386366133366597/posts/1408026337867243/",
-     /* Day 5 replay. Ella sent it mid-upload; it sat at player 500, oEmbed 404
-        for a while, which is Vimeo transcoding, not a dead id (a dead one is
-        404 on both and says "This video does not exist"). Verified in a browser
-        before wiring: it plays, 1:09:00, titled "DAY 5 of Book 5 Consults in 5
-        Days Challenge". */
-     vimeo:"1226055109",
+     unlockAt:"2026-11-06T09:00:00-08:00", startsAt:"2026-11-06T09:50:00-08:00", replayAt:"2026-11-06T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111057961313042", replay:"", vimeo:"",
      playbook:"https://giftfromthrive.com/success"},
-    /* Grand Finale. Monday 14 September, CONFIRMED BY ELLA 3 Sept 2026.
-       Opens on its own date at 9:00am PT, exactly like every other day.
-       Completing Days 1 to 5 is NOT required to reach it - the Quests are how
-       you earn Golden Tickets, not how you unlock the page.
 
-       Note it is not on the printed CHALLENGE WEEK SCHEDULE graphic, which
-       runs Sept 7 to 11 only. That graphic needs reissuing or people will not
-       know the Finale exists.
-
-       It carries its own replay window, because it airs AFTER the Sunday
-       cut-off that applies to Days 1 to 5 and would otherwise be hidden the
-       moment it aired. The 20 Sept value is the Sunday after, matching the
-       pattern - still worth Ella confirming separately. */
-    {n:8, date:"Monday September 14",   short:"Mon Sept 14", title:"Grand Finale",
+    {n:8, date:"Monday November 9",    short:"Mon Nov 9", title:"Grand Finale",
      asset:"", quest:"none", post:"", playbook:"",
-     unlockAt:"2026-09-14T09:00:00-07:00", startsAt:"2026-09-14T09:50:00-07:00", replayAt:"2026-09-14T11:00:00-07:00", video:"",
-     /* Grand Finale replay. Verified before wiring: plays, 1:00:29, titled
-        "Grand Finale of Book 5 Consults in 5 Days Challenge". This day carries
-        its own replaysCloseAt, so it stays up until 20 Sept while Days 1 to 5
-        close on the 13th. */
-     vimeo:"1226724104",
-     replaysCloseAt:"2026-09-20T21:00:00-07:00"}
+     unlockAt:"2026-11-09T09:00:00-08:00", startsAt:"2026-11-09T09:50:00-08:00", replayAt:"2026-11-09T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-15T21:00:00-08:00"}] },
+    "(5-day challenge) nov 16-20 2026": { name:"November 16 to 20", days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 16",    short:"Mon Nov 16",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-16T09:00:00-08:00", startsAt:"2026-11-16T09:50:00-08:00", replayAt:"2026-11-16T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday November 17",   short:"Tue Nov 17",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-17T09:00:00-08:00", startsAt:"2026-11-17T09:50:00-08:00", replayAt:"2026-11-17T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday November 18", short:"Wed Nov 18",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2026-11-18T09:00:00-08:00", startsAt:"2026-11-18T09:50:00-08:00", replayAt:"2026-11-18T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday November 19",  short:"Thu Nov 19",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-19T09:00:00-08:00", startsAt:"2026-11-19T09:50:00-08:00", replayAt:"2026-11-19T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday November 20",    short:"Fri Nov 20",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2026-11-20T09:00:00-08:00", startsAt:"2026-11-20T09:50:00-08:00", replayAt:"2026-11-20T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday November 23",    short:"Mon Nov 23", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2026-11-23T09:00:00-08:00", startsAt:"2026-11-23T09:50:00-08:00", replayAt:"2026-11-23T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-29T21:00:00-08:00"}] },
+    "(5-day challenge) jan 04-08 2027": { name:"January 4 to 8",    days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday January 4",    short:"Mon Jan 4",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2027-01-04T09:00:00-08:00", startsAt:"2027-01-04T09:50:00-08:00", replayAt:"2027-01-04T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday January 5",   short:"Tue Jan 5",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2027-01-05T09:00:00-08:00", startsAt:"2027-01-05T09:50:00-08:00", replayAt:"2027-01-05T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday January 6", short:"Wed Jan 6",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2027-01-06T09:00:00-08:00", startsAt:"2027-01-06T09:50:00-08:00", replayAt:"2027-01-06T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday January 7",  short:"Thu Jan 7",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2027-01-07T09:00:00-08:00", startsAt:"2027-01-07T09:50:00-08:00", replayAt:"2027-01-07T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday January 8",    short:"Fri Jan 8",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2027-01-08T09:00:00-08:00", startsAt:"2027-01-08T09:50:00-08:00", replayAt:"2027-01-08T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday January 11",    short:"Mon Jan 11", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2027-01-11T09:00:00-08:00", startsAt:"2027-01-11T09:50:00-08:00", replayAt:"2027-01-11T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2027-01-17T21:00:00-08:00"}] }
+  },
+
+  days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 2",    short:"Mon Nov 2",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-02T09:00:00-08:00", startsAt:"2026-11-02T09:50:00-08:00", replayAt:"2026-11-02T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0LeG2hB543HQygiCerppLPkN8QTgChpCzJLwWrWYQqriAnyQTRfZBVAdsKjVXcMGgl", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday November 3",   short:"Tue Nov 3",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-03T09:00:00-08:00", startsAt:"2026-11-03T09:50:00-08:00", replayAt:"2026-11-03T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111070127978492", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday November 4", short:"Wed Nov 4",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2026-11-04T09:00:00-08:00", startsAt:"2026-11-04T09:50:00-08:00", replayAt:"2026-11-04T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111068627978642", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday November 5",  short:"Thu Nov 5",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-05T09:00:00-08:00", startsAt:"2026-11-05T09:50:00-08:00", replayAt:"2026-11-05T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111066751312163", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday November 6",    short:"Fri Nov 6",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2026-11-06T09:00:00-08:00", startsAt:"2026-11-06T09:50:00-08:00", replayAt:"2026-11-06T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111057961313042", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday November 9",    short:"Mon Nov 9", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2026-11-09T09:00:00-08:00", startsAt:"2026-11-09T09:50:00-08:00", replayAt:"2026-11-09T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-15T21:00:00-08:00"}
   ],
 
   /* Who won each day's Quest draw. Fill in the name after each session and
      it appears on that day's tab. Leave blank and the block simply does not
      render, so an unfilled day never shows an empty placeholder. */
   winners: {
-    1:"", 2:"Barbara Kehr", 3:"Kimberly Jenks", 4:"Debbie Denise", 5:"", grand:"Cami Low"
+    1:"", 2:"", 3:"", 4:"", 5:"", grand:""
   },
 
   /* The four Pre-Challenge Quests on the Prepare page.
@@ -1008,19 +1203,19 @@ var CHALLENGE = {
                 the row shows just its title, exactly as it does today. */
   preQuests: [
     {n:1, title:"SHOW UP FOR WHAT&#8217;S IMPORTANT!",
-     url:"https://www.facebook.com/groups/1386366133366597/posts/1408038347866042/",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
      video:"", poster:"",   /* TODO: prequest-1.mp4 once encoded */
      caption:"&#128073;The reason most people don&#8217;t succeed is because they get distracted and forget what&#8217;s most important to them.\n\nBy joining this challenge, you&#8217;ve declared that it&#8217;s important to you to book consults that lead to clients!\n\nNow it&#8217;s time to show up!  &#9200;\n\nStep 1. Make sure that you have added the Challenge Events to Your Calendar, by clicking on the link in the email with the subject: [Consults] Open Me to get started\n\nStep 2: Confirm Your Seat Below!\n\nLet us know how you&#8217;ll be joining us for the Big Launch Event below. &#11015;&#65039;\n\nDrop a note like &#8220;I&#8217;ll be there on zoom&#8221; or &#8220;You&#8217;ll see me&#8221; if you&#8217;ll be joining us LIVE on Zoom at the Launch Event.\nor\n&#8220;I&#8217;ll watch later&#8221; if you will listen to the replay.\n\n&#128293; Great job! You&#8217;ve earned your first raffle ticket toward the Grand Prize (over $5,300 value)! &#128293;\n\nCollect as many raffle tickets as possible this week so you have a better chance of winning the Grand Prize! &#127942;"},
     {n:2, art:"quest-pre2.jpg", title:"INTRODUCE YOURSELF!",
-     url:"https://www.facebook.com/groups/1386366133366597/posts/1408035237866353/",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
      video:"", poster:"",   /* TODO: prequest-2.mp4 once encoded */
      caption:"&#128075;We&#8217;re SO glad you&#8217;re here!\n\nThis is a great time to introduce yourself to all of the amazing Coaches and Holistic Practitioners in this community! &#128101;\n\nThis community will be a BIG part of your success during the Challenge&#8230;\n\nOn Tues-Fri, you will boost their posts with positive engagement&#8230; And they will boost yours!\n\nWhich will &#8220;wake up the algorithm&#8221; and your posts will get seen by a LOT more people. Let&#8217;s do this!\n\n&#9989;Step 1: Introduce Yourself Below\nDrop a selfie or 30 sec video below, sharing why you joined the challenge!\n\n&#9989;Step 2: Welcome 3 (or more) new friends\nSpread the love with reactions and replies below with people you resonate with. &#129303; Who knows&#8230; You might even find some new friends with lots in common!\n\n&#127903;&#65039; You get 1 Raffle Ticket for introducing yourself below! &#127903;&#65039;\n\nCollect as many raffle tickets as possible this week so you have a better chance of winning the Grand Prize (over $5,300 value)! &#127942;"},
     {n:3, art:"quest-pre3.jpg", title:"EXPONENTIALLY INCREASE YOUR CHANCES OF BOOKING CONSULTS",
-     url:"https://www.facebook.com/groups/1386366133366597/posts/1408031597866717/",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
      video:"", poster:"",   /* TODO: prequest-3.mp4 once encoded */
      caption:"During this Challenge, you&#8217;ll discover that the &#128273; to success in your business is to support your friends while they support you.\n\n&#129505;One of the reasons that posts in this challenge get 2.5x more engagement than regular posts&#8230;\n\n(with an average of 50.4 reactions and comments per post&#8252;&#65039;)&#8230;\n\n&#8230;is because we encourage you to boost your friend&#8217;s posts while they boost your posts.\n\n&#129505;We rise together! &#128640;\n\nIf you would like to make sure you have people boosting your posts, we highly recommend you invite some Coaches and Holistic Practitioners to join you in this challenge!\n\nYou get 1 raffle ticket for each friend you invite.\n\n&#9989;Step 1: Invite friends using the template below\n(Up to 10 friends &#128516;)!\n\nYou can edit this message and send to friends:\n*********************************************************\nHey Name!\n\nDo you have room for a few new clients?\n\nI just joined a 5-day challenge to book consults that lead to clients!\n\nAnd I thought of you because I appreciate _______ (the amazing work you do with your clients)!\n\nAnd I&#8217;d love for you to be my buddy in this challenge. We can help each other get clients.\n\nWant to join me?\nwww.GiftfromThrive.com/5day\n*********************************************************\n\n&#9989;Step 2: Let us know how many people you invited (below).\n\n&#127903;&#65039; You earn 1 Raffle Ticket for each person you invite! &#127903;&#65039;\n(You can win up to 10 Raffle Tickets).\n\nCollect LOTS of raffle tickets to give yourself the best chance at winning the Grand Prize (over $5,300 value)! &#128142;"},
     {n:4, title:"STAY ENGAGED",
-     url:"https://www.facebook.com/groups/1386366133366597/posts/1408028337867043/",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
      video:"howto-notifications.mp4", poster:"howto-notifications.jpg",
      caption:"Staying Engaged is the KEY&#128477;&#65039; to success!\n\nThe best way to help you stay engaged this week is to pin this Facebook Group.\n\n&#9989;Step 1: Turn on Notifications for this Facebook Group!\nIf you haven&#8217;t already turned on notifications, the video above will show you how.\n\n&#9989;Step 2: Drop a GIF below (expressing your excitement)!\nThe GIF will let us know you turned on Notifications for the group and are excited to engage all week!\n\n&#127903;&#65039; Once we see your GIF, we&#8217;ll award you 1 raffle ticket! &#127903;&#65039;\n\nCollect LOTS of raffle tickets to give yourself the best chance at winning the Grand Prize (over $5,300 value)! &#128142;\n\n&#9989;Step 3: Receive a Customized Gift\nMessage us (and get a real human reply). Let us know your biggest &#8220;stuck point&#8221; in your business and we&#8217;ll look through our library of resources and send you a customized gift to help you break through it before the Challenge.\n\nHere are some &#8220;stuck points&#8221; you may be facing:\n- Need help with how to talk about what I do\n- Finding my Niche\n- Booking Enough Consults\n- Converting Consults into Clients\n- Design my Package\n- Fill my Group Program\n- Follow Up After a Discovery Call\n- Funding for my Business\n\nText your Concierge: (831) 480-1290\nPlease include your first and last name when texting your Concierge.\nOr message us on Facebook: m.me/ThriveAcademy\n\n&#9989;Step 4: See You at the BIG Launch Event\nMonday, September 7, 10-11am Pacific / 1-2pm Eastern\nUse the Join the live session button on Day 1 of this Hub &#8212; it opens Zoom for you.\n\nWe&#8217;re excited to reveal the much BIGGER Surprise Gift during the Launch Event! &#127873;"}
   ],
@@ -1032,15 +1227,15 @@ var CHALLENGE = {
   /* Replays come down 9:00pm PT / midnight ET on the Sunday after the challenge.
      Verified against "CHALLENGE WEEK SCHEDULE Sept 7-11.png" in the assets folder.
      ISO with the -07:00 offset so it is unambiguous across time zones. */
-  replaysCloseAt: "2026-09-13T21:00:00-07:00",
+  replaysCloseAt: "2026-11-08T21:00:00-08:00",
 
   links: {
-    fbGroup: "https://www.facebook.com/groups/1386366133366597",
+    fbGroup: "https://www.facebook.com/groups/1103115088773996",
     /* The Guides tab of the Group, where the day replays are posted. Sharla
        asked the replay button to land here rather than the group's main feed:
        "go to the Facebook group, and guide them to, I think it's guide one".
        Ella confirmed this is the Guides tab, 6 Sept. */
-    fbGuides: "https://www.facebook.com/groups/1386366133366597/learning_content",
+    fbGuides: "https://www.facebook.com/groups/1103115088773996/learning_content",
     /* UNUSED. The add-to-calendar step was removed on 3 Sept 2026 because the
        AddEvent calendars behind this page are disabled or point at August.
        Kept only so the value is not lost. Do not wire a button to it again
@@ -1051,19 +1246,19 @@ var CHALLENGE = {
        1386366133366597, the correct September group.
        NOT qr7jgcctg1mc, which is still on the funnel's thank-you page and is
        August: it shows Aug 17 and carries group 1779570609592720. */
-    addCal:  "https://www.addevent.com/calendar/1db44pf3wbc5",
+    addCal:  ""   /* TODO Ella: AddEvent calendar for C1 */,
     /* Ella, 7 Sept: the scholarship button points here, UTM-tagged so Hub
        traffic to the Summit is attributable. Used by the scholarship button,
        the Summit banner image and the replay-page CTA, so every route from
        the Hub carries the same tagging. */
-    summit:  "https://secure.clientattractionsummit.com/challenge-step-1-opt-in1710454094929?utm_source=challenge_hub&utm_medium=internal&utm_campaign=summit_2026_09&utm_content=hub_summit_page1",
+    summit:  ""   /* TODO Ella: Jan 15-17 2027 Summit opt-in, UTM-tagged */,
     optin:   "https://apply.clientattractionsummit.com/challenge-optin-organic-socials",
     /* The Zoom room. The meeting has no passcode and uses a waiting room
        instead - Ella confirmed and tested it on 6 Sept - so the bare join link
        carries no secret and can live here. config.js can still override it.
        Do NOT add a ?pwd= form of the link to this file: that variant embeds a
        passcode and this repo is public. */
-    zoom:     window.THRIVE_ZOOM || "https://us06web.zoom.us/j/83129068571",
+    zoom:     window.THRIVE_ZOOM || ""   /* TODO Ella: C1 Zoom room */,
     passcode: window.THRIVE_ZOOM_PASSCODE || "",
     /* Apps Script web app that writes into the Raffle Tickets Tracker.
        Also from config.js so the sheet is never named in this repo. */
@@ -1098,7 +1293,39 @@ var ZOOM=CHALLENGE.links.zoom, PASSCODE=CHALLENGE.links.passcode, SUMMIT=CHALLEN
     FBGUIDES=CHALLENGE.links.fbGuides||CHALLENGE.links.fbGroup,
     ADDCAL=CHALLENGE.links.addCal;
 var REGISTER="https://apply.clientattractionsummit.com/challenge-optin-fb-ads-542644?utm_source=challenge_hub&utm_medium=internal&utm_campaign=challenge_2026_09_c4&utm_content=login_not_registered&utm_term=register_here";
-var DAYS=CHALLENGE.days;
+/* The viewer's round. Set from the tag the auth service returns on login.
+   Until that service returns a tag, pick the round that is running now, or
+   the next one due to open, so the Hub is never wrong by default. */
+var ROUND_TAG = "", ROUND_NAME = "";
+var DAYS = CHALLENGE.days;
+
+function selectRound(tag){
+  var R = CHALLENGE.rounds || {};
+  var key = null;
+  if(tag && R[tag]) key = tag;
+  if(!key){
+    /* No tag, or one we do not recognise. Choose by the clock: the round
+       whose Finale has not yet passed, earliest first. */
+    var now = now_(), best = null, bestT = Infinity;
+    for(var k in R){
+      var d = R[k].days || [], last = d.length ? d[d.length-1] : null;
+      if(!last) continue;
+      var end = Date.parse(last.replaysCloseAt || last.replayAt || "");
+      if(isNaN(end) || end < now) continue;
+      var start = Date.parse((d[0]||{}).unlockAt || "");
+      if(!isNaN(start) && start < bestT){ bestT = start; best = k; }
+    }
+    key = best || Object.keys(R)[0];
+  }
+  if(!key || !R[key]) return;
+  ROUND_TAG = key;
+  ROUND_NAME = R[key].name || "";
+  DAYS = R[key].days;
+  CHALLENGE.days = DAYS;
+  /* The round name appears in the top strip, the footer and the login band. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-round-name]"),
+    function(el){ el.textContent = ROUND_NAME; });
+}
 var CAS_ORIGIN=window.THRIVE_CAS_ORIGIN||"https://id.clientattractionsummit.com";
 var authState="loading", csrfToken=null, loginError=false, authDown=false;
 var loginLocked=false, loginTries=0;
@@ -1299,9 +1526,15 @@ function summitBlock(compact, force){
      on Day 2 before Day 1 has happened. The Hub home and Day 1 still wait, so
      nothing about the Summit appears before Sharla has introduced it. */
   if(!force && !summitOpen()) return "";
+  /* No Summit URL set yet, so there is nothing to send anyone to. Render
+     nothing rather than a button with an empty href, which reloads the page
+     and looks broken. Added for the Quad 3 roll-forward: the January opt-in
+     link is still outstanding. Set CHALLENGE.links.summit and the whole
+     block reappears. */
+  if(!SUMMIT) return "";
   return '<div class="card gold"'+(compact?'':' style="margin-top:30px"')+'>'+
     (compact?'':'<a class="summit-art" href="'+SUMMIT+'" target="_blank" rel="noopener">'+
-      '<img src="'+m_('summit-banner.jpg')+'" alt="Client Attraction Summit, September 18 to 20, online" width="1800" height="790"></a>')+
+      '<img src="'+m_('summit-banner.jpg')+'" alt="Client Attraction Summit, January 15 to 17, online" width="1800" height="790"></a>')+
     /* Ella, 6 Sept, carrying Sharla's note from 2:24 of her second Loom about
        prioritising the scholarship. Her exact headline and button label. The
        hook and the button lead now; the explanation follows in small type
@@ -1472,7 +1705,7 @@ function vLogin(err){
       '<p class="hint" style="margin-top:14px">Stuck? Text your Challenge Concierge at '+phoneLink()+'. '+
       'Please include your first and last name so we can find you fast.</p>'+
     '</div></div>'+
-  '<div class="band-strip"><span>September 7 to 11</span><span class="sep">|</span><span class="hi">Live daily 10:00am PT</span></div>'+
+  '<div class="band-strip"><span data-round-name>'+(ROUND_NAME||'November 2 to 6')+'</span><span class="sep">|</span><span class="hi">Live daily 10:00am PT</span></div>'+
   '</section>';
 }
 
@@ -1494,7 +1727,7 @@ function vPre(){
      '<div class="pre-top-copy">'+
        '<p class="eyebrow">You&rsquo;re registered</p>'+
        '<h1 class="pre-hi">You&rsquo;re in'+(first?', '+esc(first):'')+'!</h1>'+
-       '<p class="pre-when">We go live at 10:00am PT / 1:00pm ET, Monday September 7 to Friday the 11th.</p>'+
+       '<p class="pre-when">We go live at 10:00am PT / 1:00pm ET, Monday November 2 to Friday the 6th.</p>'+
      '</div>'+
      '<div class="player"><video controls preload="none" playsinline poster="'+m_('welcome-poster.jpg')+'" '+
        'aria-label="Welcome to the Challenge"><source src="welcome.mp4" type="video/mp4">'+
@@ -1513,7 +1746,7 @@ function vPre(){
         add the wrong week - the exact fault a lead reported on 1 Sept. Until
         someone creates the September calendar, show the dates instead of a
         button that misleads. */
-     : '<div class="locked-msg" style="max-width:520px">Mon 7, Tue 8, Wed 9, Thu 10 and Fri 11 September, '+
+     : '<div class="locked-msg" style="max-width:520px">Mon 2, Tue 3, Wed 4, Thu 5 and Fri 6 November, '+
        '10:00&ndash;11:00am PT / 1:00&ndash;2:00pm ET. Pop those five in now.</div>')+
 
    /* Sharla circled this step on her 6 Sept Loom and talked herself out of a
@@ -1538,6 +1771,10 @@ function vPre(){
 function preQuestBlock(){
   var q = CHALLENGE.preQuests && CHALLENGE.preQuests[0];
   if(!q) return "";
+  /* No URL pasted in yet, so there is nowhere to send anyone. Render nothing
+     rather than a button with an empty href. Same reasoning as the Summit
+     block. Paste the C1 pre-Challenge Quest URL and this reappears. */
+  if(!q.url) return "";
   /* One button, so the copy has to carry the whole idea. It leads on the
      reward rather than the admin: every warm-up earns a Golden Ticket, and
      they can be banked before Day 1 even starts. */
@@ -1575,10 +1812,16 @@ function dayList(){
 
 function questBlock(d){
   var p=prog(d.n);
+  /* A day whose Quest post URL has not been pasted in yet falls back to the
+     Group itself rather than rendering a dead button. Links and labels are
+     unchanged; only the destination differs, so no new copy is introduced.
+     Someone still lands in the right place and can find the post. Added for
+     the Quad 3 roll-forward, where every post URL starts empty. */
+  var QP = d.post || FBGROUP || '';
   if(d.quest==="day1"){
     return '<h3>Complete your Day 1 Quest</h3>'+
       '<p>Comment your Compelling Consult Name on our Day 1 Quest post, then claim your prize.</p>'+
-      '<a class="btn btn-primary" href="'+d.post+'" target="_blank" rel="noopener">Go to the Day 1 Quest post</a>'+
+      '<a class="btn btn-primary" href="'+QP+'" target="_blank" rel="noopener">Go to the Day 1 Quest post</a>'+
       '<div class="steps"><div class="step'+(p.quest?' checked':'')+'">'+
       '<input type="checkbox" id="q1"'+(p.quest?' checked':'')+'>'+
       '<label class="txt" for="q1"><span class="k">Day 1 Quest</span>I posted my Compelling Consult Name on the Quest post.</label></div></div>';
@@ -1587,13 +1830,13 @@ function questBlock(d){
    /* Sharla, 8 Sept, her wording. The Quest post is a link here, not just a
       name, so nobody has to scroll back to the button to find it. */
    'After writing your <b>'+d.asset+'</b> post, go to the '+
-     '<a href="'+d.post+'" target="_blank" rel="noopener">Day '+d.n+' Quest post</a> '+
+     '<a href="'+QP+'" target="_blank" rel="noopener">Day '+d.n+' Quest post</a> '+
      'and click on 5+ Champions links. Engage with their posts by reacting and commenting.',
    'Post your <b>'+d.asset+'</b> on Facebook, Instagram, or LinkedIn.',
-   'Share your post link (permalink) in the <b><a href="'+d.post+'" target="_blank" rel="noopener">Day '+d.n+' Quest</a></b> comments.',
+   'Share your post link (permalink) in the <b><a href="'+QP+'" target="_blank" rel="noopener">Day '+d.n+' Quest</a></b> comments.',
    'Comment on <b>5+ more Champions</b> to help boost each other&rsquo;s visibility.'];
   return '<h3>Complete your Day '+d.n+' Quest</h3>'+
-   '<a class="btn btn-primary" href="'+d.post+'" target="_blank" rel="noopener">Go to the Day '+d.n+' Quest post</a>'+
+   '<a class="btn btn-primary" href="'+QP+'" target="_blank" rel="noopener">Go to the Day '+d.n+' Quest post</a>'+
    '<div class="steps">'+L.map(function(t,i){
      var on=p.steps.indexOf(i)>-1;
      return '<div class="step'+(on?' checked':'')+'"><input type="checkbox" data-step="'+i+'" id="s'+i+'"'+(on?' checked':'')+'>'+
@@ -1874,7 +2117,13 @@ function wire(){
      "now" only while a session is actually running so the word stays true. */
   var sz=q("stripZoom");
   if(sz){
-    if(!ZOOM || authState!=="hub"){ sz.innerHTML=""; }
+    /* Sharla, 14 Oct: "I'm wondering if before the challenge, if that banner
+       doesn't have that button, like we don't need to see it yet." So it stays
+       hidden until Day 1 actually unlocks, rather than advertising a room
+       nobody can join for another two weeks. */
+    var d1 = DAYS && DAYS[0], challengeStarted = false;
+    try{ challengeStarted = !!d1 && now_() >= Date.parse(d1.unlockAt); }catch(e){}
+    if(!ZOOM || authState!=="hub" || !challengeStarted){ sz.innerHTML=""; }
     else{
       var liveNow=DAYS.some(function(d){return isLiveNow(d.n);});
       sz.innerHTML='<a class="zoombtn'+(liveNow?' is-live':'')+'" href="'+ZOOM+'" '+
@@ -1959,6 +2208,7 @@ function wire(){
       var result=await response.json().catch(function(){return {};});
       if(response.ok&&result.authorized===true){
         S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();
+        selectRound(result.tag || result.round || "");
         authState="hub";loginError=false;authDown=false;loginLocked=false;loginTries=0;
         render();loadTicketTotal();return;
       }
@@ -2260,7 +2510,7 @@ async function bootstrapAuth(){
   try{
     var result=await refreshAuthSession();
     authState=result.authorized===true?"hub":"login";
-    if(authState==="hub"){S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();}
+    if(authState==="hub"){S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();selectRound(result.tag || result.round || "");}
     render();return;
   }catch(error){
     /* The sign-in service could not be reached. That is NOT the same as "you
