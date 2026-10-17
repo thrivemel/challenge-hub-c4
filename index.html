@@ -868,7 +868,12 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
    See "Rolling to the next challenge" in the README.
    ============================================================================ */
 var CHALLENGE = {
-  id:        "c4",                  /* storage key + access tag. Bump every round. */
+  /* Bumped from "c4" on 17 Oct. This is the browser storage key as well as the
+     round id, so leaving it on "c4" meant anyone who ran the September round
+     opened C1 carrying their old ticked Quests and earned Golden Tickets. It
+     also labelled every Quest report "c4" in the Raffle Tracker. Bump it every
+     round, which is what the old comment said and what the roll-forward missed. */
+  id:        "c1-nov-2026",        /* storage key + round id. Bump every round. */
   name:      "November 2 to 6",
   tag:       "",   /* TODO Ella: the GHL tag that grants access for C1 */ /* the GHL tag that grants access */
 
@@ -1342,7 +1347,7 @@ function currentDay(){
   return pick;
 }
 
-var S={day:2,live:false,email:null,first:null,progress:{},preOpen:false,preDone:0};
+var S={day:2,live:false,email:null,first:null,progress:{},preOpen:false,preDone:0,reported:{}};
 try{var r=localStorage.getItem("thriveHub_"+CHALLENGE.id); if(r) S=Object.assign(S,JSON.parse(r));}catch(e){}
 function save(){try{localStorage.setItem("thriveHub_"+CHALLENGE.id,JSON.stringify(S));}catch(e){}}
 function esc(s){return String(s).replace(/&(?!\w+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
@@ -1383,6 +1388,41 @@ var TRACKER_ASOF  = "";     /* when the tracker was read */
      - "not found" is not zero. Someone missing from the tracker is told the
        Concierge holds their count, never that they have none
      - a failure changes nothing on screen rather than showing a wrong figure */
+/* Sharla, 17 Oct: "add in a place where they check a box for completing days
+   2-5 quests so it automates the tracking of those". The boxes already
+   existed. What was missing is that a tick never left the browser - it saved
+   to localStorage and stopped there, so the Raffle Tracker was still counted
+   by hand. This posts one message per day, the first time that day is earned.
+
+   Three rules it has to keep:
+   - Once per day, not once per tick. S.reported is the durable record and
+     inFlight stops a double send inside one session.
+   - Never show a lead a failure. A Quest they have earned is theirs whether
+     or not the sheet heard about it, so a failed send is silent and simply
+     left unreported, which means the next visit tries again. The Concierge
+     reconciles anything stranded from the script's Unmatched tab.
+   - Do nothing at all when questEndpoint is empty, which is how the Hub
+     ships today. Same defensive pattern as the Summit block and the Zoom
+     button: no endpoint, no behaviour, no error. */
+var questReportInFlight = {};
+function reportQuest(n){
+  var url = CHALLENGE.links.questEndpoint;
+  var em  = displayEmail(S.email);
+  if(!url || !em) return;
+  S.reported = S.reported || {};
+  if(S.reported[n] || questReportInFlight[n]) return;
+  questReportInFlight[n] = true;
+  fetch(url,{method:"POST",mode:"cors",
+      /* text/plain avoids a CORS preflight, which Apps Script cannot answer.
+         Same as the Count my Quest form below. */
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({challenge:CHALLENGE.id, day:n, email:em,
+                           postUrl:"", source:"hub-checkbox"})})
+    .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+    .then(function(){ S.reported[n]=true; save(); })
+    .catch(function(){ delete questReportInFlight[n]; });
+}
+
 function loadTicketTotal(){
   var url = CHALLENGE.links.ticketsEndpoint, key = CHALLENGE.links.ticketsKey;
   var em  = displayEmail(S.email);
@@ -2209,13 +2249,15 @@ function wire(){
   var m=location.hash.match(/^#\/day\/(\d+)$/);
   if(m){
     var n=+m[1], p=prog(n), q1=q("q1");
-    if(q1) q1.onchange=function(){p.quest=q1.checked;save();render(true);if(p.quest)toast("Golden Ticket earned");};
+    if(q1) q1.onchange=function(){p.quest=q1.checked;save();render(true);
+      if(p.quest){ toast("Golden Ticket earned"); reportQuest(n); }};
     Array.prototype.forEach.call(document.querySelectorAll("[data-step]"),function(cb){
       cb.onchange=function(){
         var i=+cb.getAttribute("data-step"), k=p.steps.indexOf(i);
         if(cb.checked&&k<0)p.steps.push(i);
         if(!cb.checked&&k>-1)p.steps.splice(k,1);
-        save(); var now=done_(n); render(true); if(now)toast("Golden Ticket earned");
+        save(); var now=done_(n); render(true);
+        if(now){ toast("Golden Ticket earned"); reportQuest(n); }
       };
     });
     /* The countdown used to be a hardcoded 8076 seconds, so it read 02:14:36
