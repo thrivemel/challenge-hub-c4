@@ -1425,8 +1425,10 @@ function ticketPanel(){
       '</span></div>';
   }
   return '<div class="tickets"><span class="tk-l">Golden Tickets</span>'+
-    '<span class="tk-s">Your Concierge keeps your count, bonus tickets included. '+
-    'Text '+phoneLink()+' any time to check it.</span></div>';
+      /* The number came out of this box on 16 Oct, Ella. It still sits in the
+         Concierge block below, so nothing is lost. Deleted rather than
+         reworded: no copy goes live that Sharla has not approved. */
+      '<span class="tk-s">Your Concierge keeps your count, bonus tickets included.</span></div>';
 }
 function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
   clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("on");},2300);}
@@ -1670,7 +1672,9 @@ function vPre(){
       said once here rather than again inside Step 1. */
    '<div class="pre-top">'+
      '<div class="pre-top-copy">'+
-       '<p class="eyebrow">You&rsquo;re registered</p>'+
+         /* The "You're registered" eyebrow came out on 16 Oct. Sharla's
+            Fathom note - take away "you're registered, you're in" - and Ella
+            picked the eyebrow. The greeting below still says it once. */
        '<h1 class="pre-hi">You&rsquo;re in'+(first?', '+esc(first):'')+'!</h1>'+
        '<p class="pre-when">We go live at 10:00am PT / 1:00pm ET, Monday November 2 to Friday the 6th.</p>'+
      '</div>'+
@@ -1707,7 +1711,10 @@ function vPre(){
 
    preQuestBlock()+
    dayList()+
-   concierge()+'</div>';
+   /* The Concierge block repeated here under the Facebook button. The
+      sidebar already carries it, so the same offer appeared twice on one
+      screen. Removed on Ella's note, 16 Oct. */
+   '</div>';
 }
 
 /* One button, straight to Pre-Challenge Quest 1. Ella, 4 Sept. The Quests
