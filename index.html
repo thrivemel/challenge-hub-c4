@@ -421,11 +421,14 @@ p{margin:0 0 16px;max-width:var(--measure)}
    ============================================================================ */
 /* Deliberately quiet. Sharla: "I would not make that [big]. I love the first
    name... but not much different than you're registered." */
-.prep .pre-hi{font-family:Raleway,Arial,sans-serif;font-weight:300;
-  font-size:clamp(19px,1.7vw,21px);line-height:1.2;margin:0 0 18px;color:var(--delft)}
+/* The greeting was the smallest thing on the page: 21px sitting under a 24px
+   subline. Ella, 16 Oct, make it prominent. Raleway 200 is the live site's
+   display weight, the lightness that makes Thrive read expensive, not loud. */
+.prep .pre-hi{font-family:Raleway,Arial,sans-serif;font-weight:200;
+  font-size:clamp(30px,3.2vw,42px);line-height:1.08;margin:0 0 14px;color:var(--delft)}
 .prep .pre-when{font-family:Raleway,Arial,sans-serif;font-weight:300;
-  font-size:clamp(19px,1.9vw,24px);line-height:1.4;color:var(--body);
-  margin:20px 0 30px;max-width:44ch}
+  font-size:clamp(17px,1.5vw,20px);line-height:1.45;color:var(--body);
+  margin:0 0 30px;max-width:40ch}
 .prep .pre-do{font-family:Raleway,Arial,sans-serif;font-weight:200;
   font-size:clamp(29px,3.5vw,43px);line-height:1.1;color:var(--delft);
   margin:0 0 34px;max-width:19ch;text-wrap:balance}
@@ -458,8 +461,8 @@ p{margin:0 0 16px;max-width:var(--measure)}
      at 375px, which is exactly the flattening Sharla objected to. */
   .prep .pre-do{font-size:31px;line-height:1.12;margin-bottom:26px;max-width:none}
   .prep .pre-step{font-size:24px;margin:34px 0 9px}
-  .prep .pre-when{font-size:19px;margin:16px 0 24px}
-  .prep .pre-hi{font-size:17px;margin-bottom:14px}
+  .prep .pre-when{font-size:17px;margin:0 0 22px}
+  .prep .pre-hi{font-size:30px;margin-bottom:12px}
   .prep p{font-size:15px}
 }
 /* The Summit sits in the right rail on desktop. On a phone that rail stacks
@@ -1676,7 +1679,11 @@ function vPre(){
             Fathom note - take away "you're registered, you're in" - and Ella
             picked the eyebrow. The greeting below still says it once. */
        '<h1 class="pre-hi">You&rsquo;re in'+(first?', '+esc(first):'')+'!</h1>'+
-       '<p class="pre-when">We go live at 10:00am PT / 1:00pm ET, Monday November 2 to Friday the 6th.</p>'+
+       /* Ella, 16 Oct, her words: this line replaces "We go live at 10:00am PT /
+          1:00pm ET, Monday November 2 to Friday the 6th", which said the dates a
+          second time. Sharla, 14 Oct: "see all this stuff about like the dates...
+          Why is it on there twice?" The strip above still carries them. */
+       '<p class="pre-when">We are so excited you&rsquo;re here. Ready to get clients during the holidays?</p>'+
      '</div>'+
      '<div class="player"><video controls preload="none" playsinline poster="'+m_('welcome-poster.jpg')+'" '+
        'aria-label="Welcome to the Challenge"><source src="welcome.mp4" type="video/mp4">'+
