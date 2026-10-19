@@ -1,0 +1,2725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i,marketingKey,analyticsKey){
+  "use strict";
+  var loaded=false;
+  function read(key){try{return localStorage.getItem(key);}catch(e){return null;}}
+  function write(key,value){try{localStorage.setItem(key,value);}catch(e){}}
+  w[l]=w[l]||[];
+  function gtag(){w[l].push(arguments);}
+  function updateMarketing(value){
+    gtag('consent','update',{
+      ad_storage:value,
+      ad_user_data:value,
+      ad_personalization:value
+    });
+  }
+  function updateAnalytics(value){gtag('consent','update',{analytics_storage:value});}
+  function load(){
+    if(loaded) return;
+    loaded=true;
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s);
+    j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id='+i;
+    f.parentNode.insertBefore(j,f);
+  }
+  w.thriveHubMarketingConsent={
+    status:function(){return read(marketingKey)==='granted'?'granted':'denied';},
+    grant:function(){
+      var changed=read(marketingKey)!=='granted';
+      write(marketingKey,'granted');
+      /* A denied page has already blocklisted every Custom HTML tag. Reload so
+         the published Meta Custom HTML tags can become eligible only on the
+         new, explicitly granted page. Do not claim the one-time Lead before
+         that page is ready to deliver it. */
+      if(changed&&w.location&&typeof w.location.reload==='function'){
+        w.location.reload();
+        return;
+      }
+      updateMarketing('granted');
+      if(typeof w.thriveHubClaimMetaLead==='function') w.thriveHubClaimMetaLead();
+    },
+    deny:function(){
+      write(marketingKey,'denied');updateMarketing('denied');
+      if(loaded&&w.location&&typeof w.location.reload==='function') w.location.reload();
+    }
+  };
+  w.thriveHubAnalyticsConsent={
+    status:function(){return read(analyticsKey)==='granted'?'granted':'denied';},
+    grant:function(){
+      write(analyticsKey,'granted');updateAnalytics('granted');
+      if(typeof w.thriveHubClaimGa4Signup==='function') w.thriveHubClaimGa4Signup();
+    },
+    deny:function(){write(analyticsKey,'denied');updateAnalytics('denied');}
+  };
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    wait_for_update:500
+  });
+  /* Version 36 initializes Meta through Custom HTML. Consent Mode does not
+     govern arbitrary Custom HTML by itself, so block that GTM tag type until
+     a fresh page load observes explicit marketing consent. Native Google tags
+     remain available under the denied analytics_storage default above. */
+  if(read(marketingKey)!=='granted') w[l].push({'gtm.blocklist':['html']});
+  if(read(marketingKey)==='granted') updateMarketing('granted');
+  if(read(analyticsKey)==='granted') updateAnalytics('granted');
+  load();
+})(window,document,'script','dataLayer','GTM-W3NJN7NZ',
+   'thriveHub_marketing_consent','thriveHub_analytics_consent');</script>
+<!-- End Google Tag Manager -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Challenge Hub | Book 5 Consults in 5 Days Challenge</title>
+<meta name="description" content="Watch each day's session, get today's Quest, and grab your Playbook.">
+<link rel="icon" href="https://d2saw6je89goi1.cloudfront.net/uploads/digital_asset/file/664695/THRIVE_FAVICON_CROP_4_FA.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500&family=Raleway:wght@200;300;400;500;600&display=swap">
+
+<style>
+/* ============================================================
+   Thrive Challenge Hub
+   Built to Thrive Brand Guidelines 2024.
+   Raleway = primary family. Oswald = accent, used sparingly.
+   Buttons #1D74BD on light. 90 degree corners everywhere.
+   No dark navy grounds (Sharla, Aug 2026). Navy is type only.
+   ============================================================ */
+:root{
+  /* Palette sampled off the Client Attraction Summit banner and the live site.
+     Navy is a BAND and a type colour. It is never a background field. */
+  --delft:#1A325C; --ink:#1A325C; --cerulean:#016D92; --indigo:#044470;
+  --teal:#298EA5; --sky:#00AEEF;
+  --btn:#1D74BD; --btn-hover:#17629F;
+  --header:#019ACD; --body:#5C6570; --soft:#8A939E;
+  --ground:#DAD6DA; --ground-soft:#EFEDEF;
+  --line:#E3E7EB; --hair:#EDF0F3; --locked-bg:#F1F2F4; --locked-ink:#A8B0B8;
+  --grad-gold:linear-gradient(90deg,#9D6903,#FDD276 35%,#875300 55%,#D6B146 78%,#DAB044);
+  --gold:#D6B146; --ok:#0F7B4F; --orange:#F16736;
+  --shell:#F4F4F5;
+  --measure:68ch;
+  --band-h:48px;
+
+  /* TYPE SCALE. Steps are ~1.28-1.5 apart so each one does real work.
+     Before this there were six sizes between 11 and 14px doing none. */
+  --t-display:clamp(34px,4.4vw,52px);   /* h1            Raleway 200 */
+  --t-title:clamp(24px,2.7vw,34px);     /* h2.sub        Raleway 200 */
+  --t-lede:clamp(17px,1.4vw,19px);      /* intro para    Raleway 300 */
+  --t-body:16.5px;                      /* reading text  Raleway 400 */
+  --t-small:14px;                       /* captions      Raleway 400 */
+  --t-micro:12px;                       /* labels        Oswald 300  */
+  --lh-tight:1.08;
+  --lh-snug:1.35;
+  --lh-body:1.62;
+
+  /* LABEL TRACKING, one value per role instead of six.
+     Oswald uppercase wants roughly .5em; the live site runs .69em on
+     eyebrows, which is where the brand's airiness comes from. */
+  --ls-eyebrow:.62em;
+  --ls-label:.42em;
+  --ls-btn:.34em;
+  --ls-micro:.24em;
+}
+*{box-sizing:border-box;border-radius:0}
+b,strong{font-weight:600}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--shell);color:var(--body);
+  font-family:Raleway,"Helvetica Neue",Arial,sans-serif;
+  font-size:var(--t-body);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;
+}
+a{color:var(--btn)}
+:focus-visible{outline:3px solid var(--header);outline-offset:2px}
+img{max-width:100%;height:auto;display:block}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:-9999px;top:0;background:#fff;color:var(--btn);padding:12px 18px;z-index:100}
+.skip:focus{left:8px;top:8px}
+
+/* ---------- review tools (delete this whole block before launch) ---------- */
+#rev{position:fixed;right:14px;bottom:74px;z-index:70;font-family:Oswald,Impact,sans-serif;
+  font-size:11px;letter-spacing:.1em;text-transform:uppercase;display:flex;flex-direction:column;
+  align-items:flex-end;gap:8px}
+#revToggle{font:inherit;background:#fff;color:#6B7A8A;border:1px solid #C4CED8;padding:7px 11px;
+  cursor:pointer;box-shadow:0 2px 10px rgba(0,24,38,.10)}
+#revToggle:hover{color:var(--btn);border-color:var(--btn)}
+#revPanel{background:#fff;border:1px solid #C4CED8;box-shadow:0 8px 30px rgba(0,24,38,.16);
+  padding:13px 14px;max-width:260px}
+#revPanel[hidden]{display:none}
+#revPanel .lbl{display:block;color:#9AA7B4;margin:0 0 5px}
+#revPanel .lbl+.lbl{margin-top:12px}
+#revPanel .row{display:flex;flex-wrap:wrap;gap:5px;margin:0 0 4px}
+#revPanel button{font:inherit;background:#fff;color:#4A5A6B;border:1px solid #C4CED8;
+  padding:5px 8px;cursor:pointer}
+#revPanel button:hover{border-color:var(--btn);color:var(--btn)}
+#revPanel button[aria-pressed=true]{background:var(--btn);border-color:var(--btn);color:#fff;font-weight:600}
+#revPanel .wide{width:100%;margin-top:6px}
+#revPanel .note{display:block;text-transform:none;letter-spacing:0;font-family:Raleway,Arial,sans-serif;
+  font-size:11px;color:#9AA7B4;line-height:1.45;margin:12px 0 0}
+
+/* ---------- masthead ---------- */
+.masthead{background:linear-gradient(168deg,#E9E7E9 0%,var(--ground) 100%);position:relative;overflow:hidden}
+.masthead .in{max-width:1200px;margin:0 auto;padding:18px 20px;display:flex;align-items:center;
+  justify-content:space-between;gap:16px;position:relative;z-index:3}
+.masthead .logo{width:102px}
+/* the navy band: the device carried over from the Summit banner */
+/* ---------- welcome page ----------
+   Proportions taken from the Summit banner: the pair are large and grounded,
+   running the full height and cropped by the frame, with the navy band crossing
+   their lower third. Type sits tight between them. Very little dead space. */
+body.is-login .side,body.is-login .strip{display:none}
+body.is-login .shell{max-width:none;grid-template-columns:1fr;background:transparent;box-shadow:none;min-height:0}
+body.is-login main{padding:0}
+body.is-login .masthead{background:transparent;position:absolute;left:0;right:0;top:0;z-index:6}
+body.is-login footer.site{border-top:0}
+body.is-login .acct{display:none}
+
+.hero{position:relative;overflow:hidden;min-height:640px;display:flex;align-items:center;
+  background:linear-gradient(168deg,#ECEAEC 0%,var(--ground) 58%,#CFCAD0 100%)}
+.hero .in{position:relative;z-index:5;width:100%;max-width:1240px;margin:0 auto;
+  padding:96px 24px 130px;text-align:left}
+.hero .col{max-width:470px;margin-left:auto}
+.hero .lede{margin:0 0 30px}
+.hero form{margin:0}
+.hero label.fl{text-align:left}
+.hero input[type=email]{text-align:left}
+/* The challenge name carries the brand on this page, so it is set larger and
+   heavier than a normal eyebrow rather than whispering above the headline. */
+.hero .eyebrow{color:var(--teal);font-weight:400;font-size:clamp(13px,1.15vw,16px);
+  letter-spacing:.36em;margin-bottom:16px}
+.hero h1{color:var(--ink);font-size:clamp(34px,4.6vw,58px);line-height:1.05;margin:0 0 18px}
+.hero .lede{color:var(--body);max-width:40ch}
+
+/* b-roll bed. No cutouts, so nothing of Sharla is ever cropped or covered:
+   the frame simply shows what the camera saw. */
+.hero .bed{position:absolute;inset:0;z-index:1;overflow:hidden}
+.hero .bed::after{content:"";position:absolute;left:0;right:0;top:0;height:150px;z-index:2;
+  background:linear-gradient(to bottom,rgba(243,241,243,.92) 0%,rgba(243,241,243,.55) 46%,rgba(243,241,243,0) 100%)}
+.hero .bed video,.hero .bed img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:none;
+  /* hero.mp4 is the full Bahia Bar clip, 6.27s, every second of it different.
+     It used to be the first 3.7s played forward then backwards, which is why
+     it read as a short loop: there was only 3.7s of real footage in it. The
+     ping-pong was there to hide the cut at the loop point, and that is now
+     done with a 0.7s crossfade instead - measured seam 7.5 against 48.7 for a
+     straight cut. Crop and offset are unchanged (crop=1920:879:0:100), so the
+     object-position below still holds.
+     The clip is 2.18:1 shown in a taller window, so roughly 740px is cropped
+     from the sides. Centring would push Sharla under the copy; this keeps her
+     on the left with the words clear on the right, which is the composition
+     the page is built around. Re-check this value if the clip is ever swapped:
+     it depends on where she sits in that particular footage. */
+  object-position:70% top}
+/* scrim: opaque where the words are, clearing to the right so she stays visible.
+   Light, not dark, so the page keeps its warm neutral ground. */
+.hero .scrim{position:absolute;inset:0;z-index:2;pointer-events:none;
+  /* Opaque under the words on the right, clearing hard toward the left so
+     Sharla stays visible in the open space rather than fading into the wash.
+     The last two stops were .32 and .12; they were still veiling her once she
+     was moved left. */
+  background:linear-gradient(260deg,
+    rgba(242,240,242,.97) 0%,
+    rgba(242,240,242,.93) 30%,
+    rgba(240,237,240,.62) 50%,
+    rgba(238,235,238,.16) 72%,
+    rgba(236,233,236,0) 100%)}
+@media (max-width:899px){
+  /* No room to run footage behind the words without burying her face under the
+     scrim, so on mobile it gets its own band above the navy strip instead. */
+  .hero{background:linear-gradient(168deg,#ECEAEC 0%,var(--ground) 100%)}
+  .hero .bed{top:auto;bottom:var(--band-h);height:252px;inset:auto 0 var(--band-h) 0}
+  .hero .bed::after{display:none}
+  .hero .scrim{display:none}
+  .hero .bed video,.hero .bed img{object-position:36% top}
+}
+
+/* the navy band, crossing their lower third exactly as on the banner */
+.hero .band-strip{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--ink);
+  min-height:var(--band-h);box-sizing:border-box;
+  padding:15px 24px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap;align-items:center}
+.hero .band-strip span{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:var(--t-micro);
+  letter-spacing:var(--ls-btn);text-transform:uppercase;color:#fff;white-space:nowrap}
+.hero .band-strip span.hi{color:var(--sky)}
+
+/* form: an underline field and one action, not a stack of buttons */
+.hero form{max-width:380px}
+.hero label.fl{text-align:left;color:var(--soft)}
+.hero input[type=email]{width:100%;border:0;border-bottom:1px solid rgba(26,50,92,.42);
+  background:transparent;padding:12px 0;font-family:Raleway,Arial,sans-serif;font-weight:300;
+  font-size:var(--t-lede);color:var(--ink);margin:0 0 26px;text-align:center}
+.hero input[type=email]::placeholder{color:#9AA0A8}
+.hero input[type=email]:focus{outline:0;border-bottom-color:var(--ink)}
+.hero .btn{display:inline-block;width:auto;min-width:250px;margin:0}
+.hero .hint{color:var(--soft);font-size:13px;line-height:1.5;max-width:46ch;margin:32px 0 0}
+.hero .errorbox{max-width:420px;margin:0 0 24px;text-align:left}
+
+@media (max-width:999px){
+  .hero{min-height:0;display:block}
+  /* top padding clears the absolutely positioned masthead; bottom clears the pair */
+  .hero .in{max-width:none;padding:120px 22px 312px}
+  .hero .col{max-width:none;margin-left:0}
+  .hero .eyebrow{letter-spacing:var(--ls-label)}
+  .hero h1{font-size:clamp(30px,7.4vw,42px)}
+  .hero .hint{margin-top:22px}
+  .hero .band-strip{bottom:0;padding:13px 18px;gap:9px}
+  .hero .band-strip span{font-size:11px;letter-spacing:var(--ls-micro)}
+  .hero .band-strip .sep{display:none}
+}
+@media (max-width:560px){
+  .hero .in{padding:112px 20px 306px}
+  .hero .eyebrow{letter-spacing:3px}
+}
+
+.strip{background:var(--ink);position:relative;z-index:4}
+.strip .in{max-width:1200px;margin:0 auto;padding:13px 20px;display:flex;gap:12px;flex-wrap:wrap;align-items:baseline}
+.strip span{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:var(--t-micro);letter-spacing:var(--ls-btn);
+  text-transform:uppercase;color:#fff;white-space:nowrap}
+.strip span.hi{color:var(--sky)}
+.strip .sep{opacity:.45}
+@media (max-width:560px){ .strip .in{padding:11px 16px;gap:8px} .strip span{font-size:11px;letter-spacing:var(--ls-micro)} .strip .sep{display:none} }
+.acct{font-size:var(--t-micro);color:var(--body);text-align:right;line-height:1.5}
+.acct button{background:none;border:0;color:var(--btn);font:inherit;text-decoration:underline;cursor:pointer;padding:0}
+
+/* ---------- layout ---------- */
+.shell{max-width:1200px;margin:0 auto;background:#fff;min-height:70vh;display:grid;grid-template-columns:1fr}
+.side{display:none}
+main{padding:26px 20px 44px;min-width:0}
+.measure{max-width:var(--measure)}
+
+@media (min-width:1024px){
+  .shell{grid-template-columns:288px 1fr;box-shadow:0 0 60px rgba(0,24,38,.10)}
+  .side{display:block;border-right:1px solid var(--line);padding:32px 24px 44px;background:var(--ground-soft)}
+  .side .stick{position:sticky;top:32px}
+  main{padding:34px 44px 64px}
+}
+
+/* sidebar */
+.side h2{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--header);margin:0 0 12px}
+.side .navlist{display:flex;flex-direction:column;gap:6px;margin:0 0 26px}
+.navitem{display:flex;align-items:center;gap:10px;padding:11px 13px;border:1px solid var(--line);
+  background:#fff;text-decoration:none;color:inherit;font:inherit}
+.navitem:hover{border-color:var(--btn)}
+.navitem .n{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:13px;letter-spacing:var(--ls-micro);line-height:var(--lh-snug);
+  text-transform:uppercase;color:var(--delft);flex:1}
+.navitem .s{font-size:11px;color:var(--body);line-height:var(--lh-snug)}
+.navitem[aria-current=page]{border-color:var(--btn);border-left-width:4px;background:var(--tint)}
+.navitem.live{background:var(--btn);border-color:var(--btn)}
+.navitem.live .n,.navitem.live .s{color:#fff}
+.navitem.locked{background:var(--locked-bg);border-color:var(--locked-bg);pointer-events:none}
+.navitem.locked .n,.navitem.locked .s{color:var(--locked-ink)}
+.navitem .ok{font-size:11px;color:var(--ok);font-weight:600;letter-spacing:var(--ls-micro)}
+.navitem.live .ok{color:#fff}
+
+/* type */
+.eyebrow{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:var(--ls-eyebrow);line-height:var(--lh-snug);
+  text-transform:uppercase;color:var(--teal);margin:0 0 10px}
+h1{font-family:Raleway,Arial,sans-serif;font-weight:200;font-size:var(--t-display);
+  line-height:var(--lh-tight);letter-spacing:.01em;color:var(--ink);margin:0 0 16px;text-wrap:balance}
+h2.sub{font-family:Raleway,Arial,sans-serif;font-weight:200;font-size:var(--t-title);line-height:1.16;
+  letter-spacing:.01em;color:var(--ink);margin:0 0 14px;text-wrap:balance}
+h3{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:13px;letter-spacing:var(--ls-label);
+  line-height:var(--lh-snug);text-transform:uppercase;color:var(--teal);margin:36px 0 14px}
+p{margin:0 0 16px;max-width:var(--measure)}
+.lede{font-size:var(--t-lede);font-weight:300;line-height:1.55;max-width:60ch}
+.caption{font-size:var(--t-small);line-height:1.55;max-width:var(--measure)}
+.time{font-family:Oswald,Impact,sans-serif;font-weight:300;letter-spacing:var(--ls-micro);text-transform:uppercase;color:var(--cerulean);font-size:13px;margin:0 0 8px}
+.countdown{font-family:Oswald,Impact,sans-serif;font-size:clamp(30px,5vw,42px);letter-spacing:.05em;
+  color:var(--delft);font-variant-numeric:tabular-nums;margin:0 0 20px;line-height:1.05}
+.countdown small{display:block;font-family:Raleway,Arial,sans-serif;font-size:var(--t-small);letter-spacing:0;
+  color:var(--body);text-transform:none;margin-top:4px}
+.back{display:inline-flex;align-items:center;gap:7px;font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:var(--t-micro);
+  letter-spacing:var(--ls-micro);text-transform:uppercase;color:var(--btn);text-decoration:none;margin:0 0 20px}
+
+/* buttons */
+.btn{display:block;width:100%;text-align:center;padding:16px 20px;cursor:pointer;
+  font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:14px;letter-spacing:var(--ls-btn);
+  text-transform:uppercase;border:1px solid var(--ink);margin:0 0 14px;line-height:var(--lh-snug);
+  text-decoration:none;transition:background .2s,color .2s,border-color .2s}
+/* One button colour across the Hub. Ella, 4 Sept: "all buttons should be the
+   same brand orange". #F3771A is sampled from the live funnel buttons. */
+.btn-primary{background:#F3771A;color:#fff;border-color:#F3771A}
+.btn-primary:hover{background:#DA6710;border-color:#DA6710}
+/* Sharla, 6 Sept Loom: "I'm not loving the buttons that are white. They're
+   not popping as buttons for me... I would do the dark over the white." So
+   this is a filled navy button now, not an outline. Orange stays the primary
+   action; navy is the secondary one, which keeps the two ranks apart. */
+.btn-outline{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn-outline:hover{background:var(--delft);border-color:var(--delft);color:#fff}
+.btn-sub{display:block;font-family:Raleway,Arial,sans-serif;font-weight:400;font-size:var(--t-small);
+  letter-spacing:.01em;text-transform:none;margin-top:4px;opacity:.92}
+.btnrow{display:flex;flex-direction:column;gap:0}
+@media (min-width:680px){
+  .btnrow{flex-direction:row;gap:12px}
+  .btnrow .btn{margin-bottom:12px}
+}
+
+/* day cards (mobile hub) */
+.daylist{display:flex;flex-direction:column;gap:9px;margin:22px 0 0}
+.dayrow{display:flex;align-items:center;gap:12px;padding:16px;border:1px solid var(--line);
+  background:#fff;text-decoration:none;color:inherit;font:inherit;transition:border-color .15s}
+.dayrow:hover{border-color:var(--btn)}
+.dayrow .n{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:14px;letter-spacing:var(--ls-micro);
+  text-transform:uppercase;color:var(--delft);flex:1}
+.dayrow .d{font-size:12px;color:var(--body)}
+.dayrow.live{background:var(--btn);border-color:var(--btn)}
+.dayrow.live .n,.dayrow.live .d{color:#fff}
+.dayrow.live .d{font-weight:600}
+.dayrow.locked{background:var(--locked-bg);border-color:var(--locked-bg);pointer-events:none}
+.dayrow.locked .n,.dayrow.locked .d{color:var(--locked-ink)}
+.dayrow.done .n{color:var(--body)}
+.pill{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:11px;letter-spacing:var(--ls-micro);text-transform:uppercase;
+  padding:3px 8px;background:#E7F4EC;color:var(--ok)}
+.dayrow.live .pill{background:rgba(255,255,255,.22);color:#fff}
+/* the sidebar carries the days on desktop, so the inline list is phone-only */
+@media (min-width:1024px){ .hub-daylist{display:none} }
+.hub-daylist{margin-top:34px}
+
+/* progress */
+.progress{display:flex;align-items:center;gap:10px;margin:20px 0 0}
+.track{flex:1;height:6px;background:var(--locked-bg)}
+.fill{height:6px;background:var(--header);transition:width .3s}
+.progress .lab{font-family:Oswald,Impact,sans-serif;font-weight:300;letter-spacing:var(--ls-micro);text-transform:uppercase;
+  font-size:11px;color:var(--body);white-space:nowrap}
+
+/* video */
+.video{background:#E4E9EE;aspect-ratio:16/9;width:100%;display:flex;align-items:center;justify-content:center;
+  margin:0 0 16px;position:relative;cursor:pointer;padding:0;border:1px solid var(--line)}
+.video .play{width:0;height:0;border-left:clamp(26px,4vw,40px) solid var(--btn);
+  border-top:clamp(17px,2.6vw,26px) solid transparent;border-bottom:clamp(17px,2.6vw,26px) solid transparent;
+  transition:transform .15s}
+.video:hover .play{transform:scale(1.1)}
+.video .tag{position:absolute;left:0;bottom:0;background:var(--btn);color:#fff;
+  font-family:Oswald,Impact,sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:6px 11px}
+.video.playing{background:#111}
+.video.playing .play{display:none}
+.vnote{font-size:var(--t-small);margin:-8px 0 20px}
+.player{width:100%;margin:0 0 20px;background:#000;border:1px solid var(--line)}
+.schedule{max-width:440px;margin:26px 0 8px;border:1px solid var(--line)}
+.schedule img{width:100%;height:auto;display:block}
+.player video{width:100%;height:auto;display:block;aspect-ratio:16/9;background:#000}
+
+/* desktop 2 column split on day pages */
+.cols{display:grid;grid-template-columns:1fr;gap:0}
+@media (min-width:900px){
+  .cols{grid-template-columns:1.5fr .95fr;gap:34px;align-items:start}
+  .cols .aside{position:sticky;top:96px}
+}
+
+/* quest steps */
+.steps{border:1px solid var(--line);border-top:4px solid var(--header);padding:4px 18px;background:#FBFCFD}
+.step{display:flex;gap:13px;padding:15px 0;border-bottom:1px solid #EDF1F4;align-items:flex-start}
+.step:last-child{border-bottom:0}
+.step input{margin:2px 0 0;width:19px;height:19px;accent-color:var(--btn);flex:0 0 auto;cursor:pointer}
+.step .txt{font-size:var(--t-body);line-height:1.5}
+.step .txt b{color:var(--delft)}
+.step .k{display:block;font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:var(--t-micro);
+  letter-spacing:var(--ls-micro);line-height:var(--lh-snug);color:var(--header);margin-bottom:5px}
+.step.checked .txt{opacity:.55;text-decoration:line-through}
+
+/* golden ticket */
+/* message box */
+/* Message window removed on Sharla's 6 Sept Loom: sending into Messenger did
+   not carry the text across and texting misbehaved on her MacBook. The rules
+   below are kept, unused, so it can be restored in one commit if the flow is
+   ever fixed. Nothing references them now. */
+#chatWrap{position:fixed;right:14px;bottom:14px;z-index:65}
+.chat-fab{display:flex;align-items:center;gap:9px;background:var(--indigo);color:#fff;
+  border:1px solid var(--indigo);border-radius:0;cursor:pointer;padding:13px 20px;
+  font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;letter-spacing:.22em;
+  text-transform:uppercase;box-shadow:0 4px 18px rgba(26,50,92,.26)}
+.chat-fab:hover{background:var(--delft);border-color:var(--delft)}
+.chat-fab-i{width:14px;height:11px;border:1.5px solid #fff;display:inline-block;position:relative}
+.chat-fab-i::after{content:"";position:absolute;left:2px;bottom:-5px;width:5px;height:5px;
+  border-left:1.5px solid #fff;border-bottom:1.5px solid #fff;transform:skewX(-20deg);background:var(--indigo)}
+.chat-panel{position:absolute;right:0;bottom:56px;width:min(360px,calc(100vw - 28px));
+  background:#fff;border:1px solid var(--line);border-top:3px solid var(--delft);
+  box-shadow:0 10px 40px rgba(26,50,92,.2)}
+.chat-head{display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:13px 16px;border-bottom:1px solid var(--line);
+  font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:11.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--delft)}
+.chat-head button{background:none;border:0;font-size:22px;line-height:1;cursor:pointer;
+  color:var(--body);padding:0 2px}
+.chat-thread{padding:14px 14px 6px;max-height:min(52vh,340px);overflow-y:auto;
+  display:flex;flex-direction:column;gap:10px;background:#FBFCFD}
+.chat-empty{display:flex;flex-direction:column;gap:6px;padding:6px 2px 10px}
+.chat-empty b{color:var(--delft);font-weight:600;font-size:13.5px}
+.chat-empty span{font-size:12.5px;line-height:1.6;color:var(--body)}
+.cmsg{display:flex;flex-direction:column;gap:3px;max-width:86%}
+.cmsg.me{align-self:flex-end;align-items:flex-end}
+.cmsg.them{align-self:flex-start}
+.cwho{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:10px;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--cerulean)}
+.ctxt{padding:9px 12px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;
+  border:1px solid var(--line);background:#fff;color:var(--ink)}
+.cmsg.me .ctxt{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.cwhen{font-size:10.5px;color:var(--quiet-ink,#8A97A5)}
+.chandoff{display:flex;gap:8px;margin-top:7px}
+.chact{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:11px;letter-spacing:.18em;
+  text-transform:uppercase;text-decoration:none;padding:8px 14px;border:1px solid var(--indigo);
+  color:var(--indigo);background:#fff}
+.chact:hover{background:var(--indigo);color:#fff}
+.chat-compose{display:flex;gap:8px;align-items:flex-end;padding:10px 12px;
+  border-top:1px solid var(--line);background:#fff}
+.chat-compose textarea{flex:1;font:inherit;font-size:16px;line-height:1.45;padding:9px 11px;
+  border:1px solid var(--line);border-radius:0;resize:none;max-height:120px;overflow-y:auto;color:var(--ink)}
+.chat-compose button{flex:0 0 auto;background:var(--indigo);color:#fff;border:1px solid var(--indigo);
+  border-radius:0;cursor:pointer;padding:11px 16px;font-family:Oswald,Impact,sans-serif;
+  font-weight:400;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase}
+.chat-compose button:hover{background:var(--delft);border-color:var(--delft)}
+.chat-ident{padding:0 12px 10px;background:#fff}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:620px){ #chatWrap{right:10px;bottom:10px} .chat-fab{padding:11px 16px} }
+/* ============================================================================
+   PREPARE PAGE
+   Hierarchy set by Sharla, 4 Sept. Her complaint was that all she could see
+   was the greeting and the schedule graphic, and that it read as a wall of
+   text. Her rule: at least five font sizes between each level. Sizes below
+   step down deliberately and are set again for phones, because a clamp that
+   separates nicely at 1280px collapses to nearly the same size at 375px.
+
+     take these two steps   biggest
+     step headers           second
+     the greeting           third
+     when it starts         fourth
+     body                   smallest
+   ============================================================================ */
+/* Deliberately quiet. Sharla: "I would not make that [big]. I love the first
+   name... but not much different than you're registered." */
+/* The greeting was the smallest thing on the page: 21px sitting under a 24px
+   subline. Ella, 16 Oct, make it prominent. Raleway 200 is the live site's
+   display weight, the lightness that makes Thrive read expensive, not loud. */
+.prep .pre-hi{font-family:Raleway,Arial,sans-serif;font-weight:200;
+  font-size:clamp(30px,3.2vw,42px);line-height:1.08;margin:0 0 14px;color:var(--delft)}
+.prep .pre-when{font-family:Raleway,Arial,sans-serif;font-weight:300;
+  font-size:clamp(17px,1.5vw,20px);line-height:1.45;color:var(--body);
+  margin:0 0 30px;max-width:40ch}
+.prep .pre-do{font-family:Raleway,Arial,sans-serif;font-weight:200;
+  font-size:clamp(29px,3.5vw,43px);line-height:1.1;color:var(--delft);
+  margin:0 0 34px;max-width:19ch;text-wrap:balance}
+.prep .pre-step{font-family:Raleway,Arial,sans-serif;font-weight:400;
+  font-size:clamp(24px,2.5vw,30px);line-height:1.22;color:var(--delft);
+  letter-spacing:0;text-transform:none;margin:40px 0 10px}
+.prep p{font-size:15.5px;line-height:1.65;max-width:60ch}
+.prep .player{margin:0 0 4px}
+.prep .player video{display:block;width:100%;aspect-ratio:16/9;height:auto;background:#000}
+.pre-later{margin-top:44px;padding-top:30px;border-top:1px solid var(--line)}
+
+/* ORANGE ACTION BUTTONS
+   Sharla, 4 Sept, twice: "the buttons should be orange so my eye, like I
+   can't miss them." This overrides the guide's blue-on-light button rule and
+   she made that call knowingly.
+   #F3771A is sampled from the live thank-you page buttons, so the Hub matches
+   the funnel exactly. Note it gives white text about 3:1, under the 4.5:1
+   normally wanted for a label this size - accepted deliberately for brand
+   consistency, and the label is set a little larger to compensate. */
+.btn-action{background:#F3771A;border-color:#F3771A;color:#fff;font-size:15px}
+.chat-compose button{background:#F3771A;border-color:#F3771A}
+.chat-compose button:hover{background:#DA6710;border-color:#DA6710}
+.chat-fab{background:#F3771A;border-color:#F3771A}
+.chat-fab:hover{background:#DA6710;border-color:#DA6710}
+.chat-fab-i::after{background:#F3771A}
+.btn-action:hover{background:#DA6710;border-color:#DA6710;color:#fff}
+
+@media (max-width:640px){
+  /* Sizes restated for phones. The clamps above bottom out too close together
+     at 375px, which is exactly the flattening Sharla objected to. */
+  .prep .pre-do{font-size:31px;line-height:1.12;margin-bottom:26px;max-width:none}
+  .prep .pre-step{font-size:24px;margin:34px 0 9px}
+  .prep .pre-when{font-size:17px;margin:0 0 22px}
+  .prep .pre-hi{font-size:30px;margin-bottom:12px}
+  .prep p{font-size:15px}
+}
+/* The Summit sits in the right rail on desktop. On a phone that rail stacks
+   after the entire day, roughly two screens down, where almost nobody reaches
+   it - and Days 2 to 5 on a phone are where most of this audience lives. So on
+   a phone it moves inline, straight after the Quest. Only ever one of the two
+   is visible. */
+/* ============================================================================
+   PHONE, DAY PAGES
+   Most of this audience is on a phone and most of them are on Days 2 to 5, so
+   the day page is the screen that matters most. Three things were wrong:
+   the Playbook sat below the Quest when it is the thing you write in during
+   the call, the Golden Ticket count was only on the Hub home, and the wide
+   Oswald tracking made the section headings the hardest text on the page.
+   ============================================================================ */
+@media (max-width:899px){
+  /* Playbook first: it is what you need in your hand on the call. */
+  .cols .mainCol{display:flex;flex-direction:column}
+  .cols .aside{display:flex;flex-direction:column}
+  .cols .aside .card:not(.gold){order:-1;margin-top:22px}
+
+  /* Headings were 13px Oswald at .42em tracking - technically on brand and
+     genuinely hard to read at arm's length. Same font, calmer spacing. */
+  h3{letter-spacing:.16em;font-size:14px}
+  .eyebrow{letter-spacing:.26em}
+
+  /* Reading sizes. Quest steps were being read at 13px. */
+  .step .txt{font-size:15.5px;line-height:1.55}
+  .ticket-in{font-size:15px}
+  .lede{font-size:16.5px}
+
+  /* Tap targets. The back link and the day rows were under 44px. */
+  .back{display:inline-block;padding:12px 0;min-height:44px}
+  .dayrow{min-height:52px}
+  .btn{padding:15px 18px;font-size:14px}
+
+  /* The Golden Ticket count lives in the sidebar, which is hidden on a phone,
+     so on a day page it was invisible. Put it back at the top. */
+  .cols .mainCol .tickets{order:-2;margin-top:0}
+}
+/* The Playbook is what you write in during the call, so on a phone it belongs
+   directly under the video rather than below the whole Quest. The sidebar
+   version is hidden there so it is never shown twice. */
+.playbook-inline{display:none}
+@media (max-width:899px){
+  .playbook-inline{display:block;margin:0 0 18px}
+  .cols .aside .card:not(.gold){display:none}
+}
+/* Sharla, 7 Sept Slack, with a photo of the Day 1 tab on her phone: this
+   panel and the Quest's own "Complete all the steps to earn 1 Golden Ticket"
+   line both say Golden Tickets, and she asked for one of them gone or for this
+   one moved to the bottom on mobile. "I don't think we need it on the page
+   twice."
+   Moved rather than deleted. The count itself lives in the sidebar, which is
+   hidden on a phone, so deleting this would leave phone users with no way to
+   see their total at all - and most of the Challenge is read on a phone.
+   Ordering it last inside .mainCol keeps it, below the Quest, out of the way
+   of the video and the Playbook. */
+.day-tickets{display:none}
+@media (max-width:899px){
+  .day-tickets{display:block;order:99;margin-top:26px}
+  .cols .mainCol{display:flex;flex-direction:column}
+}
+.joinzoom{margin:0 0 18px}
+.joinzoom .btn{margin-bottom:8px}
+.joinzoom .caption{margin:0 0 4px}
+/* Sharla, 6 Sept: "Replay Window should be the exact size of the video
+   player." A 16:9 box that scales with the column, so there is no letterbox
+   and no cropping at any width. */
+.vwrap{position:relative;width:100%;aspect-ratio:16/9;background:#000;margin:0 0 18px}
+.vwrap iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
+.summit-inline{display:none}
+@media (max-width:899px){
+  /* Ella, 7 Sept: "the scholarship button should be the first thing they see
+     in mobile." Sharla on her recording: "right now this is optimizing for
+     the challenge experience and not for conversion... we just need people to
+     click that button and right now they're not going to see it."
+     order:-1 puts it first inside the content column, directly under the day
+     title, ahead of the video and the Playbook. Phone only; the desktop
+     column is untouched. */
+  .summit-inline{display:block;order:-1;margin:0 0 22px}
+  .cols .aside .card.gold{display:none}
+}
+.tickets{border:1px solid var(--line);border-left:3px solid #D6B146;background:#FFFDF6;
+  padding:16px 18px;margin:18px 0 22px;display:flex;flex-direction:column;gap:4px}
+.tickets.counted{gap:2px}
+.tk-plus{font-size:.55em;vertical-align:super;margin-left:2px;color:#875300}
+.pips{display:flex;flex-wrap:wrap;gap:4px;align-items:center;margin:8px 0 6px}
+.pip{width:13px;height:9px;background:linear-gradient(180deg,#E8C25E,#C9982F);
+  border:1px solid #A97F22;position:relative;flex:none}
+/* the notch that makes it read as a ticket rather than a block */
+.pip::before,.pip::after{content:"";position:absolute;top:2px;width:3px;height:3px;
+  border-radius:50%;background:#FFFDF6}
+.pip::before{left:-2px} .pip::after{right:-2px}
+.pip-more{font-family:Oswald,Arial,sans-serif;font-weight:300;font-size:10.5px;
+  letter-spacing:.14em;text-transform:uppercase;color:#875300;margin-left:4px}
+.tk-n{font-family:Raleway,Arial,sans-serif;font-weight:200;font-size:38px;line-height:1;
+  color:var(--delft)}
+.tk-l{font-family:Oswald,Arial,sans-serif;font-weight:300;font-size:11.5px;
+  letter-spacing:.28em;text-transform:uppercase;color:#875300}
+.tk-s{font-size:12.5px;line-height:1.55;color:var(--body);max-width:46ch}
+.tk-s a{color:var(--btn)}
+.questart{margin:18px 0 0;border:1px solid var(--line);background:#fff;padding:0;max-width:420px}
+.questart img{display:block;width:100%;height:auto}
+.pqa{display:block;width:100%;max-width:340px;height:auto;border:1px solid var(--line)}
+.pq{border:1px solid var(--line);border-top:0;padding:16px;margin:0 0 10px;
+  display:flex;flex-direction:column;gap:10px;background:#fff}
+.pqv{width:100%;height:auto;display:block;background:#000}
+.pqc{margin:0;font-size:var(--t-small);color:var(--body);line-height:1.6;max-width:62ch;
+  white-space:pre-line}
+/* Same footprint as the video player it stands in for, so the page does not
+   jump when the replay is uploaded. 16/9, full width, same border and margin. */
+/* playback speed row */
+.speeds{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:8px 0 16px}
+.speeds .sp-l{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:10.5px;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--quiet-ink,#8A97A5);margin-right:2px}
+.speeds button{font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;padding:5px 10px;cursor:pointer;
+  border:1px solid var(--line);background:#fff;color:var(--body);border-radius:0}
+.speeds button:hover{border-color:#F3771A;color:#F3771A}
+.speeds button[aria-pressed="true"]{background:#F3771A;border-color:#F3771A;color:#fff}
+.soon{border:1px solid var(--line);background:var(--locked-bg);
+  aspect-ratio:16/9;width:100%;margin:0 0 16px;padding:26px 22px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;text-align:center;box-sizing:border-box}
+.soon .lbl{font-family:Oswald,Arial,sans-serif;font-weight:300;font-size:11.5px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--cerulean)}
+.soon p{margin:0;font-size:var(--t-small);color:var(--body);max-width:52ch;
+  margin-left:auto;margin-right:auto;line-height:1.55}
+.winner.pending{background:#FBFCFD;border-top-color:var(--line)}
+.winner.pending b{color:var(--body);font-weight:300}
+.winner.grand{border-top-width:4px}
+.winner{border:1px solid var(--line);border-top:3px solid #D6B146;background:#FFFDF6;
+  padding:18px 20px;margin:20px 0 0;display:flex;flex-direction:column;gap:5px}
+.winner .lbl{font-family:Oswald,Arial,sans-serif;font-weight:300;font-size:11.5px;
+  letter-spacing:.28em;text-transform:uppercase;color:#875300}
+.winner b{font-family:Raleway,Arial,sans-serif;font-weight:300;
+  font-size:clamp(22px,2.4vw,29px);color:var(--delft);line-height:1.15}
+.winner .sub{font-size:13px;color:var(--body);max-width:56ch;line-height:1.55}
+.ticket{background:var(--grad-gold);padding:2px;margin:18px 0 0}
+.ticket-in{background:#fff;padding:18px;font-size:var(--t-small);color:var(--delft);line-height:1.5}
+.ticket-in b{color:#875300}
+.ticket.earned .ticket-in{background:#FFFDF6}
+
+/* cards */
+.card{border:1px solid var(--line);padding:20px;margin:0 0 18px;background:#fff}
+.card h3{margin-top:0}
+.card.gold{border-top:4px solid transparent;border-image:var(--grad-gold) 1}
+.summit-art{display:block;margin:0 0 20px;border:1px solid var(--line)}
+.summit-art img{width:100%;height:auto;display:block}
+.card.tinted{background:var(--tint)}
+
+/* concierge */
+.concierge{border-top:1px solid var(--line);margin-top:30px;padding-top:18px}
+.side .concierge{border-top:0;margin-top:0;padding-top:0}
+.concierge b{display:block;font-size:var(--t-small);color:var(--delft);margin-bottom:5px;font-weight:600}
+.concierge span{font-size:13px;max-width:60ch;line-height:1.55;display:block}
+
+/* merge + forms */
+.merge{display:flex;align-items:center;justify-content:space-between;gap:10px;border:2px dashed var(--btn);
+  padding:13px 15px;margin:10px 0 14px;background:var(--tint)}
+.merge code{font-family:Oswald,monospace;font-size:var(--t-lede);color:var(--btn);overflow:hidden;text-overflow:ellipsis}
+.merge button{font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:11px;letter-spacing:var(--ls-micro);text-transform:uppercase;
+  color:#fff;background:var(--btn);padding:8px 12px;border:0;cursor:pointer;flex:0 0 auto}
+.merge button:hover{background:var(--btn-hover)}
+label.fl{display:block;font-family:Oswald,Impact,sans-serif;font-weight:300;font-size:var(--t-micro);letter-spacing:var(--ls-label);
+  text-transform:uppercase;color:var(--body);margin:0 0 6px}
+input[type=email],input[type=url]{width:100%;border:2px solid var(--delft);padding:14px;font:inherit;
+  font-size:var(--t-body);color:var(--delft);background:#fff;margin:0 0 14px}
+input::placeholder{color:#9BA7B4}
+.errorbox{border-left:4px solid var(--orange);background:#FEF3EF;padding:15px;margin:0 0 16px;
+  font-size:var(--t-small);color:#8A3A1B;line-height:1.55}
+.okbox{border-left:4px solid var(--ok);background:#EFF8F3;padding:15px;margin:0 0 16px;
+  font-size:var(--t-small);color:#14603F;line-height:1.55}
+.hint{font-size:12px;margin:-4px 0 16px}
+.hint code{font-family:Oswald,monospace;color:var(--btn)}
+.locked-msg{background:var(--locked-bg);padding:20px;margin:16px 0 0;font-size:var(--t-small)}
+
+/* login is single column even on desktop */
+.narrow{max-width:460px}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:var(--delft);
+  color:#fff;padding:13px 22px;font-size:var(--t-small);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;
+  z-index:80;max-width:90vw;text-align:center}
+#toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
+
+footer.site{max-width:1200px;margin:0 auto;padding:34px 20px 44px;font-size:var(--t-small);color:var(--body);
+  border-top:1px solid var(--line)}
+footer.site .f-in{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:28px;
+  padding-bottom:24px}
+footer.site .f-col{display:flex;flex-direction:column;gap:5px}
+footer.site .f-brand{font-family:Raleway,Arial,sans-serif;font-weight:300;font-size:19px;
+  color:var(--delft);letter-spacing:.01em;margin-bottom:3px}
+footer.site .f-h{font-family:Oswald,Arial,sans-serif;font-weight:300;font-size:11px;
+  letter-spacing:.28em;text-transform:uppercase;color:var(--cerulean);margin-bottom:4px}
+footer.site .f-col span{font-size:13px;line-height:1.55}
+footer.site a{color:var(--btn);text-decoration:none;border-bottom:1px solid rgba(4,68,112,.28)}
+footer.site a:hover{border-bottom-color:var(--btn)}
+footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:flex;
+  flex-wrap:wrap;gap:6px 20px;justify-content:space-between;font-size:12px;color:#8A97A5}
+
+/* privacy notice */
+.pbar-privacy{position:fixed;left:0;right:0;bottom:0;z-index:60;background:#fff;
+  border-top:2px solid var(--delft);box-shadow:0 -6px 24px rgba(26,50,92,.13)}
+.pb-in{max-width:1060px;margin:0 auto;padding:16px 20px;display:flex;gap:20px;
+  align-items:center;flex-wrap:wrap}
+.pb-in p{margin:0;flex:1 1 420px;font-size:13px;line-height:1.6;color:var(--body);max-width:78ch}
+.pb-in p b{color:var(--delft);font-weight:600}
+.pb-in a{color:var(--btn)}
+/* .btn is display:block;width:100% by default, which made the button 1020px
+   wide and forced the bar onto three lines. Inside the notice it sits inline. */
+.pb-in .btn{margin:0;flex:0 0 auto;width:auto;display:inline-block;
+  padding:11px 26px;white-space:nowrap}
+.pb-actions{display:flex;gap:10px;flex:0 0 auto;flex-wrap:wrap}
+@media (max-width:620px){
+  .pb-in{padding:14px 16px;gap:12px}
+  .pb-actions{width:100%}
+  .pb-in .btn{width:100%}
+}
+
+/* --- Sharla's 6 Sept Loom: prepare page above the fold --------------------
+   The welcome video ran the full measure, so Step 1 sat below the fold and,
+   in her words, "they may not realize they could scroll down". Two columns
+   with the video at about half width lifts the steps into view. The headline
+   was on four lines and "looks weird... taking up too much space"; it is
+   shorter now and the width is set so it lands on two.
+   Stacks back to a single column on a phone. */
+.pre-top{display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:center;margin:0 0 34px}
+.pre-top-copy{min-width:0}
+.pre-top .pre-hi{margin:0 0 10px}
+.pre-top .pre-when{margin:0;max-width:none;font-size:clamp(15px,1.3vw,17.5px)}
+.pre-top .player{margin:0}
+.prep .pre-do{max-width:30ch}
+@media (max-width:820px){
+  .pre-top{grid-template-columns:1fr;gap:16px;margin-bottom:26px}
+  .pre-top .pre-when{font-size:16.5px}
+}
+/* The speed row was built for the full-width replay player. In the narrower
+   welcome column it wrapped onto a second line, so inside .pre-top the six
+   buttons are tightened and the SPEED label is dropped to keep it on one. */
+.pre-top .speeds{gap:4px;margin:8px 0 0}
+.pre-top .speeds .sp-l{display:none}
+.pre-top .speeds button{font-size:10px;letter-spacing:.06em;padding:4px 7px}
+
+/* Mobile and tablet navigation. The sidebar only exists at 1024px and up, so
+   every narrower screen had no way to move between days once the All days link
+   was removed. This turns the same sidebar into a full-screen panel behind a
+   Menu button, so there is one nav to maintain rather than two.
+   render() resets body.className on every view change, which closes the panel
+   on navigation without any extra handling. */
+.navtoggle{display:none}
+.navclose{display:none}
+@media (max-width:1023px){
+  .navtoggle{display:inline-flex;align-items:center;gap:9px;margin-right:16px;
+    font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;
+    letter-spacing:var(--ls-btn);text-transform:uppercase;color:var(--ink);
+    background:none;border:1px solid var(--line);padding:9px 14px;cursor:pointer;
+    border-radius:0;line-height:1}
+  .navtoggle-bars{width:15px;height:2px;background:var(--ink);position:relative;display:inline-block}
+  .navtoggle-bars::before,.navtoggle-bars::after{content:"";position:absolute;left:0;
+    width:15px;height:2px;background:var(--ink)}
+  .navtoggle-bars::before{top:-5px}
+  .navtoggle-bars::after{top:5px}
+  body.is-login .navtoggle{display:none}
+  body.nav-open{overflow:hidden}
+  body.nav-open .side{display:block;position:fixed;inset:0;z-index:90;
+    background:var(--ground-soft);overflow-y:auto;padding:18px 20px 44px;
+    border-right:0}
+  body.nav-open .side .stick{position:static}
+  body.nav-open .navclose{display:block;width:100%;text-align:right;
+    font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;
+    letter-spacing:var(--ls-btn);text-transform:uppercase;color:var(--ink);
+    background:none;border:0;padding:6px 0 14px;cursor:pointer}
+}
+
+/* The scholarship hook. Ella asked for an aqua bold headline and an orange
+   button with larger white text.
+   The aqua is #019ACD, the brand's own header aqua, not the brighter #00AEEF.
+   On this card's white ground #00AEEF measures 2.53:1, which fails even the
+   3:1 that large bold text needs, so the words would be hard to read for
+   anyone with less than perfect sight. #019ACD is 3.23:1 and still reads aqua.
+   Say the word if you want the brighter one anyway. */
+.summit-hook{font-family:Raleway,Arial,sans-serif;font-weight:700;
+  font-size:clamp(19px,1.9vw,23px);line-height:1.25;color:#019ACD;
+  margin:0 0 16px;text-transform:none;letter-spacing:0}
+.btn-scholarship{font-size:17px;padding:17px 20px;color:#fff}
+@media (max-width:820px){
+  .summit-hook{font-size:20px}
+  .btn-scholarship{font-size:16px}
+}
+
+/* Zoom in the top strip. Sharla, 6 Sept: "as an orange button with white
+   text, right in here." Pushed to the right of the strip's three facts so it
+   reads as the action rather than a fourth fact. On a phone the strip already
+   wraps, so it drops onto its own full-width line underneath. */
+.strip .in{align-items:center}
+#stripZoom{margin-left:auto}
+.zoombtn{display:inline-block;background:#F3771A;color:#fff;text-decoration:none;
+  font-family:Oswald,Impact,sans-serif;font-weight:400;font-size:12px;
+  letter-spacing:var(--ls-btn);text-transform:uppercase;white-space:nowrap;
+  padding:8px 16px;border:1px solid #F3771A;border-radius:0;line-height:1.1}
+.zoombtn:hover{background:#DA6710;border-color:#DA6710;color:#fff}
+.zoombtn.is-live{box-shadow:0 0 0 3px rgba(243,119,26,.32)}
+@media (max-width:700px){
+  #stripZoom{margin-left:0;width:100%}
+  .zoombtn{display:block;width:100%;text-align:center;padding:10px 14px}
+}
+
+
+
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<div id="rev">
+  <div id="revPanel" hidden>
+    <span class="lbl">Day</span>
+    <div class="row">
+      <button data-day="0">Pre</button><button data-day="1">1</button><button data-day="2">2</button>
+      <button data-day="3">3</button><button data-day="4">4</button><button data-day="5">5</button><button data-day="8">8</button>
+    </div>
+    <span class="lbl">Session</span>
+    <button id="tgLive" class="wide">Before the live</button>
+    <button id="tgReset" class="wide">Reset</button>
+    <span class="note">Preview only. Delete the review block before launch.</span>
+  </div>
+  <button id="revToggle" aria-expanded="false" aria-controls="revPanel">Review tools</button>
+</div>
+
+<header class="masthead">
+  <div class="in">
+    <!-- Below 1024px there is no sidebar, so without this there is no way to
+         reach another day from a day page at all. Ella reported it missing on
+         the live site, 7 Sept. -->
+    <button type="button" id="navToggle" class="navtoggle" aria-expanded="false" aria-controls="side">
+      <span class="navtoggle-bars" aria-hidden="true"></span>Menu
+    </button>
+    <a href="#/prechallenge"><img class="logo" src="logo-navy.png?v=e76a58c1" alt="Thrive Academy" width="102"></a>
+    <div class="acct" id="acct"></div>
+  </div>
+</header>
+<div class="strip"><div class="in">
+  <span>Book 5 Consults in 5 Days</span><span class="sep">|</span>
+  <span data-round-name>November 2 to 6</span><span class="sep">|</span>
+  <span class="hi">Live daily 10:00am PT</span>
+  <!-- Zoom lives here from Sharla's second Loom, 6 Sept: "let's put the Zoom
+       link up here as a button. Join Zoom live. Now, as an orange button with
+       white text, right in here." Filled by wire() so it can carry the live
+       state, and so the link is said in one place instead of on every day. -->
+  <span id="stripZoom"></span>
+</div></div>
+
+<div class="shell">
+  <aside class="side" id="side"></aside>
+  <main id="main"></main>
+</div>
+<footer class="site">
+  <div class="f-in">
+    <div class="f-col">
+      <span class="f-brand"><a href="https://www.thrive-academy.com" target="_blank" rel="noopener">Thrive Academy</a></span>
+      <span>Book 5 Consults in 5 Days Challenge</span>
+      <span><span data-round-name>November 2 to 6</span>, 2026</span>
+    </div>
+    <div class="f-col">
+      <span class="f-h">Need a hand</span>
+      <span>Text your Concierge <a href="sms:+18314801290">(831)&nbsp;480-1290</a></span>
+      <span>DM <a href="https://m.me/ThriveAcademy" target="_blank" rel="noopener">m.me/ThriveAcademy</a></span>
+      <span><a href="/cdn-cgi/l/email-protection#4c1f393c3c233e380c18243e253a29610d2f2d28292135622f2321"><span class="__cf_email__" data-cfemail="20735550504f5254607448524956450d61434144454d590e434f4d">[email&#160;protected]</span></a></span>
+    </div>
+    <div class="f-col">
+      <span class="f-h">Legal</span>
+      <span><a href="https://clientattractionsummit.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></span>
+      <span><a href="#" id="cookieOpen">Cookies &amp; your data</a></span>
+    </div>
+  </div>
+  <div class="f-base">
+    <span>&copy; 2026 Thrive Academy. All rights reserved.</span>
+    <span>Jesse Koren &amp; Sharla Jacobs</span>
+  </div>
+</footer>
+
+<!-- Privacy choices. Essential Hub storage is always available. GTM loads with
+     denied defaults; analytics and advertising permissions are independent.
+     There is intentionally no noscript iframe because it cannot be consent-gated. -->
+<div id="privacyBar" class="pbar-privacy" hidden>
+  <div class="pb-in">
+    <p><b>Your data on this page.</b> We keep you signed in and remember which Quests
+    you have ticked off using essential storage. Analytics and marketing tracking
+    stay off unless you choose to allow each one. You can change either choice from the footer.
+    <a href="https://clientattractionsummit.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></p>
+    <div class="pb-actions">
+      <button type="button" id="analyticsDecline" class="btn btn-outline">Keep analytics off</button>
+      <button type="button" id="analyticsAllow" class="btn btn-primary">Allow analytics</button>
+      <button type="button" id="privacyDecline" class="btn btn-outline">Keep marketing off</button>
+      <button type="button" id="privacyAllow" class="btn btn-primary">Allow marketing</button>
+    </div>
+  </div>
+</div>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="config.js"></script>
+<script>
+(function(){
+"use strict";
+
+/* ============================================================================
+   CHALLENGE CONFIG
+   Everything that changes from one challenge to the next lives here and
+   nowhere else. To roll the Hub to the next round, edit this block only.
+   See "Rolling to the next challenge" in the README.
+   ============================================================================ */
+var CHALLENGE = {
+  /* Bumped from "c4" on 17 Oct. This is the browser storage key as well as the
+     round id, so leaving it on "c4" meant anyone who ran the September round
+     opened C1 carrying their old ticked Quests and earned Golden Tickets. It
+     also labelled every Quest report "c4" in the Raffle Tracker. Bump it every
+     round, which is what the old comment said and what the roll-forward missed. */
+  id:        "c1-nov-2026",        /* storage key + round id. Bump every round. */
+  name:      "November 2 to 6",
+  tag:       "",   /* TODO Ella: the GHL tag that grants access for C1 */ /* the GHL tag that grants access */
+
+  /* Local dates, and the three moments that matter for each day.
+
+       unlockAt  9:00am PT  the tab opens. Before this the day is locked.
+       startsAt  9:50am PT  doors open. The room, the live state and that day's
+                            Quest all appear here, ten minutes before the session
+                            itself. Ella, 8 Sept. The page still tells people the
+                            session is at 10:00; this is the early door, not a
+                            change to the advertised time.
+       replayAt 11:00am PT  the session ends and the replay slot opens.
+
+     replayAt was noon until 7 Sept, an hour after the sessions actually
+     end, so the page kept saying "We're live now, come on in" from 11
+     to 12 with nobody on the call. The Quest no longer depends on this
+     value; it appears at startsAt.
+
+     video is the recording URL for that day. Leave it empty and the page
+     says the replay is coming shortly instead of showing an empty player.
+     Paste the URL in after each session and it appears straight away.
+
+     Written as absolute instants with an explicit -07:00 offset, because
+     September 2026 is inside US daylight time (DST ends Nov 1). That makes
+     them correct for a viewer in any time zone with no guessing. */
+  rounds: {
+    /* ---------------------------------------------------------------------
+       ONE HUB, THREE ROUNDS.
+
+       Ads move to the next round while the current one is still running, and
+       the Hub doubles as the thank-you page, so a C2 lead who registers on
+       3 November lands here while C1 is mid-flight. They must see THEIR
+       dates and must not reach C1's sessions. So the day dates live per
+       round, keyed by the GHL tag that let the person in.
+
+       The key is the tag string exactly as it appears in GHL:
+         (5-day challenge) mmm dd-dd yyyy
+
+       Which round a viewer gets is decided by the tag the auth service
+       returns on login. Until that service returns it, selectRound() falls
+       back to the round that is running now, or the next one to open.
+       --------------------------------------------------------------------- */
+    "(5-day challenge) nov 02-06 2026": { name:"November 2 to 6",   days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 2",    short:"Mon Nov 2",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-02T09:00:00-08:00", startsAt:"2026-11-02T09:50:00-08:00", replayAt:"2026-11-02T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0LeG2hB543HQygiCerppLPkN8QTgChpCzJLwWrWYQqriAnyQTRfZBVAdsKjVXcMGgl", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday November 3",   short:"Tue Nov 3",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-03T09:00:00-08:00", startsAt:"2026-11-03T09:50:00-08:00", replayAt:"2026-11-03T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111070127978492", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday November 4", short:"Wed Nov 4",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2026-11-04T09:00:00-08:00", startsAt:"2026-11-04T09:50:00-08:00", replayAt:"2026-11-04T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111068627978642", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday November 5",  short:"Thu Nov 5",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-05T09:00:00-08:00", startsAt:"2026-11-05T09:50:00-08:00", replayAt:"2026-11-05T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111066751312163", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday November 6",    short:"Fri Nov 6",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2026-11-06T09:00:00-08:00", startsAt:"2026-11-06T09:50:00-08:00", replayAt:"2026-11-06T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111057961313042", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday November 9",    short:"Mon Nov 9", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2026-11-09T09:00:00-08:00", startsAt:"2026-11-09T09:50:00-08:00", replayAt:"2026-11-09T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-15T21:00:00-08:00"}] },
+    "(5-day challenge) nov 16-20 2026": { name:"November 16 to 20", days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 16",    short:"Mon Nov 16",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-16T09:00:00-08:00", startsAt:"2026-11-16T09:50:00-08:00", replayAt:"2026-11-16T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday November 17",   short:"Tue Nov 17",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-17T09:00:00-08:00", startsAt:"2026-11-17T09:50:00-08:00", replayAt:"2026-11-17T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday November 18", short:"Wed Nov 18",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2026-11-18T09:00:00-08:00", startsAt:"2026-11-18T09:50:00-08:00", replayAt:"2026-11-18T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday November 19",  short:"Thu Nov 19",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-19T09:00:00-08:00", startsAt:"2026-11-19T09:50:00-08:00", replayAt:"2026-11-19T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday November 20",    short:"Fri Nov 20",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2026-11-20T09:00:00-08:00", startsAt:"2026-11-20T09:50:00-08:00", replayAt:"2026-11-20T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday November 23",    short:"Mon Nov 23", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2026-11-23T09:00:00-08:00", startsAt:"2026-11-23T09:50:00-08:00", replayAt:"2026-11-23T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-29T21:00:00-08:00"}] },
+    "(5-day challenge) jan 04-08 2027": { name:"January 4 to 8",    days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday January 4",    short:"Mon Jan 4",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2027-01-04T09:00:00-08:00", startsAt:"2027-01-04T09:50:00-08:00", replayAt:"2027-01-04T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday January 5",   short:"Tue Jan 5",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2027-01-05T09:00:00-08:00", startsAt:"2027-01-05T09:50:00-08:00", replayAt:"2027-01-05T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday January 6", short:"Wed Jan 6",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2027-01-06T09:00:00-08:00", startsAt:"2027-01-06T09:50:00-08:00", replayAt:"2027-01-06T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday January 7",  short:"Thu Jan 7",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2027-01-07T09:00:00-08:00", startsAt:"2027-01-07T09:50:00-08:00", replayAt:"2027-01-07T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday January 8",    short:"Fri Jan 8",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2027-01-08T09:00:00-08:00", startsAt:"2027-01-08T09:50:00-08:00", replayAt:"2027-01-08T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday January 11",    short:"Mon Jan 11", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2027-01-11T09:00:00-08:00", startsAt:"2027-01-11T09:50:00-08:00", replayAt:"2027-01-11T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2027-01-17T21:00:00-08:00"}] }
+  },
+
+  days: [
+    /* ---------------------------------------------------------------------
+       QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
+       Grand Finale Monday 9 November.
+
+       OFFSETS ARE -08:00, NOT -07:00. US daylight time ends Sunday 1 November
+       2026, so this whole round is in standard time. Carrying -07:00 over from
+       the September round would open every tab, every session and every replay
+       exactly one hour early. Checked against the real zone, not assumed.
+
+       BLANK ON PURPOSE, waiting on Ella:
+         post      the Quest post URL in the new Group, per day
+         vimeo     the recording id, after each session
+         replay    the Facebook permalink, after each session
+         igPost    Day 1 only, and only if there is an Instagram post
+       An empty value is safe: the page falls back rather than showing a dead
+       link. Fill them in and the feature appears.
+       --------------------------------------------------------------------- */
+    {n:1, date:"Monday November 2",    short:"Mon Nov 2",  title:"Compelling Consult Name",
+     asset:"Compelling Consult Name",  quest:"day1",
+     unlockAt:"2026-11-02T09:00:00-08:00", startsAt:"2026-11-02T09:50:00-08:00", replayAt:"2026-11-02T11:00:00-08:00",
+     video:"", art:"quest-day1.jpg", post:"https://www.facebook.com/ThriveAcademy/posts/pfbid0LeG2hB543HQygiCerppLPkN8QTgChpCzJLwWrWYQqriAnyQTRfZBVAdsKjVXcMGgl", igPost:"", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/name"},
+
+    {n:2, date:"Tuesday November 3",   short:"Tue Nov 3",  title:"Create Intrigue",
+     asset:"Create Intrigue",          quest:"std",
+     unlockAt:"2026-11-03T09:00:00-08:00", startsAt:"2026-11-03T09:50:00-08:00", replayAt:"2026-11-03T11:00:00-08:00",
+     video:"", art:"quest-day2.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111070127978492", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/intrigue"},
+
+    {n:3, date:"Wednesday November 4", short:"Wed Nov 4",  title:"Trust and Transformation Story",
+     asset:"Trust and Transformation Story", quest:"std",
+     unlockAt:"2026-11-04T09:00:00-08:00", startsAt:"2026-11-04T09:50:00-08:00", replayAt:"2026-11-04T11:00:00-08:00",
+     video:"", art:"quest-day3.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111068627978642", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/trust"},
+
+    {n:4, date:"Thursday November 5",  short:"Thu Nov 5",  title:"Inspiring Invitation",
+     asset:"Inspiring Invitation",     quest:"std",
+     unlockAt:"2026-11-05T09:00:00-08:00", startsAt:"2026-11-05T09:50:00-08:00", replayAt:"2026-11-05T11:00:00-08:00",
+     video:"", art:"quest-day4.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111066751312163", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/invitation"},
+
+    {n:5, date:"Friday November 6",    short:"Fri Nov 6",  title:"Success Story",
+     asset:"Success Story or 2nd Inspiring Invitation", quest:"std",
+     unlockAt:"2026-11-06T09:00:00-08:00", startsAt:"2026-11-06T09:50:00-08:00", replayAt:"2026-11-06T11:00:00-08:00",
+     video:"", art:"quest-day5.jpg", post:"https://www.facebook.com/groups/1103115088773996/posts/1111057961313042", replay:"", vimeo:"",
+     playbook:"https://giftfromthrive.com/success"},
+
+    {n:8, date:"Monday November 9",    short:"Mon Nov 9", title:"Grand Finale",
+     asset:"", quest:"none", post:"", playbook:"",
+     unlockAt:"2026-11-09T09:00:00-08:00", startsAt:"2026-11-09T09:50:00-08:00", replayAt:"2026-11-09T11:00:00-08:00",
+     vimeo:"", replay:"",
+     replaysCloseAt:"2026-11-15T21:00:00-08:00"}
+  ],
+
+  /* Who won each day's Quest draw. Fill in the name after each session and
+     it appears on that day's tab. Leave blank and the block simply does not
+     render, so an unfilled day never shows an empty placeholder. */
+  winners: {
+    1:"", 2:"", 3:"", 4:"", 5:"", grand:""
+  },
+
+  /* The four Pre-Challenge Quests on the Prepare page.
+       url      the real post, supplied by Ella 3 Sept 2026. Tracking
+                parameters (__cft__, __tn__) are stripped on purpose: they are
+                per-person session tokens, they break when someone else opens
+                them, and they should not be published.
+       video    optional. A file sitting next to this page, e.g.
+                "prequest-1.mp4". Leave empty and no player appears.
+       caption  optional. The words that go with that Quest. Leave empty and
+                the row shows just its title, exactly as it does today. */
+  preQuests: [
+    {n:1, title:"SHOW UP FOR WHAT&#8217;S IMPORTANT!",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
+     video:"", poster:"",   /* TODO: prequest-1.mp4 once encoded */
+     caption:"&#128073;The reason most people don&#8217;t succeed is because they get distracted and forget what&#8217;s most important to them.\n\nBy joining this challenge, you&#8217;ve declared that it&#8217;s important to you to book consults that lead to clients!\n\nNow it&#8217;s time to show up!  &#9200;\n\nStep 1. Make sure that you have added the Challenge Events to Your Calendar, by clicking on the link in the email with the subject: [Consults] Open Me to get started\n\nStep 2: Confirm Your Seat Below!\n\nLet us know how you&#8217;ll be joining us for the Big Launch Event below. &#11015;&#65039;\n\nDrop a note like &#8220;I&#8217;ll be there on zoom&#8221; or &#8220;You&#8217;ll see me&#8221; if you&#8217;ll be joining us LIVE on Zoom at the Launch Event.\nor\n&#8220;I&#8217;ll watch later&#8221; if you will listen to the replay.\n\n&#128293; Great job! You&#8217;ve earned your first raffle ticket toward the Grand Prize (over $5,300 value)! &#128293;\n\nCollect as many raffle tickets as possible this week so you have a better chance of winning the Grand Prize! &#127942;"},
+    {n:2, art:"quest-pre2.jpg", title:"INTRODUCE YOURSELF!",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
+     video:"", poster:"",   /* TODO: prequest-2.mp4 once encoded */
+     caption:"&#128075;We&#8217;re SO glad you&#8217;re here!\n\nThis is a great time to introduce yourself to all of the amazing Coaches and Holistic Practitioners in this community! &#128101;\n\nThis community will be a BIG part of your success during the Challenge&#8230;\n\nOn Tues-Fri, you will boost their posts with positive engagement&#8230; And they will boost yours!\n\nWhich will &#8220;wake up the algorithm&#8221; and your posts will get seen by a LOT more people. Let&#8217;s do this!\n\n&#9989;Step 1: Introduce Yourself Below\nDrop a selfie or 30 sec video below, sharing why you joined the challenge!\n\n&#9989;Step 2: Welcome 3 (or more) new friends\nSpread the love with reactions and replies below with people you resonate with. &#129303; Who knows&#8230; You might even find some new friends with lots in common!\n\n&#127903;&#65039; You get 1 Raffle Ticket for introducing yourself below! &#127903;&#65039;\n\nCollect as many raffle tickets as possible this week so you have a better chance of winning the Grand Prize (over $5,300 value)! &#127942;"},
+    {n:3, art:"quest-pre3.jpg", title:"EXPONENTIALLY INCREASE YOUR CHANCES OF BOOKING CONSULTS",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
+     video:"", poster:"",   /* TODO: prequest-3.mp4 once encoded */
+     caption:"During this Challenge, you&#8217;ll discover that the &#128273; to success in your business is to support your friends while they support you.\n\n&#129505;One of the reasons that posts in this challenge get 2.5x more engagement than regular posts&#8230;\n\n(with an average of 50.4 reactions and comments per post&#8252;&#65039;)&#8230;\n\n&#8230;is because we encourage you to boost your friend&#8217;s posts while they boost your posts.\n\n&#129505;We rise together! &#128640;\n\nIf you would like to make sure you have people boosting your posts, we highly recommend you invite some Coaches and Holistic Practitioners to join you in this challenge!\n\nYou get 1 raffle ticket for each friend you invite.\n\n&#9989;Step 1: Invite friends using the template below\n(Up to 10 friends &#128516;)!\n\nYou can edit this message and send to friends:\n*********************************************************\nHey Name!\n\nDo you have room for a few new clients?\n\nI just joined a 5-day challenge to book consults that lead to clients!\n\nAnd I thought of you because I appreciate _______ (the amazing work you do with your clients)!\n\nAnd I&#8217;d love for you to be my buddy in this challenge. We can help each other get clients.\n\nWant to join me?\nwww.GiftfromThrive.com/5day\n*********************************************************\n\n&#9989;Step 2: Let us know how many people you invited (below).\n\n&#127903;&#65039; You earn 1 Raffle Ticket for each person you invite! &#127903;&#65039;\n(You can win up to 10 Raffle Tickets).\n\nCollect LOTS of raffle tickets to give yourself the best chance at winning the Grand Prize (over $5,300 value)! &#128142;"},
+    {n:4, title:"STAY ENGAGED",
+     url:""   /* TODO Ella: C1 pre-Challenge Quest post */,
+     video:"howto-notifications.mp4", poster:"howto-notifications.jpg",
+     caption:"Staying Engaged is the KEY&#128477;&#65039; to success!\n\nThe best way to help you stay engaged this week is to pin this Facebook Group.\n\n&#9989;Step 1: Turn on Notifications for this Facebook Group!\nIf you haven&#8217;t already turned on notifications, the video above will show you how.\n\n&#9989;Step 2: Drop a GIF below (expressing your excitement)!\nThe GIF will let us know you turned on Notifications for the group and are excited to engage all week!\n\n&#127903;&#65039; Once we see your GIF, we&#8217;ll award you 1 raffle ticket! &#127903;&#65039;\n\nCollect LOTS of raffle tickets to give yourself the best chance at winning the Grand Prize (over $5,300 value)! &#128142;\n\n&#9989;Step 3: Receive a Customized Gift\nMessage us (and get a real human reply). Let us know your biggest &#8220;stuck point&#8221; in your business and we&#8217;ll look through our library of resources and send you a customized gift to help you break through it before the Challenge.\n\nHere are some &#8220;stuck points&#8221; you may be facing:\n- Need help with how to talk about what I do\n- Finding my Niche\n- Booking Enough Consults\n- Converting Consults into Clients\n- Design my Package\n- Fill my Group Program\n- Follow Up After a Discovery Call\n- Funding for my Business\n\nText your Concierge: (831) 480-1290\nPlease include your first and last name when texting your Concierge.\nOr message us on Facebook: m.me/ThriveAcademy\n\n&#9989;Step 4: See You at the BIG Launch Event\nMonday, September 7, 10-11am Pacific / 1-2pm Eastern\nUse the Join the live session button on Day 1 of this Hub &#8212; it opens Zoom for you.\n\nWe&#8217;re excited to reveal the much BIGGER Surprise Gift during the Launch Event! &#127873;"}
+  ],
+
+  /* false = the clock decides, which is what Ella asked for: each day opens
+     at 9:00am PT on its own date. Set true only to force everything open. */
+  unlockAll: false,
+
+  /* Replays come down 9:00pm PT / midnight ET on the Sunday after the challenge.
+     Verified against "CHALLENGE WEEK SCHEDULE Sept 7-11.png" in the assets folder.
+     ISO with the -07:00 offset so it is unambiguous across time zones. */
+  replaysCloseAt: "2026-11-08T21:00:00-08:00",
+
+  links: {
+    fbGroup: "https://www.facebook.com/groups/1103115088773996",
+    /* The Guides tab of the Group, where the day replays are posted. Sharla
+       asked the replay button to land here rather than the group's main feed:
+       "go to the Facebook group, and guide them to, I think it's guide one".
+       Ella confirmed this is the Guides tab, 6 Sept. */
+    fbGuides: "https://www.facebook.com/groups/1103115088773996/learning_content",
+    /* UNUSED. The add-to-calendar step was removed on 3 Sept 2026 because the
+       AddEvent calendars behind this page are disabled or point at August.
+       Kept only so the value is not lost. Do not wire a button to it again
+       until someone has confirmed the calendars work. */
+    /* The September calendar, supplied by Ella 4 Sept and verified before
+       wiring: titled "(Sep 7-11)", holds six events - the 7th through 11th
+       plus the 14th Grand Finale - and the Facebook group inside it is
+       1386366133366597, the correct September group.
+       NOT qr7jgcctg1mc, which is still on the funnel's thank-you page and is
+       August: it shows Aug 17 and carries group 1779570609592720. */
+    /* The C1 calendar, supplied by Ella 16 Oct and verified before wiring:
+       titled "(Nov 2-6 + 9)", holds six events - the 2nd through the 6th plus
+       the 9th Grand Prize Announcement - all 10:00-11:00am PST, the advertised
+       time. startsAt 9:50 is the early door, not a different start time.
+       The Facebook group inside it is 1103115088773996, the correct C1 group,
+       not the September group 1386366133366597. */
+    addCal:  "https://www.addevent.com/calendar/yw2557c2xbsj",
+    /* Ella, 7 Sept: the scholarship button points here, UTM-tagged so Hub
+       traffic to the Summit is attributable. Used by the scholarship button,
+       the Summit banner image and the replay-page CTA, so every route from
+       the Hub carries the same tagging. */
+    summit:  ""   /* TODO Ella: Jan 15-17 2027 Summit opt-in, UTM-tagged */,
+    optin:   "https://apply.clientattractionsummit.com/challenge-optin-organic-socials",
+    /* The Zoom room. The meeting has no passcode and uses a waiting room
+       instead - Ella confirmed and tested it on 6 Sept - so the bare join link
+       carries no secret and can live here. config.js can still override it.
+       Do NOT add a ?pwd= form of the link to this file: that variant embeds a
+       passcode and this repo is public. */
+    zoom:     window.THRIVE_ZOOM || ""   /* TODO Ella: C1 Zoom room */,
+    passcode: window.THRIVE_ZOOM_PASSCODE || "",
+    /* Apps Script web app that writes into the Raffle Tickets Tracker.
+       Also from config.js so the sheet is never named in this repo. */
+    questEndpoint: window.THRIVE_QUEST_ENDPOINT || "",
+    /* Where a message from the chat box goes. Point this at a GoHighLevel
+       inbound webhook and the conversation lands in the team's inbox, where
+       Oliver and the SBC team already work. Empty until someone wires it, and
+       the box degrades to text and Messenger rather than failing. */
+    chatEndpoint: window.THRIVE_CHAT_ENDPOINT || "",
+    /* Optional. If GoHighLevel can expose the team's replies for a given
+       email, point this here and answers appear inside the window. Without
+       it the person is simply told where the reply will arrive. */
+    chatRepliesEndpoint: window.THRIVE_CHAT_REPLIES_ENDPOINT || "",
+    /* Reads a Champion's real Golden Ticket total out of the Raffle Tickets
+       Tracker. See apps-script/ticket-total.gs. Both values come from
+       config.js so the tracker is never named in this public repo. */
+    ticketsEndpoint: window.THRIVE_TICKETS_ENDPOINT || "",
+    ticketsKey:      window.THRIVE_TICKETS_KEY || ""
+  }
+};
+
+/* Media fingerprints. Browsers cache video hard, so a swapped hero could keep
+   showing the old clip for anyone who had already loaded the page - which is
+   exactly what happened on 4 September. Each file carries a short hash of its
+   own contents, so replacing the file changes the URL and the new one loads.
+   Regenerate these whenever a media file is replaced. */
+var MEDIA = {"logo-navy.png":"e76a58c1", "summit-banner.jpg":"232a6c81", "hero.mp4":"85685da3", "hero-poster.jpg":"22612919", "welcome.mp4":"cf61e919", "welcome-poster.jpg":"6ec137a9"};
+function m_(f){ return MEDIA[f] ? f+"?v="+MEDIA[f] : f; }
+
+var ZOOM=CHALLENGE.links.zoom, PASSCODE=CHALLENGE.links.passcode, SUMMIT=CHALLENGE.links.summit,
+    OPTIN=CHALLENGE.links.optin, FBGROUP=CHALLENGE.links.fbGroup,
+    FBGUIDES=CHALLENGE.links.fbGuides||CHALLENGE.links.fbGroup,
+    ADDCAL=CHALLENGE.links.addCal;
+var REGISTER="https://apply.clientattractionsummit.com/challenge-optin-fb-ads-542644?utm_source=challenge_hub&utm_medium=internal&utm_campaign=challenge_2026_09_c4&utm_content=login_not_registered&utm_term=register_here";
+/* The viewer's round. Set from the tag the auth service returns on login.
+   Until that service returns a tag, pick the round that is running now, or
+   the next one due to open, so the Hub is never wrong by default. */
+var ROUND_TAG = "", ROUND_NAME = "";
+var DAYS = CHALLENGE.days;
+
+function selectRound(tag){
+  var R = CHALLENGE.rounds || {};
+  var key = null;
+  if(tag && R[tag]) key = tag;
+  if(!key){
+    /* No tag, or one we do not recognise. Choose by the clock: the round
+       whose Finale has not yet passed, earliest first. */
+    var now = now_(), best = null, bestT = Infinity;
+    for(var k in R){
+      var d = R[k].days || [], last = d.length ? d[d.length-1] : null;
+      if(!last) continue;
+      var end = Date.parse(last.replaysCloseAt || last.replayAt || "");
+      if(isNaN(end) || end < now) continue;
+      var start = Date.parse((d[0]||{}).unlockAt || "");
+      if(!isNaN(start) && start < bestT){ bestT = start; best = k; }
+    }
+    key = best || Object.keys(R)[0];
+  }
+  if(!key || !R[key]) return;
+  ROUND_TAG = key;
+  ROUND_NAME = R[key].name || "";
+  DAYS = R[key].days;
+  CHALLENGE.days = DAYS;
+  /* The round name appears in the top strip, the footer and the login band. */
+  Array.prototype.forEach.call(document.querySelectorAll("[data-round-name]"),
+    function(el){ el.textContent = ROUND_NAME; });
+}
+var CAS_ORIGIN=window.THRIVE_CAS_ORIGIN||"https://id.clientattractionsummit.com";
+var authState="loading", csrfToken=null, loginError=false, authDown=false;
+var loginLocked=false, loginTries=0;
+
+/* Replays close on a schedule. A day may carry its own window: the Grand
+   Finale needs one because it airs AFTER the Sunday cut-off that applies to
+   Days 1 to 5. Client side this is presentation only; the real cut-off has to
+   be enforced by the server, same as access. */
+function replaysClosed(d){
+  var when = (d && d.replaysCloseAt) || CHALLENGE.replaysCloseAt;
+  try{ return new Date(now_()) >= new Date(when); }catch(e){ return false; }
+}
+
+/* ============================================================================
+   THE CLOCK
+   The Hub used to hardcode "it is Day 2" and a countdown that read 02:14:36 on
+   every load. Everything below is derived from real time instead.
+
+   Each day has three states:
+     locked   before 9:00am PT on its own date
+     before   9:00am to 12:00pm  - countdown and the Join Zoom button
+     replay   from 12:00pm       - the session replay and the Quest
+
+   Every day works this way, the Grand Finale included. Completing Quests is
+   how you earn Golden Tickets, never how you unlock a page.
+
+   In the replay state the session video only appears once someone has
+   uploaded it. Until then the page says the replay is coming, rather than
+   showing a player with nothing behind it. The Quest is not held back by
+   that - it is available as soon as the day flips to replay.
+
+   NOW_SHIFT lets the review panel move the whole clock, so a reviewer can see
+   exactly what any moment of the week looks like. It is always 0 for a lead.
+   ============================================================================ */
+var NOW_SHIFT = 0;
+var previewClockSet = false;   /* true once a reviewer pins a moment */
+function now_(){ return Date.now() + NOW_SHIFT; }
+
+function phaseOf(n){
+  var d = day_(n); if(!d) return "locked";
+  if(CHALLENGE.unlockAll) return "replay";
+  /* On our own preview every day is open so the whole Hub can be walked
+     through for QA. The clock still governs on any customer hostname, and
+     the review panel still simulates before/live/replay for a chosen day. */
+  if(typeof showReview!=="undefined" && showReview && !previewClockSet) return "replay";
+  var u = Date.parse(d.unlockAt), r = Date.parse(d.replayAt), t = now_();
+  if(isNaN(u) || isNaN(r)) return "locked";
+  if(t < u) return "locked";
+  if(t < r) return "before";
+  return "replay";
+}
+/* True only while the session is actually airing, 10:00 to 12:00. Used for the
+   "Live now" flag, which used to show on a day three days away. */
+function isLiveNow(n){
+  var d = day_(n); if(!d || !d.startsAt || !d.replayAt) return false;
+  /* A locked day is never "live". Without this the Grand Finale showed a
+     Live now flag on its date even for someone who had not unlocked it. */
+  if(phaseOf(n)==="locked") return false;
+  var t = now_();
+  return t >= Date.parse(d.startsAt) && t < Date.parse(d.replayAt);
+}
+/* The day the Hub should focus on: the most recent one that is not locked. */
+function currentDay(){
+  var pick = DAYS[0].n;
+  for(var i=0;i<DAYS.length;i++){ if(phaseOf(DAYS[i].n)!=="locked") pick = DAYS[i].n; }
+  return pick;
+}
+
+var S={day:2,live:false,email:null,first:null,progress:{},preOpen:false,preDone:0,reported:{}};
+try{var r=localStorage.getItem("thriveHub_"+CHALLENGE.id); if(r) S=Object.assign(S,JSON.parse(r));}catch(e){}
+function save(){try{localStorage.setItem("thriveHub_"+CHALLENGE.id,JSON.stringify(S));}catch(e){}}
+function esc(s){return String(s).replace(/&(?!\w+;)/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function displayFirst(value){
+  if(typeof value!=="string")return null;
+  var name=value.trim(),reserved=name.toLowerCase();
+  return name&&reserved!=="null"&&reserved!=="undefined"?name:null;
+}
+function displayEmail(value){
+  if(typeof value!=="string")return null;
+  var email=value.trim().toLowerCase(),reserved=email.toLowerCase();
+  return email&&email.length<=320&&reserved!=="null"&&reserved!=="undefined"&&
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)?email:null;
+}
+function prog(n){return S.progress[n]||(S.progress[n]={steps:[],quest:false});}
+function day_(n){for(var i=0;i<DAYS.length;i++){if(DAYS[i].n===n)return DAYS[i];}return null;}
+function open_(n){return phaseOf(n)!=="locked";}
+function isQuestDay(d){return d && d.quest && d.quest!=="none";}
+function done_(n){var d=day_(n); if(!isQuestDay(d)) return false;
+  var p=prog(n); return d.quest==="day1" ? p.quest===true : p.steps.length===4;}
+function tickets(){return DAYS.filter(function(d){return isQuestDay(d)&&done_(d.n);}).length;}
+
+/* ---------------------------------------------------------------------------
+   THE OFFICIAL TICKET TOTAL comes from the Raffle Tickets Tracker, never from
+   this page. "N of 5" was wrong: bonuses are not worth one ticket each, so a
+   denominator cannot exist. We show the real running total instead.
+
+   TRACKER_TOTAL is refreshed by the team three times a day (morning, afternoon,
+   evening) and read back per person. Until that feed is wired it stays null and
+   the Hub says the count is with the Concierge rather than inventing one.
+   --------------------------------------------------------------------------- */
+var TRACKER_TOTAL = null;   /* a number once the tracker answers, otherwise null */
+var TRACKER_ASOF  = "";     /* when the tracker was read */
+
+/* Ask the Raffle Tickets Tracker for this person's real total.
+   Three rules, and they are the whole point:
+     - it only ever shows a number the tracker actually returned
+     - "not found" is not zero. Someone missing from the tracker is told the
+       Concierge holds their count, never that they have none
+     - a failure changes nothing on screen rather than showing a wrong figure */
+/* Sharla, 17 Oct: "add in a place where they check a box for completing days
+   2-5 quests so it automates the tracking of those". The boxes already
+   existed. What was missing is that a tick never left the browser - it saved
+   to localStorage and stopped there, so the Raffle Tracker was still counted
+   by hand. This posts one message per day, the first time that day is earned.
+
+   Three rules it has to keep:
+   - Once per day, not once per tick. S.reported is the durable record and
+     inFlight stops a double send inside one session.
+   - Never show a lead a failure. A Quest they have earned is theirs whether
+     or not the sheet heard about it, so a failed send is silent and simply
+     left unreported, which means the next visit tries again. The Concierge
+     reconciles anything stranded from the script's Unmatched tab.
+   - Do nothing at all when questEndpoint is empty, which is how the Hub
+     ships today. Same defensive pattern as the Summit block and the Zoom
+     button: no endpoint, no behaviour, no error. */
+var questReportInFlight = {};
+function reportQuest(n){
+  var url = CHALLENGE.links.questEndpoint;
+  var em  = displayEmail(S.email);
+  if(!url || !em) return;
+  S.reported = S.reported || {};
+  if(S.reported[n] || questReportInFlight[n]) return;
+  questReportInFlight[n] = true;
+  fetch(url,{method:"POST",mode:"cors",
+      /* text/plain avoids a CORS preflight, which Apps Script cannot answer.
+         Same as the Count my Quest form below. */
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({challenge:CHALLENGE.id, day:n, email:em,
+                           postUrl:"", source:"hub-checkbox"})})
+    .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+    .then(function(){ S.reported[n]=true; save(); })
+    .catch(function(){ delete questReportInFlight[n]; });
+}
+
+function loadTicketTotal(){
+  var url = CHALLENGE.links.ticketsEndpoint, key = CHALLENGE.links.ticketsKey;
+  var em  = displayEmail(S.email);
+  if(!url || !em) return;
+  fetch(url+(url.indexOf("?")>-1?"&":"?")+"email="+encodeURIComponent(em)+
+        (key?"&key="+encodeURIComponent(key):""), {mode:"cors"})
+    .then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(j){
+      if(!j || j.ok!==true || j.found!==true) return;      /* leave it unknown */
+      if(typeof j.total!=="number" || !isFinite(j.total) || j.total<0) return;
+      TRACKER_TOTAL = j.total;
+      TRACKER_ASOF  = j.asOf || "";
+      render(true);
+    })
+    .catch(function(){});   /* silent: the Concierge line already covers it */
+}
+
+/* A tally, not a score out of something.
+   There is no denominator anywhere in this: bonuses are worth different
+   amounts and there is no ceiling, so "3 of 5" was always wrong. It shows the
+   real number from the Raffle Tickets Tracker with a plus after it, and a row
+   of ticket marks that simply grows. Past 24 marks it stops drawing them and
+   says how many more, so a big total does not swamp the sidebar.
+   The number itself is never invented: with nothing from the tracker it says
+   the Concierge holds the count rather than showing a zero. */
+function ticketPips(n){
+  var SHOW=24, drawn=Math.min(n, SHOW), out="";
+  for(var i=0;i<drawn;i++) out+='<span class="pip"></span>';
+  if(n>SHOW) out+='<span class="pip-more">+'+(n-SHOW)+' more</span>';
+  return '<span class="pips" aria-hidden="true">'+out+'</span>';
+}
+function ticketPanel(){
+  if(TRACKER_TOTAL !== null){
+    var n=TRACKER_TOTAL;
+    return '<div class="tickets counted">'+
+      '<span class="tk-n">'+n+'<span class="tk-plus">+</span></span>'+
+      '<span class="tk-l">Golden Ticket'+(n===1?'':'s')+' and counting</span>'+
+      (n>0 ? ticketPips(n) : '')+
+      '<span class="tk-s">'+
+        (n>0 ? 'Every Quest, every bonus, every friend you bring adds another. '
+             : 'Your first one is waiting on the Pre-Challenge Quests. ')+
+        'Counted from the Raffle Tracker'+(TRACKER_ASOF?', read '+esc(TRACKER_ASOF):'')+'.'+
+      '</span></div>';
+  }
+  return '<div class="tickets"><span class="tk-l">Golden Tickets</span>'+
+      /* The number came out of this box on 16 Oct, Ella. It still sits in the
+         Concierge block below, so nothing is lost. Deleted rather than
+         reworded: no copy goes live that Sharla has not approved. */
+      '<span class="tk-s">Your Concierge keeps your count, bonus tickets included.</span></div>';
+}
+function toast(m){var t=document.getElementById("toast");t.textContent=m;t.classList.add("on");
+  clearTimeout(t._t);t._t=setTimeout(function(){t.classList.remove("on");},2300);}
+
+/* The Concierge number, tappable. It used to be plain text, so on a phone -
+   which is roughly 90% of this audience - the one number we ask people to
+   text could not be tapped. */
+function phoneLink(){
+  return '<a href="sms:+18314801290">(831)&nbsp;480-1290</a>';
+}
+function concierge(){
+  return '<div class="concierge"><b>Questions? Your Challenge Concierge is here for you.</b>'+
+   '<span>Text '+phoneLink()+' or DM <a href="https://m.me/ThriveAcademy" target="_blank" rel="noopener">m.me/ThriveAcademy</a></span>'+
+   /* Ella, 6 Sept: an email address for Challenge questions, alongside the
+      text line. It was only in the footer before, which is past everything. */
+   '<span>Or email <a href="mailto:Support@Thrive-Academy.com">Support@Thrive-Academy.com</a></span>'+
+   '<span>Please include your first and last name so we can find your registration and help you faster.</span></div>';
+}
+
+/* Who won that day's Quest draw. Fill the name into CHALLENGE.winners after
+   each session. An empty name renders nothing at all, so a day that has not
+   been drawn yet never shows an empty placeholder. */
+/* ---------------------------------------------------------------------------
+   THE SUMMIT AND SCHOLARSHIP BLOCK
+   Nothing about the Summit appears until Day 1 has finished. Selling before we
+   have delivered anything reads badly, and Sharla introduces it on the call.
+   After Day 1 this is informational rather than a pitch: no price, no
+   countdown, no "seats going fast", and the button says what it actually does
+   instead of "Save my seat", which reads free and lands on a checkout.
+
+   TODO Sharla: approve this wording. The scholarship detail is deliberately
+   thin - nobody has given me the specifics, and inventing them would be worse
+   than saying less.
+   --------------------------------------------------------------------------- */
+function summitOpen(){
+  var d1 = day_(1);
+  if(!d1 || !d1.replayAt) return false;
+  try{ return now_() >= Date.parse(d1.replayAt); }catch(e){ return false; }
+}
+function summitBlock(compact, force){
+  /* force is used by Days 2 to 8, where the gate is redundant: you cannot be
+     on Day 2 before Day 1 has happened. The Hub home and Day 1 still wait, so
+     nothing about the Summit appears before Sharla has introduced it. */
+  if(!force && !summitOpen()) return "";
+  /* No Summit URL set yet, so there is nothing to send anyone to. Render
+     nothing rather than a button with an empty href, which reloads the page
+     and looks broken. Added for the Quad 3 roll-forward: the January opt-in
+     link is still outstanding. Set CHALLENGE.links.summit and the whole
+     block reappears. */
+  if(!SUMMIT) return "";
+  return '<div class="card gold"'+(compact?'':' style="margin-top:30px"')+'>'+
+    (compact?'':'<a class="summit-art" href="'+SUMMIT+'" target="_blank" rel="noopener">'+
+      '<img src="'+m_('summit-banner.jpg')+'" alt="Client Attraction Summit, January 15 to 17, online" width="1800" height="790"></a>')+
+    /* Ella, 6 Sept, carrying Sharla's note from 2:24 of her second Loom about
+       prioritising the scholarship. Her exact headline and button label. The
+       hook and the button lead now; the explanation follows in small type
+       rather than standing between them. */
+    '<h3 class="summit-hook">Learn How to Fill Your Schedule without Pushy Selling.<br>'+
+    'It&rsquo;s our Gift to You.</h3>'+
+    '<a class="btn btn-primary btn-scholarship" href="'+SUMMIT+'" target="_blank" rel="noopener">'+
+    'Claim Your Scholarship Now</a>'+
+      /* Sharla, 7 Sept: remove the 'September 18 to 20' paragraph. The hook
+         and the button are the whole block now. */
+      '</div>';
+}
+
+/* Winner boxes.
+   Day 1 has none. For Days 2 to 5 the winner is drawn and announced on the
+   FOLLOWING session, so the box stays shut until that session has run, and
+   before then it says so. Day 8 carries the Grand Prize instead.
+   Nothing here ever addresses the team - a lead reads every word of it. */
+function nextQuestDay(n){
+  var q=DAYS.filter(isQuestDay).map(function(d){return d.n;}).sort(function(a,b){return a-b;});
+  for(var i=0;i<q.length;i++) if(q[i]>n) return q[i];
+  return 8;   /* after the last Quest day, the Grand Finale */
+}
+function dayConcluded(n){
+  var d=day_(n); if(!d||!d.replayAt) return false;
+  try{ return now_() >= Date.parse(d.replayAt); }catch(e){ return false; }
+}
+/* The Join Zoom block. NOT CALLED as of Sharla's 6 Sept Loom - the Zoom link
+   moved to the top strip and she asked for the per-day button and the "we go
+   live at 10am" line to come off the day pages. Kept because it carries the
+   fallback for a build with no Zoom link configured, where it tells people to
+   look in their email instead. Delete it if that case is ever ruled out. */
+function zoomBlock(before, liveNow){
+  var label = liveNow ? "Join the live session now"
+            : before  ? "Join the live session"
+            : "Join the next live session";
+  if(!ZOOM){
+    return '<div class="card"><h3>Your join link is in your email</h3>'+
+      '<p class="caption">Search your inbox for &ldquo;Book 5 Consults&rdquo;. We send the join link every morning before we go live. '+
+      'Can&rsquo;t find it? Text your Concierge at '+phoneLink()+' with your first and last name and we&rsquo;ll send it straight to you.</p></div>';
+  }
+  return '<div class="joinzoom">'+
+    '<a class="btn btn-action" href="'+ZOOM+'" id="joinZoom" target="_blank" rel="noopener">'+label+'</a>'+
+    (PASSCODE ? '<p class="caption">If it asks for a passcode, it is <b>'+esc(PASSCODE)+'</b></p>' : '')+
+    '<p class="caption">We go live at 10:00am PT / 1:00pm ET every day.</p>'+
+  '</div>';
+}
+
+function winnerBlock(n){
+  var d=day_(n); if(!d) return "";
+
+  /* Grand Finale: the Grand Prize */
+  if(n===8){
+    var g=(CHALLENGE.winners && CHALLENGE.winners.grand) || "";
+    return '<div class="winner grand">'+
+      '<span class="lbl">Grand Prize winner</span>'+
+      (g ? '<b>'+esc(g)+'</b><span class="sub">Congratulations. Thank you to everyone who showed up and did the work this week.</span>'
+         : '<b>Announced live today</b><span class="sub">The Grand Prize is drawn during the Grand Finale. Stay with us to the end.</span>')+
+    '</div>';
+  }
+
+  if(n===1 || !isQuestDay(d)) return "";
+
+  var w=(CHALLENGE.winners && CHALLENGE.winners[n]) || "";
+  var nd=nextQuestDay(n), ndd=day_(nd);
+  var announceOn = ndd ? (nd===8 ? "the Grand Finale" : "Day "+nd) : "the next session";
+
+  /* A name here means Ella has published it, so it shows straight away. The
+     date gate below exists to stop an EMPTY box appearing before the draw has
+     happened; it was never meant to hold back a result she has announced.
+     Ella, 10 Sept: 'Congratulations, Kimberly Jenks for Day 3 winner. publish
+     now'. Day 4 had not concluded, so the old order would have hidden it
+     until 11am. */
+  if(w) return '<div class="winner">'+
+    '<span class="lbl">Day '+n+' Quest winner</span>'+
+    '<b>'+esc(w)+'</b>'+
+    '<span class="sub">Congratulations. Every completed Quest is another entry in the draw for the Grand Prize.</span>'+
+  '</div>';
+  if(!dayConcluded(nd)){
+    return '<div class="winner pending">'+
+      '<span class="lbl">Day '+n+' Quest winner</span>'+
+      '<b>Announced on '+announceOn+'</b>'+
+      '<span class="sub">Complete your Day '+n+' Quest to be in the draw. '+
+      'We announce the winner on '+announceOn+'.</span>'+
+    '</div>';
+  }
+  if(!w) return "";
+  return '<div class="winner">'+
+    '<span class="lbl">Day '+n+' Quest winner</span>'+
+    '<b>'+esc(w)+'</b>'+
+    '<span class="sub">Congratulations. Every completed Quest is another entry in the draw for the Grand Prize.</span>'+
+  '</div>';
+}
+
+/* ---------------- sidebar (desktop) ---------------- */
+function sidebar(){
+  if(authState!=="hub") return "";
+  var h=location.hash;
+  var items='<a class="navitem'+(h==="#/prechallenge"?'" aria-current="page':'')+'" href="#/prechallenge">'+
+            '<span class="n">Prepare</span></a>';
+  items+=DAYS.map(function(d){
+    if(!open_(d.n)) return '<span class="navitem locked"><span class="n">Day '+d.n+'</span><span class="s">'+esc(d.short)+'</span></span>';
+    var live=isLiveNow(d.n), cur=(h==="#/day/"+d.n);
+    return '<a class="navitem'+(live?' live':'')+'"'+(cur?' aria-current="page"':'')+' href="#/day/'+d.n+'">'+
+      '<span class="n">Day '+d.n+'</span>'+
+      (live?'<span class="s">Live now</span>':(done_(d.n)?'<span class="ok">&#10003;</span>':'<span class="s">'+esc(d.short)+'</span>'))+'</a>';
+  }).join('');
+  var t=tickets(), tot=DAYS.filter(function(d){return isQuestDay(d)&&open_(d.n);}).length;
+  return '<div class="stick">'+
+    '<button type="button" id="navClose" class="navclose">Close</button>'+
+    '<h2>Your Challenge</h2><nav class="navlist">'+items+'</nav>'+
+    ticketPanel()+
+    '<div style="margin-top:28px">'+concierge()+'</div></div>';
+}
+
+function acct(){
+  if(authState!=="hub") return '<span>Not signed in</span>';
+  return esc(displayEmail(S.email)||'Email unavailable')+'<br><button id="signout">Sign out</button>';
+}
+
+/* ---------------- views ---------------- */
+/* The sign-in service answers with the SAME body for at least seven different
+   situations. Six return 401. The seventh returns 429 and is the dangerous one:
+   measured on 6 September, five failed tries on one visitor cause the sixth and
+   every later attempt to return 429, and from that point the CORRECT address is
+   refused too. It persists at least 13 minutes, sends no Retry-After, and its
+   body is byte for byte identical to the 401. Branching only on 5xx told a
+   locked-out registrant she was not on the Challenge list. On a launch day that
+   quietly loses real people who did nothing wrong. Each state now gets its own
+   words, and the locked state gets a way out. */
+function loginNotice(){
+  var box=function(h){return '<div class="errorbox" style="max-width:420px;margin:0 auto 20px">'+h+'</div>';};
+  if(authDown) return box('We can&rsquo;t reach our system right now. This is us, not you. '+
+    'Please try again in a few minutes, or text your Concierge at '+phoneLink()+' and we&rsquo;ll let you straight in.');
+  if(loginLocked) return box('That is a few tries in a row, so sign-in has paused itself for a moment. '+
+    'Nothing is wrong with your registration. Start a clean session below, '+
+    'or text us at '+phoneLink()+' and we&rsquo;ll let you straight in.'+
+    '<div style="margin-top:12px"><button type="button" id="freshsession" class="btn btn-primary" '+
+    'style="width:auto;padding:10px 18px">Start a clean session</button></div>');
+  if(!loginError) return '';
+  /* Past a few misses, stop inviting more guesses. The old copy said "try
+     another", and every extra guess walks them closer to the lockout above. */
+  if(loginTries>=3) return box('Still no match on that address. Rather than keep guessing, '+
+    'text us at '+phoneLink()+' and we&rsquo;ll find your registration and let you in.');
+  return box('We couldn&rsquo;t verify that email. '+
+    'Check it is the address you registered with, which is often not the one you use day to day. '+
+    'If you are sure it is right, open the Hub in a private browsing window, or text us at '+phoneLink()+'.');
+}
+function vLogin(err){
+  return '<section class="hero">'+
+    '<div class="bed"><video autoplay muted loop playsinline preload="metadata" '+
+      'poster="'+m_('hero-poster.jpg')+'" aria-hidden="true"><source src="'+m_('hero.mp4')+'" type="video/mp4"></video></div>'+
+    '<div class="scrim"></div>'+
+    '<div class="in"><div class="col">'+
+      '<p class="eyebrow">Book 5 Consults in 5 Days</p>'+
+      '<h1>Welcome to the<br>Challenge Hub</h1>'+
+      '<p class="lede">Everything you need for the Challenge, in one place. '+
+      'Sign in with the email you signed up with.</p>'+
+      loginNotice()+
+      '<form id="loginForm" novalidate>'+
+        '<label class="fl" for="em">Your email</label>'+
+        '<input type="email" id="em" placeholder="you@email.com" autocomplete="email" required>'+
+        '<button class="btn btn-primary" type="submit">Enter the Hub</button>'+
+      '</form>'+
+      '<p class="hint" style="margin-top:14px">Not yet registered for the Challenge? <a href="'+REGISTER+'">Register here</a>.</p>'+
+      /* The one page where a stuck lead most needs a person used to be the one
+         page with nobody on it. */
+      '<p class="hint" style="margin-top:14px">Stuck? Text your Challenge Concierge at '+phoneLink()+'. '+
+      'Please include your first and last name so we can find you fast.</p>'+
+    '</div></div>'+
+  '<div class="band-strip"><span data-round-name>'+(ROUND_NAME||'November 2 to 6')+'</span><span class="sep">|</span><span class="hi">Live daily 10:00am PT</span></div>'+
+  '</section>';
+}
+
+function vPre(){
+  var first=displayFirst(S.first);
+  var email=displayEmail(S.email);
+  /* Hierarchy set by Sharla on the 4 Sept call. Her words: the largest thing
+     on the page should be "take these two quick steps", then the Step headers,
+     then the greeting. She asked for at least five font sizes between each
+     level, so the .pre-* classes below step down deliberately rather than
+     reusing the general scale. */
+  return '<div class="measure prep">'+
+   /* Sharla, 6 Sept Loom: "we can shrink the size of this video... maybe even
+      make it two columns", because at full width the video pushed the steps
+      below the fold and "they may not realize they could scroll down".
+      Greeting and video now sit side by side, and the repeated start time is
+      said once here rather than again inside Step 1. */
+   '<div class="pre-top">'+
+     '<div class="pre-top-copy">'+
+         /* The "You're registered" eyebrow came out on 16 Oct. Sharla's
+            Fathom note - take away "you're registered, you're in" - and Ella
+            picked the eyebrow. The greeting below still says it once. */
+       '<h1 class="pre-hi">You&rsquo;re in'+(first?', '+esc(first):'')+'!</h1>'+
+       /* Ella, 16 Oct, her words: this line replaces "We go live at 10:00am PT /
+          1:00pm ET, Monday November 2 to Friday the 6th", which said the dates a
+          second time. Sharla, 14 Oct: "see all this stuff about like the dates...
+          Why is it on there twice?" The strip above still carries them. */
+       '<p class="pre-when">We are so excited you&rsquo;re here. Ready to get clients during the holidays?</p>'+
+     '</div>'+
+     '<div class="player"><video controls preload="none" playsinline poster="'+m_('welcome-poster.jpg')+'" '+
+       'aria-label="Welcome to the Challenge"><source src="welcome.mp4" type="video/mp4">'+
+       'Your browser cannot play this video. <a href="'+m_('welcome.mp4')+'">Download it instead.</a></video></div>'+
+   '</div>'+
+   '<h2 class="pre-do">Two quick steps to get the most clients from this Challenge</h2>'+
+
+   /* Sharla: "put Challenge Events in your calendar now... I think we can
+      delete this and just have it have the button". The time is already
+      given once above, so repeating it here was the repetition she flagged. */
+   '<h3 class="pre-step">Step 1 &middot; Put the Challenge events in your calendar now</h3>'+
+   (ADDCAL
+     ? '<a class="btn btn-action" href="'+ADDCAL+'" target="_blank" rel="noopener" style="max-width:420px">Add the Challenge to my calendar</a>'
+     /* No September calendar exists yet. Every AddEvent calendar currently on
+        the funnel is either disabled or titled Aug 17-21, so wiring one would
+        add the wrong week - the exact fault a lead reported on 1 Sept. Until
+        someone creates the September calendar, show the dates instead of a
+        button that misleads. */
+     : '<div class="locked-msg" style="max-width:520px">Mon 2, Tue 3, Wed 4, Thu 5 and Fri 6 November, '+
+       '10:00&ndash;11:00am PT / 1:00&ndash;2:00pm ET. Pop those five in now.</div>')+
+
+   /* Sharla circled this step on her 6 Sept Loom and talked herself out of a
+      decision: "I'm almost wondering if we should just remove, I DON'T KNOW,
+      we're not seeing it helping with the Facebook group join rate." That is
+      an open question, not an instruction, and it stays until she answers it.
+      Removing it also strands the Quests, which live in this Group. */
+   '<h3 class="pre-step">Step 2 &middot; Join the Facebook Group</h3>'+
+   '<p>This is where you&rsquo;ll meet the other Champions, post your Quests, and earn your Golden Tickets.</p>'+
+   '<p class="caption" style="margin-bottom:2px">The Group will ask for the email you registered with. Here it is:</p>'+
+   '<div class="merge" style="max-width:420px"><code>'+esc(email||'Email unavailable')+'</code><button id="copyEmail" type="button">Copy</button></div>'+
+   '<a class="btn btn-action" href="'+FBGROUP+'" id="joinFb" style="max-width:420px">Join the Facebook Group</a>'+
+
+   preQuestBlock()+
+   dayList()+
+   /* The Concierge block repeated here under the Facebook button. The
+      sidebar already carries it, so the same offer appeared twice on one
+      screen. Removed on Ella's note, 16 Oct. */
+   '</div>';
+}
+
+/* One button, straight to Pre-Challenge Quest 1. Ella, 4 Sept. The Quests
+   themselves live in the Facebook Group and each post links on to the next,
+   so the Hub does not need to reproduce the whole chain. */
+function preQuestBlock(){
+  var q = CHALLENGE.preQuests && CHALLENGE.preQuests[0];
+  if(!q) return "";
+  /* No URL pasted in yet, so there is nowhere to send anyone. Render nothing
+     rather than a button with an empty href. Same reasoning as the Summit
+     block. Paste the C1 pre-Challenge Quest URL and this reappears. */
+  if(!q.url) return "";
+  /* One button, so the copy has to carry the whole idea. It leads on the
+     reward rather than the admin: every warm-up earns a Golden Ticket, and
+     they can be banked before Day 1 even starts. */
+  /* Rewritten on Sharla's 6 Sept Loom. She read the old line back - "get a
+     head start on your golden tickets, so you can be in the draw before day
+     one even begins" - and said "that's weird English", then gave the
+     replacement herself: "Earn golden tickets and be in the running for the
+     grand prize, valued at over...". She also said the reason has to come
+     first: "we want to know why we're going to do work first."
+     The Grand Prize value is $5,300. Ella confirmed it on 6 Sept as the
+     estimate Thrive uses, and it matches the Day 2 Quest caption in this
+     file. */
+  return '<div class="pre-later">'+
+    '<h3 class="pre-step">Earn Golden Tickets and be in the running for the Grand Prize</h3>'+
+    '<p>The Grand Prize is worth over $5,300. Four short warm-ups are waiting in the Group, '+
+    'a couple of minutes each, and every one earns you a Golden Ticket.</p>'+
+    '<a class="btn btn-action" href="'+q.url+'" target="_blank" rel="noopener" style="max-width:420px">'+
+    'Earn my first Golden Ticket</a>'+
+    '</div>';
+}
+
+/* The day list. It used to live only on the Hub home page, which was also the
+   only day navigation on a phone because the sidebar is hidden there. The Hub
+   home is gone now, so this sits on the Prepare page instead and is hidden on
+   desktop, where the sidebar already carries it. */
+function dayList(){
+  var rows=DAYS.map(function(d){
+    if(!open_(d.n)) return '<span class="dayrow locked"><span class="n">Day '+d.n+'</span><span class="d">Opens '+esc(d.short)+', 9am PT</span></span>';
+    var live=isLiveNow(d.n), dn=done_(d.n);
+    var right=live?'<span class="d">Live now</span>':(dn?'<span class="pill">Complete</span>':'<span class="d">'+esc(d.short)+'</span>');
+    return '<a class="dayrow'+(live?' live':'')+(dn?' done':'')+'" href="#/day/'+d.n+'"><span class="n">Day '+d.n+'</span>'+right+'</a>';
+  }).join('');
+  return '<div class="daylist hub-daylist"><h3 class="pre-step">Your Challenge days</h3>'+rows+'</div>';
+}
+
+function questBlock(d){
+  var p=prog(d.n);
+  /* A day whose Quest post URL has not been pasted in yet falls back to the
+     Group itself rather than rendering a dead button. Links and labels are
+     unchanged; only the destination differs, so no new copy is introduced.
+     Someone still lands in the right place and can find the post. Added for
+     the Quad 3 roll-forward, where every post URL starts empty. */
+  var QP = d.post || FBGROUP || '';
+  if(d.quest==="day1"){
+    return '<h3>Complete your Day 1 Quest</h3>'+
+      '<p>Comment your Compelling Consult Name on our Day 1 Quest post, then claim your prize.</p>'+
+      '<a class="btn btn-primary" href="'+QP+'" target="_blank" rel="noopener">Go to the Day 1 Quest post</a>'+
+      '<div class="steps"><div class="step'+(p.quest?' checked':'')+'">'+
+      '<input type="checkbox" id="q1"'+(p.quest?' checked':'')+'>'+
+      '<label class="txt" for="q1"><span class="k">Day 1 Quest</span>I posted my Compelling Consult Name on the Quest post.</label></div></div>';
+  }
+  var L=[
+   /* Sharla, 8 Sept, her wording. The Quest post is a link here, not just a
+      name, so nobody has to scroll back to the button to find it. */
+   'After writing your <b>'+d.asset+'</b> post, go to the '+
+     '<a href="'+QP+'" target="_blank" rel="noopener">Day '+d.n+' Quest post</a> '+
+     'and click on 5+ Champions links. Engage with their posts by reacting and commenting.',
+   'Post your <b>'+d.asset+'</b> on Facebook, Instagram, or LinkedIn.',
+   'Share your post link (permalink) in the <b><a href="'+QP+'" target="_blank" rel="noopener">Day '+d.n+' Quest</a></b> comments.',
+   'Comment on <b>5+ more Champions</b> to help boost each other&rsquo;s visibility.'];
+  return '<h3>Complete your Day '+d.n+' Quest</h3>'+
+   '<a class="btn btn-primary" href="'+QP+'" target="_blank" rel="noopener">Go to the Day '+d.n+' Quest post</a>'+
+   '<div class="steps">'+L.map(function(t,i){
+     var on=p.steps.indexOf(i)>-1;
+     return '<div class="step'+(on?' checked':'')+'"><input type="checkbox" data-step="'+i+'" id="s'+i+'"'+(on?' checked':'')+'>'+
+       '<label class="txt" for="s'+i+'"><span class="k">Step '+(i+1)+'</span>'+t+'</label></div>';}).join('')+'</div>';
+}
+
+function vDay(n){
+  var d=day_(n);
+  /* a typo'd or stale day link used to fall through to the Hub home. That
+     page is gone, so send them somewhere real rather than rendering nothing. */
+  if(!d){ location.hash="#/prechallenge"; return ""; }
+  if(!open_(n)){
+    var lockMsg = 'Day '+n+' opens '+esc(d.short)+' at 9:00am PT. We&rsquo;ll email you the moment it does.';
+    return '<div class="measure">'+
+     '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p><h1>Not open yet</h1>'+
+     '<div class="locked-msg">'+lockMsg+'</div>'+
+     concierge()+'</div>';
+  }
+  var before=(phaseOf(n)==="before"), dn=done_(n);
+  /* The Quest is gated on the SESSION STARTING, not on the replay landing.
+     phaseOf's "before" runs from the 9am unlock right through to replayAt at
+     noon, so gating the Quest on it left the page reading "Your Quest unlocks
+     when we go live" at 10:05 and at 11:00, while Sharla was live and telling
+     people to go and do it. Measured on the live site on 7 Sept. Falls back to
+     the old behaviour when a day has no startsAt, so a malformed config can
+     never hide a Quest for longer than it does today. */
+  var started=(function(){
+    var t=Date.parse(d.startsAt||"");
+    return isNaN(t) ? !before : now_()>=t;
+  })();
+  /* Replays come down on the Sunday, except the Finale which carries its own
+     window. This view returns the same shape as every other day view; the
+     surrounding chrome is static markup, not a function. */
+  if(!before && replaysClosed(d)){
+    return '<div class="measure">'+
+      '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p>'+
+      '<h1>Replay is no longer available</h1>'+
+      '<p class="lede">The Day '+n+' replay came down at 9:00pm PT on Sunday. '+
+      'Please reach out to <b>Maite</b> or <b>Sarah</b> for any queries &mdash; text '+phoneLink()+' '+
+      'with your first and last name and they&rsquo;ll look after you.</p>'+
+      '<p class="lede">Your Playbook is yours to keep, and everything in it still works.</p>'+
+      (d.playbook ? '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a>' : '')+
+      (summitOpen()?'<a class="btn btn-outline" href="'+SUMMIT+'" target="_blank" rel="noopener">Claim your scholarship</a>':'')+
+      winnerBlock(n)+
+      concierge()+'</div>';
+  }
+
+  /* The join block, on every day and in every state. It is the same Zoom room
+     all week, so somebody on Wednesday's replay who wants Thursday still needs
+     it. The label changes so it never says "live" when nothing is.
+     If the link is missing for ANY reason we show a warm way through instead:
+     where it is in their email, and a person to text. A lead must never see a
+     technical failure. */
+  /* Sharla, same Loom: "I would remove this, down, join the next live
+     session. I would remove the, the we go live at 10am." Both are said once
+     in the top strip now rather than repeated on every day page. */
+  var joinBlock = "";
+
+  var liveNow = isLiveNow(n);
+  var media = before
+   ? '<p class="time">Live at 10:00am PT / 1:00pm ET</p>'+
+     (liveNow
+       ? '<p class="countdown">We&rsquo;re live now<small>come on in</small></p>'
+       : '<p class="countdown" id="cd" data-target="'+esc(d.startsAt||"")+'">&mdash;<small>until we go live</small></p>')+
+     joinBlock
+   /* The replay only appears once someone has uploaded that day's recording.
+      Until then we say so plainly, rather than showing a player with nothing
+      behind it. The Quest below is NOT held back by this. */
+   /* A real player, not a placeholder. The old branch rendered a button that
+      only toggled a class and showed a toast, so it looked playable and did
+      nothing. No caption is added here: the player speaks for itself and
+      any wording would be unapproved copy. */
+   : (d.vimeo
+      ? '<div class="vwrap"><iframe src="https://player.vimeo.com/video/'+esc(d.vimeo)+'" '+
+        'title="Day '+n+' session" frameborder="0" '+
+        'allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe></div>'
+      /* Sharla, 6 Sept Loom, her own copy: "Go to the Facebook group to guide
+         one to watch the day one replay, or wait, and it will be ready soon."
+         The button lands on the Group's Guides tab, which is where the day
+         replays are posted, so nobody has to hunt the main feed for it. The
+         label says Facebook Group rather than Guides because that is what a
+         lead recognises. */
+      /* The button lands on the Group's MAIN PAGE, not the Guides tab. Ella,
+         8 Sept, P2: 'the link to watch the FB live in the Challenge Hub is taking
+         them to the Guides in the FB group instead of the main page.' The live
+         video sits in the main feed while it is fresh; Guides is where it lands
+         later, so Guides was the wrong destination on the day itself.
+         A day with its own replay URL still goes straight to that video. */
+      /* Sharla's own wording from her 6 Sept Loom, unchanged, whether or not
+         the recording is up yet. Ella confirmed on 7 Sept that this copy is
+         right as it stands. Only the button's destination changes: straight
+         to that day's recording once d.replay is set, the Group's Guides tab
+         until then. No copy on this page is unapproved. */
+      : '<div class="soon"><span class="lbl">Replay coming shortly</span>'+
+        '<p>Go to the Facebook Group to watch the Day '+n+' replay now, '+
+        'or wait here and it will be ready soon.</p>'+
+        ((d.replay||FBGROUP) ? '<a class="btn btn-outline" href="'+(d.replay||FBGROUP)+'" '+
+          'target="_blank" rel="noopener">Watch it in the Facebook Group</a>' : '')+'</div>')+
+       /* the Join button rides along in the replay state too: it is the same
+          Zoom room all week, so somebody catching up on Wednesday still needs
+          it for Thursday */
+       joinBlock;
+
+  /* The same square artwork that heads that day's post in the Facebook Group,
+     so the Hub and the Group read as one thing rather than two. */
+  var art = (d.art && !before)
+   ? '<div class="questart"><img src="'+d.art+'" alt="Day '+n+' Quest" width="900" height="900" loading="lazy"></div>'
+   : '';
+
+  var quest = !isQuestDay(d)
+   ? ''
+   : !started
+   ? '<h3>Today&rsquo;s Quest</h3><p>Your Quest unlocks when we go live. Stay with me on the call and you&rsquo;ll have it written before we finish.</p>'
+   : questBlock(d);
+
+  var ticket = (!started || !isQuestDay(d)) ? '' :
+   '<div class="ticket'+(dn?' earned':'')+'"><div class="ticket-in">'+
+   /* Sharla, 8 Sept, both messages her wording. Day 1 lands on the scholarship,
+      because that is the first thing a Champion becomes eligible for. Every
+      other day points at the daily prize and the Grand Prize. She flagged the
+      old line as "weird syntax and not the way a person from the US would
+      speak". */
+   (dn?(n===1
+        ? 'Great job completing your Day 1 Quest!<br>'+
+          'You&rsquo;re now eligible for a Full Scholarship to the Client Attraction Summit.<br>'+
+          '<a href="'+SUMMIT+'" target="_blank" rel="noopener">Learn more here.</a>'
+        : '<b>Golden Ticket Earned.</b> Day '+n+' is done! You&rsquo;re in the drawing for '+
+          'today&rsquo;s prize and one step closer to the Grand Prize.')
+      :'Complete all the steps to earn <b>1 Golden Ticket</b> toward the Grand Prize.')+
+   '</div></div>'+
+   /* The old "Submit your post here instead" link went to a form that saved
+      nothing and still said "counted", so anyone using it lost their ticket
+      silently. Removed. A person is the fallback now, not a dead form. */
+   /* Day 1 only. Day 1's Quest is a comment on a public Page post, so someone
+      outside Facebook can still be counted by hand. Days 2 to 5 require posting
+      inside the Group, so there is no off-Facebook route and offering one would
+      be a promise we cannot keep. */
+   /* Day 1 only. Its Quest runs on a public Page post, so someone outside
+      Facebook can still take part. Days 2 to 5 need the Group, so there is no
+      alternative to offer and pretending otherwise would be a promise we
+      cannot keep. */
+   (d.quest==="day1"
+     ? '<p class="caption" style="margin-top:14px">Not on Facebook? '+
+       (d.igPost
+         ? 'You can also post your Consult Name on <a href="'+d.igPost+'" target="_blank" rel="noopener">our Instagram post</a>.'
+         : 'Send your Consult Name to your Concierge at '+phoneLink()+' and we&rsquo;ll count it for you.')+
+       '</p>'
+     : '');
+
+  var aside =
+   '<div class="aside">'+
+     /* Sharla, 7 Sept: "Pls put the Summit headline and button above the
+        Playbook." It sat underneath until now. */
+     summitBlock(true, true)+
+     /* Sharla, 6 Sept: "Delete this extra copy, it's unnecessary. Just
+        remove all of this. Only download the playbook." */
+     (d.playbook ? '<div class="card"><h3>Today&rsquo;s Playbook</h3>'+
+       '<a class="btn btn-outline" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div>' : '')+
+   '</div>';
+
+  /* The All days link went on Sharla's 6 Sept Loom: "I don't think we need
+     all days, I would delete that, this is really obvious." The left menu
+     already lists every day. */
+  /* Keep the first expression on this line. A bare `return` followed by a
+     newline is silently turned into `return;` by JavaScript, which is exactly
+     what happened when the back link was deleted from here: every Day page
+     rendered the word "undefined". */
+  return '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p>'+
+   '<h1>'+d.title+'</h1>'+
+   '<div class="cols"><div class="mainCol">'+'<div class="day-tickets">'+ticketPanel()+'</div>'+media+'<div class="summit-inline">'+summitBlock(true,true)+'</div>'+(d.playbook?'<div class="playbook-inline"><div class="card"><h3>Today&rsquo;s Playbook</h3>'+'<a class="btn btn-action" href="'+d.playbook+'" target="_blank" rel="noopener">Download the Playbook</a></div></div>':'')+art+quest+ticket+winnerBlock(n)+'</div>'+aside+'</div>'+
+   concierge();
+}
+
+function vSubmit(n,sent){
+  var d=day_(n);
+  if(sent) return '<div class="narrow"><a class="back" href="#/day/'+n+'">&larr; Back to Day '+n+'</a>'+
+    '<h1>Got it</h1><div class="okbox">Your Day '+n+' Quest is counted. See you tomorrow at 10:00am PT.</div>'+
+    '<a class="btn btn-primary" href="#/prechallenge">Back to the Challenge</a>'+concierge()+'</div>';
+  return '<div class="narrow"><a class="back" href="#/day/'+n+'">&larr; Back to Day '+n+'</a>'+
+   '<p class="eyebrow">Day '+n+' &middot; '+esc(d.date)+'</p><h1>Submit your Quest</h1>'+
+   '<p>Posted somewhere other than our Facebook Group? Drop the link here and we&rsquo;ll count it toward your Golden Ticket.</p>'+
+   '<form id="subForm" novalidate><label class="fl" for="se">Your email</label>'+
+   '<input type="email" id="se" value="'+esc(S.email||"")+'" required>'+
+   '<label class="fl" for="su">Link to your post</label>'+
+   '<input type="url" id="su" placeholder="https://" required>'+
+   '<button class="btn btn-primary" type="submit">Count my Quest</button></form>'+concierge()+'</div>';
+}
+
+function nudgeBroll(){
+  if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var v=document.querySelector(".hero .bed video");
+  if(v && v.paused && !v.ended){ var p=v.play(); if(p && p.catch) p.catch(function(){}); }
+}
+["pointerdown","touchstart","keydown"].forEach(function(evt){
+  document.addEventListener(evt, nudgeBroll, {once:false, passive:true});
+});
+
+
+/* ---------------- router ---------------- */
+function render(keep){
+  var y=window.scrollY, h=location.hash, html, m;
+  if(authState==="loading"){
+    document.body.className="";
+    document.getElementById("main").innerHTML="";
+    document.getElementById("side").innerHTML="";
+    document.getElementById("acct").innerHTML="";
+    return;
+  }
+  if(authState!=="hub"){
+    document.body.className="is-login";
+    document.getElementById("main").innerHTML=vLogin(loginError);
+    document.getElementById("side").innerHTML="";
+    document.getElementById("acct").innerHTML=acct();
+    window.scrollTo(0,keep?y:0);
+    wire(); setTimeout(nudgeBroll,60); return;
+  }
+  if(!h||h==="#/login") h="#/prechallenge";
+  document.body.className="";
+  if(h==="#/prechallenge") html=vPre();
+  /* the Hub home page is gone; anything pointing at it lands on Prepare */
+  else if(h==="#/hub"){ location.hash="#/prechallenge"; return; }
+  else if((m=h.match(/^#\/day\/(\d+)$/))) html=vDay(+m[1]);
+  else if((m=h.match(/^#\/submit\/(\d+)$/))) html=vSubmit(+m[1],false);
+  else {location.hash = "#/prechallenge"; return;}
+  document.getElementById("main").innerHTML=html;
+  document.getElementById("side").innerHTML=sidebar();
+  document.getElementById("acct").innerHTML=acct();
+  window.scrollTo(0, keep?y:0);
+  wire(); syncDemo();
+}
+
+function wire(){
+  var q=function(i){return document.getElementById(i);};
+
+  /* The mobile menu. Opens the sidebar as a full-screen panel. Navigating
+     re-renders, which clears body.className, so it closes itself. */
+  /* A locked day page carries no countdown, so nothing re-rendered it when the
+     clock crossed 9am. Someone sitting on Day 1 at 8:59 kept reading "Not open
+     yet" until they refreshed, which on a launch morning is exactly when people
+     are camped on the page waiting. This schedules one render at the next
+     moment that changes what any view shows: a day unlocking, a session
+     starting, or a replay landing. Re-armed on every render, cleared first so
+     they cannot stack up, and capped so the timer is never absurdly long. */
+  clearTimeout(window._boundaryT);
+  (function(){
+    var now=now_(), soonest=null;
+    DAYS.forEach(function(d){
+      [d.unlockAt, d.startsAt, d.replayAt].forEach(function(v){
+        var t=Date.parse(v||"");
+        if(!isNaN(t) && t>now && (soonest===null || t<soonest)) soonest=t;
+      });
+    });
+    if(soonest===null) return;
+    /* +1s so the clock is unambiguously past the boundary when it fires. */
+    var wait=Math.min(soonest-now+1000, 6*60*60*1000);
+    window._boundaryT=setTimeout(function(){ render(); }, wait);
+  })();
+
+  var nt=q("navToggle");
+  /* render() clears body.className, which closes the panel, but the button
+     kept saying aria-expanded="true" afterwards. A screen reader would then
+     announce a menu that is not open. Re-sync it on every render. */
+  if(nt) nt.setAttribute("aria-expanded", document.body.classList.contains("nav-open")?"true":"false");
+  if(nt) nt.onclick=function(){
+    var open=document.body.classList.toggle("nav-open");
+    nt.setAttribute("aria-expanded", open?"true":"false");
+    if(open){ var s=q("side"); if(s) s.scrollTop=0; }
+  };
+  var nc=q("navClose");
+  if(nc) nc.onclick=function(){
+    document.body.classList.remove("nav-open");
+    if(nt) nt.setAttribute("aria-expanded","false");
+  };
+
+  /* The Zoom button in the top strip. Ella gave the label, Sharla gave the
+     treatment: orange with white text. It only appears once someone is signed
+     in, because the strip is hidden on the login page anyway, and it says
+     "now" only while a session is actually running so the word stays true. */
+  var sz=q("stripZoom");
+  if(sz){
+    /* Sharla, 14 Oct: "I'm wondering if before the challenge, if that banner
+       doesn't have that button, like we don't need to see it yet." So it stays
+       hidden until Day 1 actually unlocks, rather than advertising a room
+       nobody can join for another two weeks. */
+    var d1 = DAYS && DAYS[0], challengeStarted = false;
+    try{ challengeStarted = !!d1 && now_() >= Date.parse(d1.unlockAt); }catch(e){}
+    if(!ZOOM || authState!=="hub" || !challengeStarted){ sz.innerHTML=""; }
+    else{
+      var liveNow=DAYS.some(function(d){return isLiveNow(d.n);});
+      sz.innerHTML='<a class="zoombtn'+(liveNow?' is-live':'')+'" href="'+ZOOM+'" '+
+        'target="_blank" rel="noopener">Join LIVE on Zoom Now</a>';
+    }
+  }
+  var so=q("signout"); if(so) so.onclick=async function(){
+    try{
+      await refreshAuthSession();
+      var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/logout",{
+        method:"POST",credentials:"include",
+        headers:{"Accept":"application/json","X-CAS-CSRF":csrfToken||""}
+      });
+      var result=await response.json().catch(function(){return {};});
+      if(!response.ok||result.logged_out!==true) return;
+      if(typeof result.csrf_token==="string") csrfToken=result.csrf_token;
+      S.email=null;S.first=null;save();authState="login";loginError=false;loginLocked=false;loginTries=0;
+      location.hash="#/login";render();
+    }catch(error){}
+  };
+
+  /* Clearing the lockout. POST /logout rotates cas_vid to a brand new visitor,
+     and the limit is keyed per visitor, so the new one signs in at once.
+     Verified end to end on 6 September: a visitor locked at 429 was refused
+     even with the right address, then logout rotated the id and the same
+     address returned 200 immediately.
+     This is not a hole in the limiter. /logout is public and unauthenticated,
+     so anyone scripting the service already has it. All this does is give a
+     real person stuck at the door the same clean start she would get by
+     clearing cookies, without asking her to know what a cookie is. */
+  var fs=q("freshsession"); if(fs) fs.onclick=async function(){
+    fs.disabled=true; fs.textContent="One moment";
+    try{
+      await refreshAuthSession();
+      await fetch(CAS_ORIGIN+"/browser/challenge-hub/logout",{
+        method:"POST",credentials:"include",
+        headers:{"Accept":"application/json","X-CAS-CSRF":csrfToken||""}
+      });
+      await refreshAuthSession();
+      loginLocked=false; loginError=false; authDown=false; loginTries=0;
+    }catch(error){
+      /* Could not reach the service to reset. Say that, rather than leaving
+         her looking at a button that appears to have done nothing. */
+      loginLocked=false; authDown=true;
+    }
+    render();
+    var em=document.getElementById("em"); if(em) em.focus();
+  };
+
+  var lf=q("loginForm");
+  if(lf) lf.onsubmit=async function(e){
+    e.preventDefault();
+    var v=(q("em").value||"").trim().toLowerCase();
+    /* The form carries novalidate, so nothing was checking this. Tapping the
+       big button on an empty field used to tell a lead their registration
+       did not exist. */
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)){
+      authDown=false; loginError=false;
+      var box=lf.parentNode.querySelector(".errorbox");
+      if(!box){ box=document.createElement("div"); box.className="errorbox";
+        box.style.cssText="max-width:420px;margin:0 auto 20px"; lf.parentNode.insertBefore(box,lf); }
+      box.innerHTML="Pop your email in the box above and we&rsquo;ll take you straight in.";
+      q("em").focus(); return;
+    }
+    var btn=lf.querySelector('button[type="submit"]');
+    if(btn){btn.disabled=true;btn.textContent="Verifying";}
+    /* Preview hosts only. The real auth service is locked to the production
+       hostname, so it can never answer from here; without this the welcome
+       page on our preview would be a dead end. Never runs on a customer host. */
+    if(showReview){
+      S.email=v; S.first=displayFirst(S.first)||"Preview"; save();
+      authState="hub"; loginError=false; authDown=false;
+      location.hash="#/prechallenge"; render(); return;
+    }
+    try{
+      await refreshAuthSession();
+      var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/login",{
+        method:"POST",credentials:"include",
+        headers:{"Content-Type":"application/json","X-CAS-CSRF":csrfToken||""},
+        body:JSON.stringify({email:v})
+      });
+      var result=await response.json().catch(function(){return {};});
+      if(response.ok&&result.authorized===true){
+        S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();
+        selectRound(result.tag || result.round || "");
+        authState="hub";loginError=false;authDown=false;loginLocked=false;loginTries=0;
+        render();loadTicketTotal();return;
+      }
+      /* 429 is the per-visitor rate limit. Its body is identical to the 401,
+         so the status line is the only thing that separates them, and it must
+         never be read as "not registered" - the address is often correct.
+         A 5xx means our service is unwell, not that this person is a stranger.
+         Say so, and never blame the lead for our outage. */
+      if(response.status===429){ authDown=false; loginError=false; loginLocked=true; }
+      else if(response.status>=500){ authDown=true; loginError=false; loginLocked=false; }
+      else { authDown=false; loginError=true; loginLocked=false; loginTries++; }
+    }catch(error){
+      /* Could not reach the service at all. Same reasoning. */
+      authDown=true; loginError=false; loginLocked=false;
+    }
+    render();
+    /* Put their email back so they are not retyping it to try again. */
+    var em=q("em");if(em){em.value=v;em.focus();}
+  };
+
+  var ce=q("copyEmail");
+  if(ce) ce.onclick=function(){
+    var email=displayEmail(S.email);
+    if(!email){toast("Email unavailable");return;}
+    if(navigator.clipboard&&navigator.clipboard.writeText)
+      navigator.clipboard.writeText(email).then(function(){toast("Email copied");},function(){toast(email);});
+    else toast(email);
+  };
+  var jz=q("joinZoom");
+  if(jz && ZOOM.charAt(0)==="#") jz.onclick=function(e){e.preventDefault();toast("Zoom link is injected in the production build");};
+
+  Array.prototype.forEach.call(document.querySelectorAll('#joinFb,[data-fb]'),function(a){
+    a.onclick=function(e){ if(a.getAttribute("href")==="#"){e.preventDefault();} };
+  });
+
+  [q("vid")].forEach(function(v){ if(v) v.onclick=function(){
+    v.classList.toggle("playing"); toast(v.classList.contains("playing")?"Playing":"Paused"); };});
+
+  var m=location.hash.match(/^#\/day\/(\d+)$/);
+  if(m){
+    var n=+m[1], p=prog(n), q1=q("q1");
+    if(q1) q1.onchange=function(){p.quest=q1.checked;save();render(true);
+      if(p.quest){ toast("Golden Ticket earned"); reportQuest(n); }};
+    Array.prototype.forEach.call(document.querySelectorAll("[data-step]"),function(cb){
+      cb.onchange=function(){
+        var i=+cb.getAttribute("data-step"), k=p.steps.indexOf(i);
+        if(cb.checked&&k<0)p.steps.push(i);
+        if(!cb.checked&&k>-1)p.steps.splice(k,1);
+        save(); var now=done_(n); render(true);
+        if(now){ toast("Golden Ticket earned"); reportQuest(n); }
+      };
+    });
+    /* The countdown used to be a hardcoded 8076 seconds, so it read 02:14:36
+       on every page load whatever the real time was. It now counts to this
+       day's actual start, and it recomputes from the wall clock on every tick
+       rather than decrementing, so a laptop that slept overnight wakes up
+       showing the truth. */
+    var cd=q("cd");
+    if(cd){
+      var target=Date.parse(cd.getAttribute("data-target")||"");
+      clearInterval(window._cd);
+      var p2=function(x){return String(x).padStart(2,"0");};
+      var tick=function(){
+        if(!document.body.contains(cd)){clearInterval(window._cd);return;}
+        if(isNaN(target)){cd.firstChild.nodeValue="\u2014";return;}
+        var s=Math.max(0,Math.floor((target-now_())/1000));
+        var days=Math.floor(s/86400), rest=s%86400;
+        cd.firstChild.nodeValue=(days>0?days+"d ":"")+
+          p2(Math.floor(rest/3600))+":"+p2(Math.floor(rest%3600/60))+":"+p2(rest%60);
+        if(s===0){clearInterval(window._cd);render();}
+      };
+      tick(); window._cd=setInterval(tick,1000);
+    }
+  }
+
+  var sf=q("subForm");
+  if(sf) sf.onsubmit=function(e){
+    e.preventDefault();
+    var n=+location.hash.match(/^#\/submit\/(\d+)$/)[1], p=prog(n);
+    var btn=sf.querySelector("button[type=submit]");
+    var payload={challenge:CHALLENGE.id, day:n,
+                 email:(q("se").value||"").trim().toLowerCase(),
+                 postUrl:(q("su").value||"").trim()};
+    function counted(){
+      if(day_(n).quest==="day1")p.quest=true; else p.steps=[0,1,2,3];
+      save(); document.getElementById("main").innerHTML=vSubmit(n,true);
+      document.getElementById("side").innerHTML=sidebar(); wire();
+    }
+    var url=CHALLENGE.links.questEndpoint;
+    if(!url){ counted(); return; }
+    if(btn){ btn.disabled=true; btn.textContent="Sending"; }
+    fetch(url,{method:"POST",mode:"cors",
+        /* text/plain avoids a CORS preflight, which Apps Script cannot answer */
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify(payload)})
+      .then(function(r){ return r.ok ? r.text() : Promise.reject(r.status); })
+      .then(function(){ counted(); })
+      .catch(function(){
+        /* never strand someone mid-Quest: count it locally, say so plainly,
+           and let the Concierge reconcile from the tracker */
+        counted();
+        toast("Saved. If it does not appear, text your Concierge.");
+      });
+    return;
+  };
+}
+
+/* ---------------- review bar ---------------- */
+/* The review panel now moves the CLOCK rather than setting a fake day number.
+   Pick a day and the whole Hub behaves exactly as it will at that moment, so
+   what you are reviewing is the real thing and not an approximation.
+   NOW_SHIFT is in memory only, so a reload always returns to real time and
+   nobody can get stranded in a simulated week. */
+/* Three states, not two. The old toggle could only land 30 minutes before the
+   session or a minute after it ended, so the LIVE hour could not be previewed
+   at all - which is exactly where the 7 Sept Quest bug hid: the page said "your
+   Quest unlocks when we go live" at 10:05 while the session was running.
+   0 = before, 1 = live, 2 = replay. */
+var previewPhase=0;
+var previewBefore=false;   /* kept: tgReset and syncDemo still read it */
+function previewDay(n){
+  var d=day_(n); if(!d) return;
+  /* "before" lands 30 minutes ahead of the session, mid-countdown.
+     otherwise land just after the replay opens. */
+  var t = previewPhase===0 ? Date.parse(d.startsAt)-30*60000
+        : previewPhase===1 ? Date.parse(d.startsAt)+5*60000      /* five minutes into the session */
+        :                    Date.parse(d.replayAt)+60000;
+  if(!isNaN(t)){ NOW_SHIFT = t - Date.now(); previewClockSet = true; }
+}
+function syncDemo(){
+  Array.prototype.forEach.call(document.querySelectorAll("#rev [data-day]"),function(b){
+    b.setAttribute("aria-pressed",(+b.getAttribute("data-day"))===currentDay()?"true":"false");});
+  var t=document.getElementById("tgLive");
+  if(!t) return;                       /* panel removed off production */
+  t.setAttribute("aria-pressed",previewPhase===1?"true":"false");
+  t.textContent=["Before the live","Live now","After the live"][previewPhase];
+}
+Array.prototype.forEach.call(document.querySelectorAll("#rev [data-day]"),function(b){
+  b.onclick=function(){
+    var n=+b.getAttribute("data-day");
+    if(n===0){ NOW_SHIFT = Date.parse(DAYS[0].unlockAt)-2*3600000-Date.now(); previewClockSet=true; location.hash="#/prechallenge"; }
+    else { previewDay(n); location.hash="#/day/"+n; }
+    render();
+  };
+});
+var tgL=document.getElementById("tgLive");
+if(tgL) tgL.onclick=function(){
+  previewPhase=(previewPhase+1)%3;
+  previewBefore=(previewPhase===0);
+  var m=location.hash.match(/^#\/day\/(\d+)$/);
+  if(m) previewDay(+m[1]);
+  render();
+};
+var tgR=document.getElementById("tgReset");
+if(tgR) tgR.onclick=function(){
+  /* This wipes Golden Tickets. It is a review tool and it should still ask. */
+  if(!window.confirm("Reset this browser?\n\nThis clears the signed-in email AND every Golden Ticket saved here. It cannot be undone."))return;
+  S={day:1,live:false,email:null,first:null,progress:{}};
+  NOW_SHIFT=0; previewBefore=false; previewPhase=0; previewClockSet=false;
+  save();location.hash="#/login";render();toast("Reset");};
+
+
+
+/* ---------------------------------------------------------------------------
+   Playback speed. The browser's own controls do not offer it consistently, and
+   people watching a replay to catch up want to run it faster. Attaches a small
+   row of speeds under any real video on the page, remembers the choice for the
+   session, and applies it to every video so it does not have to be reset on
+   each day.
+   --------------------------------------------------------------------------- */
+(function(){
+  var SPEEDS=[0.75,1,1.25,1.5,1.75,2], KEY="thriveHub_speed";
+  function chosen(){
+    var v=1; try{ v=parseFloat(sessionStorage.getItem(KEY))||1; }catch(e){}
+    return SPEEDS.indexOf(v)>-1 ? v : 1;
+  }
+  function remember(v){ try{ sessionStorage.setItem(KEY,String(v)); }catch(e){} }
+
+  function attach(video){
+    if(video.dataset.speedWired) return;
+    video.dataset.speedWired="1";
+    video.playbackRate = chosen();
+    var bar=document.createElement("div");
+    bar.className="speeds";
+    bar.innerHTML='<span class="sp-l">Speed</span>'+SPEEDS.map(function(v){
+      return '<button type="button" data-sp="'+v+'"'+(v===chosen()?' aria-pressed="true"':'')+'>'+
+             (v===1?'Normal':v+'x')+'</button>';
+    }).join('');
+    bar.addEventListener("click",function(e){
+      var b=e.target.closest("button[data-sp]"); if(!b) return;
+      var v=parseFloat(b.getAttribute("data-sp"));
+      remember(v);
+      document.querySelectorAll("video").forEach(function(vid){ vid.playbackRate=v; });
+      document.querySelectorAll(".speeds button[data-sp]").forEach(function(x){
+        x.setAttribute("aria-pressed", parseFloat(x.getAttribute("data-sp"))===v ? "true":"false");
+      });
+    });
+    if(video.parentNode) video.parentNode.insertBefore(bar, video.nextSibling);
+  }
+
+  function scan(){ document.querySelectorAll("video").forEach(attach); }
+  scan();
+  /* the Hub re-renders on every route change, so watch for new players */
+  new MutationObserver(function(){ scan(); })
+    .observe(document.body,{childList:true,subtree:true});
+})();
+
+/* ---------------------------------------------------------------------------
+   Privacy choices. Shown until a choice is made and reopenable from the footer
+   so consent can be changed. Every storage call is wrapped, because
+   a private window or blocked site data makes localStorage throw rather than
+   return null, and the page must still render correctly when it does.
+   --------------------------------------------------------------------------- */
+(function(){
+  var MARKETING_KEY="thriveHub_marketing_consent",
+      ANALYTICS_KEY="thriveHub_analytics_consent",
+      bar=document.getElementById("privacyBar");
+  if(!bar) return;
+  function choice(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
+  /* The bar is fixed to the bottom, so without this it sits on top of the
+     footer and hides the contact details. Reserve exactly its height.
+     Measured after a frame and again once webfonts land, because measuring
+     before Oswald and Raleway load reports a much taller wrapped bar and
+     leaves a huge empty gap under the page. */
+  function pad(){
+    if(bar.hidden){ document.body.style.paddingBottom=""; return; }
+    /* Measuring while the page is laid out at zero height - a background tab,
+       a collapsed preview pane - reports a wildly tall wrapped bar and would
+       leave a huge empty gap. Skip it, and never reserve more than a third of
+       the screen even if the measurement is odd. */
+    var vh = window.innerHeight || 0;
+    if(vh < 200) return;
+    document.body.style.paddingBottom = Math.min(bar.offsetHeight+8, Math.round(vh/3))+"px";
+  }
+  function padLater(){
+    pad();
+    requestAnimationFrame(pad);
+    if(document.fonts && document.fonts.ready) document.fonts.ready.then(pad).catch(function(){});
+    setTimeout(pad, 600);
+  }
+  function show(){ bar.hidden=false; padLater(); }
+  function hide(){ bar.hidden=true; pad(); }
+  window.addEventListener("resize", pad);
+  function decided(key){var value=choice(key);return value==="granted"||value==="denied";}
+  if(!decided(MARKETING_KEY)||!decided(ANALYTICS_KEY)) show();
+  var allow=document.getElementById("privacyAllow");
+  if(allow) allow.onclick=function(){
+    if(window.thriveHubMarketingConsent) window.thriveHubMarketingConsent.grant();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var decline=document.getElementById("privacyDecline");
+  if(decline) decline.onclick=function(){
+    if(window.thriveHubMarketingConsent) window.thriveHubMarketingConsent.deny();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var analyticsAllow=document.getElementById("analyticsAllow");
+  if(analyticsAllow) analyticsAllow.onclick=function(){
+    if(window.thriveHubAnalyticsConsent) window.thriveHubAnalyticsConsent.grant();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var analyticsDecline=document.getElementById("analyticsDecline");
+  if(analyticsDecline) analyticsDecline.onclick=function(){
+    if(window.thriveHubAnalyticsConsent) window.thriveHubAnalyticsConsent.deny();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var open=document.getElementById("cookieOpen");
+  if(open) open.onclick=function(e){ e.preventDefault(); show();
+    bar.scrollIntoView({block:"nearest"}); };
+})();
+
+/* Nudge the b-roll into playing. Muted autoplay is allowed everywhere modern,
+   but some engines still hold it until the element is settled or the user has
+   interacted, and a frozen poster reads as a broken page. Harmless if it is
+   already running; the poster is a perfectly good fallback if it never does. */
+/* honour reduced-motion: hold the poster frame instead of looping the b-roll */
+if(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  document.addEventListener("play",function(e){
+    var t=e.target;
+    if(t && t.tagName==="VIDEO" && t.closest && t.closest(".bed")) t.pause();
+  },true);
+}
+/* ---------------------------------------------------------------------------
+   Review tools only exist off production. They shipped to the live domain once
+   because removing them was a manual step, so the page now decides for itself.
+   --------------------------------------------------------------------------- */
+/* THE ?review=1 HOLE, CLOSED.
+   The flag used to sit FIRST in this OR chain, so it short-circuited the
+   hostname check entirely and anyone could open the panel on the live
+   customer site by adding ?review=1 to the address - including its Reset
+   button, which wiped their Golden Tickets with no warning.
+   There is no query-string override any more. The panel exists on our own
+   preview hosts and nowhere else. The github.io regex is deliberate: if the
+   repo is ever moved to another GitHub org the preview hostname changes, and
+   a spelled-out list would quietly take the tools away from the team. */
+var REVIEW_HOSTS=["localhost","127.0.0.1",""];
+var showReview = REVIEW_HOSTS.indexOf(location.hostname)>-1 ||
+                 /\.github\.io$/.test(location.hostname) ||
+                 location.protocol==="file:";
+if(!showReview){
+  var revEl=document.getElementById("rev");
+  if(revEl && revEl.parentNode) revEl.parentNode.removeChild(revEl);
+}
+
+var rt=document.getElementById("revToggle"), rp=document.getElementById("revPanel");
+if(rt && rp) rt.onclick=function(){var open=rp.hasAttribute("hidden");
+  if(open){rp.removeAttribute("hidden");}else{rp.setAttribute("hidden","");}
+  rt.setAttribute("aria-expanded",open?"true":"false");
+  rt.textContent=open?"Hide review tools":"Review tools";};
+
+window.addEventListener("hashchange",function(){render();});
+async function refreshAuthSession(){
+  var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/session",{
+    method:"GET",credentials:"include",headers:{"Accept":"application/json"}
+  });
+  var result=await response.json().catch(function(){return {};});
+  if(!response.ok||typeof result.csrf_token!=="string") throw new Error("Session refresh failed");
+  csrfToken=result.csrf_token;
+  return result;
+}
+var metaLeadClaimStarted=false;
+function browserCookie(name){
+  var prefix=name+"=";
+  var parts=document.cookie?document.cookie.split(";"):[];
+  for(var i=0;i<parts.length;i++){
+    var part=parts[i].trim();
+    if(part.indexOf(prefix)===0) return part.slice(prefix.length);
+  }
+  return null;
+}
+async function claimChallengeMetaLead(){
+  if(metaLeadClaimStarted||authState!=="hub"||!csrfToken) return;
+  if(!window.thriveHubMarketingConsent||
+     window.thriveHubMarketingConsent.status()!=="granted") return;
+  metaLeadClaimStarted=true;
+  try{
+    var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/meta-lead/claim",{
+      method:"POST",credentials:"include",
+      headers:{"Accept":"application/json","Content-Type":"application/json","X-CAS-CSRF":csrfToken},
+      body:JSON.stringify({fbp:browserCookie("_fbp"),fbc:browserCookie("_fbc")})
+    });
+    var result=await response.json().catch(function(){return {};});
+    if(!response.ok||result.eligible!==true) return;
+    window.dataLayer=window.dataLayer||[];
+    window.dataLayer.push({
+      event:"meta_lead_dedupe_ready",
+      meta_event_id:result.meta_event_id,
+      meta_event_name:"Lead",
+      funnel:"challenge",
+      step:"sign_up",
+      challenge_cohort_id:result.challenge_cohort_id,
+      registration_timestamp:result.registration_timestamp,
+      registration_id:result.registration_id,
+      event_source_url:result.event_source_url,
+      browser_only:true,
+      server_delivery_status:"not_authorized"
+    });
+  }catch(error){
+    /* Fail closed. A claim is one-time and must never be guessed or replayed
+       after an ambiguous network result. */
+  }
+}
+window.thriveHubClaimMetaLead=claimChallengeMetaLead;
+var ga4SignupClaimStarted=false;
+async function claimChallengeGa4Signup(){
+  if(ga4SignupClaimStarted||authState!=="hub"||!csrfToken) return;
+  if(!window.thriveHubAnalyticsConsent||
+     window.thriveHubAnalyticsConsent.status()!=="granted") return;
+  ga4SignupClaimStarted=true;
+  try{
+    var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/ga4-signup/claim",{
+      method:"POST",credentials:"include",
+      headers:{"Accept":"application/json","Content-Type":"application/json","X-CAS-CSRF":csrfToken},
+      body:"{}"
+    });
+    var result=await response.json().catch(function(){return {};});
+    if(!response.ok||result.eligible!==true) return;
+    window.dataLayer=window.dataLayer||[];
+    window.dataLayer.push({
+      event:"cas_ga4_challenge_signup_ready",
+      ga4_event_name:"challenge_sign_up",
+      event_id:result.event_id,
+      funnel:"challenge",
+      step:"sign_up",
+      challenge_cohort:result.challenge_cohort
+    });
+  }catch(error){
+    /* Authorization is at-most-once. A browser failure after the CAS response
+       cannot be treated as proof of GA4 receipt and is not replayed blindly. */
+  }
+}
+window.thriveHubClaimGa4Signup=claimChallengeGa4Signup;
+async function bootstrapAuth(){
+  authState="loading";loginError=false;authDown=false;render();
+  try{
+    var result=await refreshAuthSession();
+    authState=result.authorized===true?"hub":"login";
+    if(authState==="hub"){S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();selectRound(result.tag || result.round || "");}
+    render();
+    if(authState==="hub"){
+      claimChallengeGa4Signup();
+      claimChallengeMetaLead();
+    }
+    return;
+  }catch(error){
+    /* The sign-in service could not be reached. That is NOT the same as "you
+       are not registered", and it used to be shown with the same words, so a
+       registrant hitting a maintenance window was told their registration did
+       not exist. Flagged separately now. */
+    authDown=true;
+  }
+  /* Review hosts only. On our own preview this skips the gate so the Hub can
+     be reviewed without the live auth service. showReview is false on every
+     customer hostname, so this can never run there. */
+  if(showReview){
+    /* On our own preview, start where a real person starts: the welcome page.
+       Signing straight into the Hub meant the welcome page - the one carrying
+       the hero - could never be seen just by opening the link.
+       A deep link like #/day/2 still goes straight there, so the review panel
+       keeps working. */
+    /* The auth service cannot answer from a preview host, so that failure is
+       expected here and is not worth showing. Clearing it means the welcome
+       page looks the way a real visitor will see it. */
+    authDown=false; loginError=false;
+    var h = location.hash;
+    if(!h || h==="#/" || /^#\/login/.test(h)){ authState="login"; render(); return; }
+    authState="hub"; if(!S.first) S.first="Preview";
+    render(); return;
+  }
+  csrfToken=null;authState="login";render();
+}
+bootstrapAuth();
+})();
+</script>
+</body>
+</html>

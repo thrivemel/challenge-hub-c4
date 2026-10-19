@@ -1,6 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i,marketingKey,analyticsKey){
+  "use strict";
+  var loaded=false;
+  function read(key){try{return localStorage.getItem(key);}catch(e){return null;}}
+  function write(key,value){try{localStorage.setItem(key,value);}catch(e){}}
+  w[l]=w[l]||[];
+  function gtag(){w[l].push(arguments);}
+  function updateMarketing(value){
+    gtag('consent','update',{
+      ad_storage:value,
+      ad_user_data:value,
+      ad_personalization:value
+    });
+  }
+  function updateAnalytics(value){gtag('consent','update',{analytics_storage:value});}
+  function load(){
+    if(loaded) return;
+    loaded=true;
+    w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});
+    var f=d.getElementsByTagName(s)[0],j=d.createElement(s);
+    j.async=true;
+    j.src='https://www.googletagmanager.com/gtm.js?id='+i;
+    f.parentNode.insertBefore(j,f);
+  }
+  w.thriveHubMarketingConsent={
+    status:function(){return read(marketingKey)==='granted'?'granted':'denied';},
+    grant:function(){
+      var changed=read(marketingKey)!=='granted';
+      write(marketingKey,'granted');
+      /* A denied page has already blocklisted every Custom HTML tag. Reload so
+         the published Meta Custom HTML tags can become eligible only on the
+         new, explicitly granted page. Do not claim the one-time Lead before
+         that page is ready to deliver it. */
+      if(changed&&w.location&&typeof w.location.reload==='function'){
+        w.location.reload();
+        return;
+      }
+      updateMarketing('granted');
+      if(typeof w.thriveHubClaimMetaLead==='function') w.thriveHubClaimMetaLead();
+    },
+    deny:function(){
+      write(marketingKey,'denied');updateMarketing('denied');
+      if(loaded&&w.location&&typeof w.location.reload==='function') w.location.reload();
+    }
+  };
+  w.thriveHubAnalyticsConsent={
+    status:function(){return read(analyticsKey)==='granted'?'granted':'denied';},
+    grant:function(){
+      write(analyticsKey,'granted');updateAnalytics('granted');
+      if(typeof w.thriveHubClaimGa4Signup==='function') w.thriveHubClaimGa4Signup();
+    },
+    deny:function(){write(analyticsKey,'denied');updateAnalytics('denied');}
+  };
+  gtag('consent','default',{
+    ad_storage:'denied',
+    ad_user_data:'denied',
+    ad_personalization:'denied',
+    analytics_storage:'denied',
+    wait_for_update:500
+  });
+  /* Version 36 initializes Meta through Custom HTML. Consent Mode does not
+     govern arbitrary Custom HTML by itself, so block that GTM tag type until
+     a fresh page load observes explicit marketing consent. Native Google tags
+     remain available under the denied analytics_storage default above. */
+  if(read(marketingKey)!=='granted') w[l].push({'gtm.blocklist':['html']});
+  if(read(marketingKey)==='granted') updateMarketing('granted');
+  if(read(analyticsKey)==='granted') updateAnalytics('granted');
+  load();
+})(window,document,'script','dataLayer','GTM-W3NJN7NZ',
+   'thriveHub_marketing_consent','thriveHub_analytics_consent');</script>
+<!-- End Google Tag Manager -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
@@ -676,7 +748,12 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
    wide and forced the bar onto three lines. Inside the notice it sits inline. */
 .pb-in .btn{margin:0;flex:0 0 auto;width:auto;display:inline-block;
   padding:11px 26px;white-space:nowrap}
-@media (max-width:620px){ .pb-in{padding:14px 16px;gap:12px} .pb-in .btn{width:100%} }
+.pb-actions{display:flex;gap:10px;flex:0 0 auto;flex-wrap:wrap}
+@media (max-width:620px){
+  .pb-in{padding:14px 16px;gap:12px}
+  .pb-actions{width:100%}
+  .pb-in .btn{width:100%}
+}
 
 /* --- Sharla's 6 Sept Loom: prepare page above the fold --------------------
    The welcome video ran the full measure, so Step 1 sat below the fold and,
@@ -768,7 +845,6 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
 
 
 
-
 </style>
 </head>
 <body>
@@ -841,17 +917,21 @@ footer.site .f-base{border-top:1px solid var(--line);padding-top:16px;display:fl
   </div>
 </footer>
 
-<!-- Privacy notice. Shown once, then remembered. This is a NOTICE, not a
-     consent gate, because the Hub runs no advertising or analytics cookies -
-     only what is needed to keep you signed in and remember your progress.
-     If a pixel or analytics is ever added, this has to become a real
-     consent gate with a working Decline. -->
+<!-- Privacy choices. Essential Hub storage is always available. GTM loads with
+     denied defaults; analytics and advertising permissions are independent.
+     There is intentionally no noscript iframe because it cannot be consent-gated. -->
 <div id="privacyBar" class="pbar-privacy" hidden>
   <div class="pb-in">
     <p><b>Your data on this page.</b> We keep you signed in and remember which Quests
-    you have ticked off. That is all this page stores &mdash; no advertising or tracking
-    cookies. <a href="https://clientattractionsummit.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></p>
-    <button type="button" id="privacyOk" class="btn btn-primary">Got it</button>
+    you have ticked off using essential storage. Analytics and marketing tracking
+    stay off unless you choose to allow each one. You can change either choice from the footer.
+    <a href="https://clientattractionsummit.com/privacy-policy/" target="_blank" rel="noopener">Privacy Policy</a></p>
+    <div class="pb-actions">
+      <button type="button" id="analyticsDecline" class="btn btn-outline">Keep analytics off</button>
+      <button type="button" id="analyticsAllow" class="btn btn-primary">Allow analytics</button>
+      <button type="button" id="privacyDecline" class="btn btn-outline">Keep marketing off</button>
+      <button type="button" id="privacyAllow" class="btn btn-primary">Allow marketing</button>
+    </div>
   </div>
 </div>
 <div id="toast" role="status" aria-live="polite"></div>
@@ -2416,15 +2496,17 @@ if(tgR) tgR.onclick=function(){
 })();
 
 /* ---------------------------------------------------------------------------
-   Privacy notice. Shown once per browser, then remembered. Reopenable from
-   the footer link so it is never lost. Every storage call is wrapped, because
+   Privacy choices. Shown until a choice is made and reopenable from the footer
+   so consent can be changed. Every storage call is wrapped, because
    a private window or blocked site data makes localStorage throw rather than
    return null, and the page must still render correctly when it does.
    --------------------------------------------------------------------------- */
 (function(){
-  var KEY="thriveHub_privacy_ack", bar=document.getElementById("privacyBar");
+  var MARKETING_KEY="thriveHub_marketing_consent",
+      ANALYTICS_KEY="thriveHub_analytics_consent",
+      bar=document.getElementById("privacyBar");
   if(!bar) return;
-  function seen(){ try{ return localStorage.getItem(KEY)==="1"; }catch(e){ return false; } }
+  function choice(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
   /* The bar is fixed to the bottom, so without this it sits on top of the
      footer and hides the contact details. Reserve exactly its height.
      Measured after a frame and again once webfonts land, because measuring
@@ -2447,11 +2529,30 @@ if(tgR) tgR.onclick=function(){
     setTimeout(pad, 600);
   }
   function show(){ bar.hidden=false; padLater(); }
-  function hide(){ bar.hidden=true; pad(); try{ localStorage.setItem(KEY,"1"); }catch(e){} }
+  function hide(){ bar.hidden=true; pad(); }
   window.addEventListener("resize", pad);
-  if(!seen()) show();
-  var ok=document.getElementById("privacyOk");
-  if(ok) ok.onclick=hide;
+  function decided(key){var value=choice(key);return value==="granted"||value==="denied";}
+  if(!decided(MARKETING_KEY)||!decided(ANALYTICS_KEY)) show();
+  var allow=document.getElementById("privacyAllow");
+  if(allow) allow.onclick=function(){
+    if(window.thriveHubMarketingConsent) window.thriveHubMarketingConsent.grant();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var decline=document.getElementById("privacyDecline");
+  if(decline) decline.onclick=function(){
+    if(window.thriveHubMarketingConsent) window.thriveHubMarketingConsent.deny();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var analyticsAllow=document.getElementById("analyticsAllow");
+  if(analyticsAllow) analyticsAllow.onclick=function(){
+    if(window.thriveHubAnalyticsConsent) window.thriveHubAnalyticsConsent.grant();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
+  var analyticsDecline=document.getElementById("analyticsDecline");
+  if(analyticsDecline) analyticsDecline.onclick=function(){
+    if(window.thriveHubAnalyticsConsent) window.thriveHubAnalyticsConsent.deny();
+    if(decided(MARKETING_KEY)&&decided(ANALYTICS_KEY)) hide();
+  };
   var open=document.getElementById("cookieOpen");
   if(open) open.onclick=function(e){ e.preventDefault(); show();
     bar.scrollIntoView({block:"nearest"}); };
@@ -2506,13 +2607,90 @@ async function refreshAuthSession(){
   csrfToken=result.csrf_token;
   return result;
 }
+var metaLeadClaimStarted=false;
+function browserCookie(name){
+  var prefix=name+"=";
+  var parts=document.cookie?document.cookie.split(";"):[];
+  for(var i=0;i<parts.length;i++){
+    var part=parts[i].trim();
+    if(part.indexOf(prefix)===0) return part.slice(prefix.length);
+  }
+  return null;
+}
+async function claimChallengeMetaLead(){
+  if(metaLeadClaimStarted||authState!=="hub"||!csrfToken) return;
+  if(!window.thriveHubMarketingConsent||
+     window.thriveHubMarketingConsent.status()!=="granted") return;
+  metaLeadClaimStarted=true;
+  try{
+    var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/meta-lead/claim",{
+      method:"POST",credentials:"include",
+      headers:{"Accept":"application/json","Content-Type":"application/json","X-CAS-CSRF":csrfToken},
+      body:JSON.stringify({fbp:browserCookie("_fbp"),fbc:browserCookie("_fbc")})
+    });
+    var result=await response.json().catch(function(){return {};});
+    if(!response.ok||result.eligible!==true) return;
+    window.dataLayer=window.dataLayer||[];
+    window.dataLayer.push({
+      event:"meta_lead_dedupe_ready",
+      meta_event_id:result.meta_event_id,
+      meta_event_name:"Lead",
+      funnel:"challenge",
+      step:"sign_up",
+      challenge_cohort_id:result.challenge_cohort_id,
+      registration_timestamp:result.registration_timestamp,
+      registration_id:result.registration_id,
+      event_source_url:result.event_source_url,
+      browser_only:true,
+      server_delivery_status:"not_authorized"
+    });
+  }catch(error){
+    /* Fail closed. A claim is one-time and must never be guessed or replayed
+       after an ambiguous network result. */
+  }
+}
+window.thriveHubClaimMetaLead=claimChallengeMetaLead;
+var ga4SignupClaimStarted=false;
+async function claimChallengeGa4Signup(){
+  if(ga4SignupClaimStarted||authState!=="hub"||!csrfToken) return;
+  if(!window.thriveHubAnalyticsConsent||
+     window.thriveHubAnalyticsConsent.status()!=="granted") return;
+  ga4SignupClaimStarted=true;
+  try{
+    var response=await fetch(CAS_ORIGIN+"/browser/challenge-hub/ga4-signup/claim",{
+      method:"POST",credentials:"include",
+      headers:{"Accept":"application/json","Content-Type":"application/json","X-CAS-CSRF":csrfToken},
+      body:"{}"
+    });
+    var result=await response.json().catch(function(){return {};});
+    if(!response.ok||result.eligible!==true) return;
+    window.dataLayer=window.dataLayer||[];
+    window.dataLayer.push({
+      event:"cas_ga4_challenge_signup_ready",
+      ga4_event_name:"challenge_sign_up",
+      event_id:result.event_id,
+      funnel:"challenge",
+      step:"sign_up",
+      challenge_cohort:result.challenge_cohort
+    });
+  }catch(error){
+    /* Authorization is at-most-once. A browser failure after the CAS response
+       cannot be treated as proof of GA4 receipt and is not replayed blindly. */
+  }
+}
+window.thriveHubClaimGa4Signup=claimChallengeGa4Signup;
 async function bootstrapAuth(){
   authState="loading";loginError=false;authDown=false;render();
   try{
     var result=await refreshAuthSession();
     authState=result.authorized===true?"hub":"login";
     if(authState==="hub"){S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();selectRound(result.tag || result.round || "");}
-    render();return;
+    render();
+    if(authState==="hub"){
+      claimChallengeGa4Signup();
+      claimChallengeMetaLead();
+    }
+    return;
   }catch(error){
     /* The sign-in service could not be reached. That is NOT the same as "you
        are not registered", and it used to be shown with the same words, so a
