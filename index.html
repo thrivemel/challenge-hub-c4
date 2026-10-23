@@ -1308,10 +1308,11 @@ var CHALLENGE = {
     /* Reads a Champion's real Golden Ticket total out of the Raffle Tickets
        Tracker. See apps-script/ticket-total.gs. Both values come from
        config.js so the tracker is never named in this public repo. */
-    /* Where failed and successful sign-ins are recorded, so somebody can see
-       a lead who is stuck instead of finding out days later. Empty here; the
-       Apps Script web app URL goes in. Empty means no reporting, no errors. */
-    loginLogEndpoint: window.THRIVE_LOGIN_LOG_ENDPOINT || "",
+    /* Where the Hub reports on itself: sign-in attempts and faults it catches
+       on a real visitor's device. One sheet for C1, C2 and C3; every row
+       carries its round. Empty here; the Apps Script web app URL goes in.
+       Empty means no reporting at all, and no errors. */
+    hubLogEndpoint: window.THRIVE_HUB_LOG_ENDPOINT || "",
     ticketsEndpoint: window.THRIVE_TICKETS_ENDPOINT || "",
     ticketsKey:      window.THRIVE_TICKETS_KEY || ""
   }
@@ -1503,9 +1504,71 @@ var questReportInFlight = {};
    - It records the address the person typed. That is the point, it is how
      the Concierge finds them. Nothing else about them is collected, and the
      sheet is internal. */
+/* Ella, 23 Oct: track the Hub's own faults across C1 to C3, in the same
+   sheet. This catches the class of thing that has actually bitten us in front
+   of leads, which was never the sort of thing a syntax check finds:
+
+     - the masthead logo 404ing for 27 hours
+     - a Vimeo id that rendered "This video does not exist"
+     - Day pages rendering "undefined" after a stray return
+     - config.js 404ing on every single page load, still true today
+
+   All four were visible to leads before they were visible to us. Now the page
+   says so itself, from the device it happened on.
+
+   Guards, because a reporter that floods is worse than none:
+     - the same fault is sent once per visit, not once per occurrence
+     - hard cap per visit, so one broken loop cannot write a thousand rows
+     - silent: a lead must never learn that the page is complaining */
+var issueSeen = {}, issueSent = 0, ISSUE_CAP = 8;
+function reportIssue(kind, detail){
+  try{
+    var url = CHALLENGE.links.hubLogEndpoint;
+    if(!url) return;
+    var key = kind + "|" + String(detail||"").slice(0,120);
+    if(issueSeen[key] || issueSent >= ISSUE_CAP) return;
+    issueSeen[key] = true; issueSent++;
+    fetch(url,{method:"POST",mode:"cors",keepalive:true,
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify({
+          type:"issue", kind:kind,
+          detail:String(detail||"").slice(0,480),
+          challenge:CHALLENGE.id,
+          round:(typeof ROUND_NAME==="string" && ROUND_NAME) || "",
+          email:(S && S.email) || "",
+          screen:(window.innerWidth||0)+"x"+(window.innerHeight||0),
+          agent:(navigator.userAgent||"").slice(0,180),
+          page:location.hash || "#/"
+        })}).catch(function(){});
+  }catch(e){}
+}
+
+/* Three listeners. The asset one is capture-phase because load failures on
+   img, video and iframe do not bubble. */
+(function(){
+  window.addEventListener("error", function(ev){
+    try{
+      var el = ev && ev.target;
+      if(el && el !== window && el.tagName){
+        var src = el.currentSrc || el.src || el.href || "";
+        if(src) return reportIssue("asset_missing", el.tagName.toLowerCase()+" "+src);
+      }
+      reportIssue("script_error",
+        (ev && ev.message ? ev.message : "unknown") +
+        (ev && ev.filename ? " @ "+ev.filename+":"+(ev.lineno||0) : ""));
+    }catch(e){}
+  }, true);
+  window.addEventListener("unhandledrejection", function(ev){
+    try{
+      var r = ev && ev.reason;
+      reportIssue("promise_error", (r && (r.message || r.toString && r.toString())) || "unknown");
+    }catch(e){}
+  });
+})();
+
 function reportLogin(outcome, email, status){
   try{
-    var url = CHALLENGE.links.loginLogEndpoint;
+    var url = CHALLENGE.links.hubLogEndpoint;
     if(!url) return;
     var payload = {
       challenge: CHALLENGE.id,

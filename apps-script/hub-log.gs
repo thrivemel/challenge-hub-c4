@@ -1,7 +1,18 @@
 /**
- * Challenge Hub -> Sign-in Log
+ * Challenge Hub -> Sign-ins and Issues
  *
- * Receives one row per sign-in attempt from the Hub and appends it.
+ * One endpoint, two tabs, all three rounds. Every row carries its round, so
+ * C1, C2 and C3 live in the same sheet and are filtered apart rather than
+ * split into three sheets nobody keeps in step.
+ *
+ *   Sign-ins  one row per sign-in attempt, including the exact wording a
+ *             lead saw when it failed.
+ *   Issues    faults the page caught on a real visitor's device: a script
+ *             error, or an asset that would not load.
+ *
+ * This is what the Hub reports about itself. Issues a HUMAN notices go to the
+ * Monday "Issues and Changes Log" board, not here, so the two do not drift
+ * into being a worse copy of each other.
  * Append-only: this is a log, not a matrix, so it never overwrites anything.
  *
  * Why it exists: until 23 Oct 2026 nothing anywhere recorded a failed sign-in.
@@ -24,11 +35,23 @@
  * ---------------------------------------------------------------------------
  */
 
-var SHEET_NAME = 'Sign-ins';
+var SHEET_NAME  = 'Sign-ins';
+var ISSUE_SHEET = 'Issues';
 
 var HEADER = ['Received', 'Outcome', 'What they saw', 'Email', 'Device',
               'Wrong tries', 'HTTP', 'Round', 'Tag', 'Screen', 'Page',
               'Challenge', 'User agent'];
+
+var ISSUE_HEADER = ['Received', 'Round', 'Kind', 'What broke', 'Where',
+                    'Device', 'Screen', 'Signed in as', 'Challenge',
+                    'User agent'];
+
+/* Plain-English names, so the sheet reads without anyone knowing the code. */
+var KIND = {
+  script_error:  'The page hit a JavaScript error',
+  asset_missing: 'Something on the page would not load',
+  promise_error: 'A background request failed'
+};
 
 /* The wording each outcome actually puts in front of the lead, so whoever
    reads this sheet knows what that person experienced without reading code.
@@ -52,10 +75,14 @@ function doPost(e) {
     try { body = JSON.parse((e && e.postData && e.postData.contents) || '{}'); }
     catch (err) { return reply({ ok: false, error: 'bad json' }); }
 
+    /* Issues take a different shape and a different tab. Anything without a
+       type is a sign-in, which is what the first version of this sent. */
+    if (String(body.type || '') === 'issue') return issue(body);
+
     var outcome = String(body.outcome || '').slice(0, 40);
     if (!outcome) return reply({ ok: false, error: 'no outcome' });
 
-    var sheet = tab();
+    var sheet = tab(SHEET_NAME, HEADER);
     sheet.appendRow([
       new Date(),
       outcome,
@@ -80,16 +107,37 @@ function doPost(e) {
   }
 }
 
+function issue(body) {
+  var kind = String(body.kind || '').slice(0, 40);
+  if (!kind) return reply({ ok: false, error: 'no kind' });
+  var sh = tab(ISSUE_SHEET, ISSUE_HEADER);
+  sh.appendRow([
+    new Date(),
+    String(body.round || ''),
+    KIND[kind] || kind,
+    String(body.detail || '').slice(0, 500),
+    String(body.page || ''),
+    device(String(body.agent || '')),
+    String(body.screen || ''),
+    String(body.email || '').slice(0, 254),
+    String(body.challenge || ''),
+    String(body.agent || '').slice(0, 300)
+  ]);
+  return reply({ ok: true });
+}
+
 /* Visiting the URL in a browser should say something human, so whoever finds
    it later knows what it is rather than seeing an error. */
 function doGet() {
   return reply({ ok: true, service: 'Challenge Hub sign-in log' });
 }
 
-function tab() {
+function tab(name, header) {
+  name   = name   || SHEET_NAME;
+  header = header || HEADER;
   var ss = SpreadsheetApp.getActiveSpreadsheet();
-  var sh = ss.getSheetByName(SHEET_NAME);
-  if (!sh) {
+  var sh = ss.getSheetByName(name);
+  if (!sh && name === SHEET_NAME) {
     /* First run. The sheet was created with one empty tab carrying the header,
        so adopt that rather than leaving a stray tab next to a new one. */
     var all = ss.getSheets();
@@ -97,10 +145,11 @@ function tab() {
        ? all[0].setName(SHEET_NAME)
        : ss.insertSheet(SHEET_NAME);
   }
+  if (!sh) sh = ss.insertSheet(name);
   if (sh.getLastRow() === 0) {
-    sh.appendRow(HEADER);
+    sh.appendRow(header);
     sh.setFrozenRows(1);
-    sh.getRange(1, 1, 1, HEADER.length).setFontWeight('bold');
+    sh.getRange(1, 1, 1, header.length).setFontWeight('bold');
   }
   return sh;
 }
