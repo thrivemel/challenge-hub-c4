@@ -996,7 +996,7 @@ var CHALLENGE = {
        returns on login. Until that service returns it, selectRound() falls
        back to the round that is running now, or the next one to open.
        --------------------------------------------------------------------- */
-    "(5-day challenge) nov 02-06 2026": { name:"November 2 to 6",   days: [
+    "(5-day challenge) nov 2-6 2026": { name:"November 2 to 6",   days: [
     /* ---------------------------------------------------------------------
        QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
        Grand Finale Monday 9 November.
@@ -1102,7 +1102,7 @@ var CHALLENGE = {
      unlockAt:"2026-11-23T09:00:00-08:00", startsAt:"2026-11-23T09:50:00-08:00", replayAt:"2026-11-23T11:00:00-08:00",
      vimeo:"", replay:"",
      replaysCloseAt:"2026-11-29T21:00:00-08:00"}] },
-    "(5-day challenge) jan 04-08 2027": { name:"January 4 to 8",    days: [
+    "(5-day challenge) jan 4-8 2027": { name:"January 4 to 8",    days: [
     /* ---------------------------------------------------------------------
        QUAD 3, ROUND 1 (C1)  -  Monday 2 to Friday 6 November 2026
        Grand Finale Monday 9 November.
@@ -1308,6 +1308,10 @@ var CHALLENGE = {
     /* Reads a Champion's real Golden Ticket total out of the Raffle Tickets
        Tracker. See apps-script/ticket-total.gs. Both values come from
        config.js so the tracker is never named in this public repo. */
+    /* Where failed and successful sign-ins are recorded, so somebody can see
+       a lead who is stuck instead of finding out days later. Empty here; the
+       Apps Script web app URL goes in. Empty means no reporting, no errors. */
+    loginLogEndpoint: window.THRIVE_LOGIN_LOG_ENDPOINT || "",
     ticketsEndpoint: window.THRIVE_TICKETS_ENDPOINT || "",
     ticketsKey:      window.THRIVE_TICKETS_KEY || ""
   }
@@ -1485,6 +1489,43 @@ var TRACKER_ASOF  = "";     /* when the tracker was read */
      ships today. Same defensive pattern as the Summit block and the Zoom
      button: no endpoint, no behaviour, no error. */
 var questReportInFlight = {};
+/* Ella, 23 Oct: a record of who tried to sign in, who could not, and what
+   they saw. Until now nothing anywhere recorded a failed attempt, so a lead
+   who could not get in was invisible unless they wrote to the Concierge. In
+   September that is exactly how the 429 lockout stayed hidden.
+
+   Rules:
+   - Fire and forget. It must never slow down, block or break a sign-in. Any
+     failure to log is swallowed, because a broken logger must not become a
+     broken login.
+   - No endpoint set means no behaviour at all, which is how this ships.
+   - Never reports the review-host preview path; that is us, not a lead.
+   - It records the address the person typed. That is the point, it is how
+     the Concierge finds them. Nothing else about them is collected, and the
+     sheet is internal. */
+function reportLogin(outcome, email, status){
+  try{
+    var url = CHALLENGE.links.loginLogEndpoint;
+    if(!url) return;
+    var payload = {
+      challenge: CHALLENGE.id,
+      outcome:   outcome,                      /* in | not_on_list | rate_limited | service_down | unreachable */
+      email:     (email||"").trim().toLowerCase(),
+      status:    status || 0,
+      attempt:   (typeof loginTries==="number" ? loginTries + 1 : 0),
+      round:     (typeof ROUND_NAME==="string" && ROUND_NAME) || "",
+      tag:       (typeof ROUND_TAG==="string" && ROUND_TAG) || "",
+      screen:    (window.innerWidth||0)+"x"+(window.innerHeight||0),
+      agent:     (navigator.userAgent||"").slice(0,180),
+      page:      location.hash || "#/"
+    };
+    fetch(url,{method:"POST",mode:"cors",keepalive:true,
+        /* text/plain avoids the CORS preflight Apps Script cannot answer */
+        headers:{"Content-Type":"text/plain;charset=utf-8"},
+        body:JSON.stringify(payload)}).catch(function(){});
+  }catch(e){}
+}
+
 function reportQuest(n){
   var url = CHALLENGE.links.questEndpoint;
   var em  = displayEmail(S.email);
@@ -2288,6 +2329,7 @@ function wire(){
       if(response.ok&&result.authorized===true){
         S.email=displayEmail(result.email);S.first=displayFirst(result.first_name);save();
         selectRound(result.tag || result.round || "");
+        reportLogin("in", v, response.status);
         authState="hub";loginError=false;authDown=false;loginLocked=false;loginTries=0;
         render();loadTicketTotal();return;
       }
@@ -2296,12 +2338,16 @@ function wire(){
          never be read as "not registered" - the address is often correct.
          A 5xx means our service is unwell, not that this person is a stranger.
          Say so, and never blame the lead for our outage. */
-      if(response.status===429){ authDown=false; loginError=false; loginLocked=true; }
-      else if(response.status>=500){ authDown=true; loginError=false; loginLocked=false; }
-      else { authDown=false; loginError=true; loginLocked=false; loginTries++; }
+      if(response.status===429){ authDown=false; loginError=false; loginLocked=true;
+        reportLogin("rate_limited", v, response.status); }
+      else if(response.status>=500){ authDown=true; loginError=false; loginLocked=false;
+        reportLogin("service_down", v, response.status); }
+      else { authDown=false; loginError=true; loginLocked=false;
+        reportLogin("not_on_list", v, response.status); loginTries++; }
     }catch(error){
       /* Could not reach the service at all. Same reasoning. */
       authDown=true; loginError=false; loginLocked=false;
+      reportLogin("unreachable", v, 0);
     }
     render();
     /* Put their email back so they are not retyping it to try again. */
