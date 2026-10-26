@@ -2394,7 +2394,14 @@ function wire(){
         selectRound(result.tag || result.round || "");
         reportLogin("in", v, response.status);
         authState="hub";loginError=false;authDown=false;loginLocked=false;loginTries=0;
-        render();loadTicketTotal();return;
+        render();loadTicketTotal();
+        /* Email login establishes the same authenticated Hub state as the
+           session bootstrap above. Run the existing consent-gated, one-time
+           claim handlers here as well so this supported recovery path does
+           not silently skip registration conversion delivery. */
+        claimChallengeGa4Signup();
+        claimChallengeMetaLead();
+        return;
       }
       /* 429 is the per-visitor rate limit. Its body is identical to the 401,
          so the status line is the only thing that separates them, and it must
