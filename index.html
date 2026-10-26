@@ -1312,7 +1312,8 @@ var CHALLENGE = {
        on a real visitor's device. One sheet for C1, C2 and C3; every row
        carries its round. Empty here; the Apps Script web app URL goes in.
        Empty means no reporting at all, and no errors. */
-    hubLogEndpoint: window.THRIVE_HUB_LOG_ENDPOINT || "",
+    hubLogEndpoint: window.THRIVE_HUB_LOG_ENDPOINT ||
+      "https://script.google.com/macros/s/AKfycbwsDmIYQGCyRB9QU_afeS2eKjwn_QTAnv2tJzMYUnCDuCLx_VH_xPyQnSDod15Nt4tDlA/exec",
     ticketsEndpoint: window.THRIVE_TICKETS_ENDPOINT || "",
     ticketsKey:      window.THRIVE_TICKETS_KEY || ""
   }
