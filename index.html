@@ -1324,7 +1324,7 @@ var CHALLENGE = {
    exactly what happened on 4 September. Each file carries a short hash of its
    own contents, so replacing the file changes the URL and the new one loads.
    Regenerate these whenever a media file is replaced. */
-var MEDIA = {"logo-navy.png":"e76a58c1", "summit-banner.jpg":"232a6c81", "hero.mp4":"85685da3", "hero-poster.jpg":"22612919", "welcome.mp4":"cf61e919", "welcome-poster.jpg":"6ec137a9"};
+var MEDIA = {"logo-navy.png":"e76a58c1", "summit-banner.jpg":"232a6c81", "hero.mp4":"85685da3", "hero-poster.jpg":"22612919", "welcome.mp4":"cf61e919", "welcome-poster.jpg":"6ec137a9", "quest-day1.jpg":"a8546bce", "quest-day2.jpg":"28ee402c", "quest-day3.jpg":"8534965c", "quest-day4.jpg":"f2194816", "quest-day5.jpg":"63a6514f"};
 function m_(f){ return MEDIA[f] ? f+"?v="+MEDIA[f] : f; }
 
 var ZOOM=CHALLENGE.links.zoom, PASSCODE=CHALLENGE.links.passcode, SUMMIT=CHALLENGE.links.summit,
@@ -2127,7 +2127,10 @@ function vDay(n){
   /* The same square artwork that heads that day's post in the Facebook Group,
      so the Hub and the Group read as one thing rather than two. */
   var art = (d.art && !before)
-   ? '<div class="questart"><img src="'+d.art+'" alt="Day '+n+' Quest" width="900" height="900" loading="lazy"></div>'
+   /* m_() not a raw src. These files were replaced on 26 Oct and without a
+      fingerprint Cloudflare would have gone on serving the old artwork for
+      hours, which is exactly how the masthead logo stayed broken for 27. */
+   ? '<div class="questart"><img src="'+m_(d.art)+'" alt="Day '+n+' Quest" width="900" height="900" loading="lazy"></div>'
    : '';
 
   var quest = !isQuestDay(d)
